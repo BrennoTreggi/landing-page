@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Serviços de Design e 3D</title>
+</head>
+<body>
+
+<h1>Serviços de Design e Modelagem 3D</h1>
+
+<input type="text" id="nome" placeholder="Seu nome">
+
+<select id="servico">
+  <option value="logo">Logo - R$50</option>
+  <option value="3d">Modelagem 3D - R$100</option>
+  <option value="render">Render - R$200</option>
+</select>
+
+<button onclick="enviar()">Continuar</button>
+
+<script>
+function enviar() {
+  const nome = document.getElementById("nome").value;
+  const servico = document.getElementById("servico").value;
+
+  // ENVIO PARA DISCORD
+  fetch("COLE_SUA_WEBHOOK_AQUI", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      content: `Novo cliente:\nNome: ${nome}\nServiço: ${servico}`
+    })
+  });
+
+  // REDIRECIONAR PARA PAGAMENTO
+  let link = "";
+
+  if (servico === "logo") {
+    link = "LINK1";
+  } else if (servico === "3d") {
+    link = "LINK2";
+  } else if (servico === "render") {
+    link = "LINK3";
+  }
+
+  window.location.href = link;
+}
+</script>
+
+</body>
+</html>
