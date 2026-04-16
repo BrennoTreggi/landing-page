@@ -1,49 +1,198 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <title>Serviços de Design e 3D</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Studio Design & 3D</title>
+
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#0f0f0f;
+  color:white;
+}
+
+/* HEADER */
+header {
+  background:#111;
+  padding:20px;
+  text-align:center;
+}
+
+nav button {
+  margin:5px;
+  padding:12px 20px;
+  border:none;
+  background:#00ff88;
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+/* SEÇÕES */
+section {
+  display:none;
+  padding:50px 20px;
+  text-align:center;
+}
+
+.active {
+  display:block;
+}
+
+/* CARDS */
+.card {
+  background:#1a1a1a;
+  padding:20px;
+  margin:10px;
+  border-radius:12px;
+  display:inline-block;
+  width:250px;
+  transition:0.3s;
+}
+
+.card:hover {
+  transform:scale(1.05);
+}
+
+/* INPUT */
+input, select {
+  padding:10px;
+  margin:10px;
+  border-radius:6px;
+  border:none;
+}
+
+/* BOTÃO */
+.btn {
+  background:#00ff88;
+  padding:12px 20px;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+/* FOOTER */
+footer {
+  text-align:center;
+  padding:20px;
+  background:#111;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Serviços de Design e Modelagem 3D</h1>
+<header>
+<h1>🚀 Studio Design & Modelagem 3D</h1>
 
-<input type="text" id="nome" placeholder="Seu nome">
+<nav>
+<button onclick="trocarPagina('home')">Início</button>
+<button onclick="trocarPagina('portfolio')">Portfólio</button>
+<button onclick="trocarPagina('contratar')">Contratar</button>
+</nav>
+</header>
+
+<!-- 🔥 PÁGINA 1 -->
+<section id="home" class="active">
+<h2>Serviços Profissionais</h2>
+
+<p>
+Ofereço soluções completas em design gráfico e modelagem 3D,
+com foco em qualidade, criatividade e resultados profissionais.
+</p>
+
+<div class="card">🎨 Criação de Logos</div>
+<div class="card">🧊 Modelagem 3D</div>
+<div class="card">💡 Renderização Profissional</div>
+
+<h3>Por que me escolher?</h3>
+
+<div class="card">✔ Atendimento rápido</div>
+<div class="card">✔ Alta qualidade</div>
+<div class="card">✔ Preço acessível</div>
+</section>
+
+<!-- 🔥 PÁGINA 2 -->
+<section id="portfolio">
+<h2>Meu Portfólio</h2>
+
+<p>Veja alguns dos meus trabalhos recentes:</p>
+
+<div class="card">Projeto 1</div>
+<div class="card">Projeto 2</div>
+<div class="card">Projeto 3</div>
+
+<h3>Minhas Redes</h3>
+
+<p>
+<a href="#" style="color:#00ff88;">Instagram</a> |
+<a href="#" style="color:#00ff88;">ArtStation</a> |
+<a href="#" style="color:#00ff88;">WhatsApp</a>
+</p>
+</section>
+
+<!-- 🔥 PÁGINA 3 -->
+<section id="contratar">
+<h2>Contratar Serviço</h2>
+
+<p>Escolha o serviço e simule o orçamento:</p>
+
+<input type="text" placeholder="Seu nome" id="nome">
+
+<br>
 
 <select id="servico">
-  <option value="logo">Logo - R$50</option>
-  <option value="3d">Modelagem 3D - R$100</option>
-  <option value="render">Render - R$200</option>
+<option value="50">Logo - R$50</option>
+<option value="100">Modelagem 3D - R$100</option>
+<option value="200">Render - R$200</option>
 </select>
 
-<button onclick="enviar()">Continuar</button>
+<br>
+
+<input type="number" id="quantidade" value="1" min="1">
+
+<p id="valorTotal">Total: R$50</p>
+
+<button class="btn" onclick="calcular()">Calcular</button>
+<button class="btn" onclick="finalizar()">Ir para pagamento</button>
+
+</section>
+
+<footer>
+<p>© 2026 - Seu Studio</p>
+</footer>
 
 <script>
-function enviar() {
-  const nome = document.getElementById("nome").value;
-  const servico = document.getElementById("servico").value;
 
-  // ENVIO PARA DISCORD
-  fetch("COLE_SUA_WEBHOOK_AQUI", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      content: `Novo cliente:\nNome: ${nome}\nServiço: ${servico}`
-    })
+// TROCAR PÁGINA
+function trocarPagina(pagina){
+  document.querySelectorAll("section").forEach(sec => {
+    sec.classList.remove("active");
   });
 
-  // REDIRECIONAR PARA PAGAMENTO
-  let link = "";
-
-  if (servico === "logo") {
-    link = "LINK1";
-  } else if (servico === "3d") {
-    link = "LINK2";
-  } else if (servico === "render") {
-    link = "LINK3";
-  }
-
-  window.location.href = link;
+  document.getElementById(pagina).classList.add("active");
 }
+
+// CALCULAR VALOR
+function calcular(){
+  let preco = document.getElementById("servico").value;
+  let qtd = document.getElementById("quantidade").value;
+
+  let total = preco * qtd;
+
+  document.getElementById("valorTotal").innerText = "Total: R$" + total;
+}
+
+// PAGAMENTO (VAI CONFIGURAR DEPOIS)
+function finalizar(){
+  alert("Agora você vai integrar com Mercado Pago 🚀");
+}
+
 </script>
 
 </body>
