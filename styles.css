@@ -103,6 +103,92 @@ html {
 }
 
 /* Estilo das seções (cores de destaque) */
+
+.conteudo-contato {
+    color: #000;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+.conteudo-contato h1 {
+    color: #000;
+    font-size: 3rem;
+    margin-left: 100px;
+    text-align: left;
+}
+
+.conteudo-contato h2 {
+    color: #000;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.conteudo-contato p {
+    color: #000;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.conteudo-portfolio {
+    color: #000;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+.conteudo-portfolio h1 {
+    color: #000;
+    font-size: 3rem;
+    margin-left: 100px;
+    text-align: left;
+}
+
+.conteudo-portfolio h2 {
+    color: #000;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.conteudo-portfolio p {
+    color: #000;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+
+.conteudo-orcamento {
+    color: #000;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+.conteudo-orcamento h1 {
+    color: #000;
+    font-size: 3rem;
+    margin-left: 100px;
+    text-align: left;
+}
+
+.conteudo-orcamento h2 {
+    color: #000;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.conteudo-orcamento p {
+    color: #000;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
 .conteudo-inicio {
     color: #000;
     max-width: 800px;
