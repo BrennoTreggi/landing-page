@@ -29,7 +29,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    color: hsl(0, 0%, 0%);
+    color: hwb(0 100% 0%);
     background: url('imagens/Layout/Fundo.jpg') no-repeat center center/cover;
     height: 100vh;
     position: relative; /* para permitir posicionamento absoluto dos elementos internos */
@@ -37,7 +37,7 @@ body {
 
 /* Menu */
 nav {
-    background: rgba(0, 0, 0, 0.7);
+    background: #5838e49f;
     position: fixed;
     width: 100%;
     top: 0;
@@ -94,24 +94,28 @@ html {
 
 /* Estilo das seções (cores de destaque) */
 .conteudo-inicio {
+    color: #000;
     max-width: 800px;
     margin: auto;
     text-align: center;
 }
 
 .conteudo-inicio h1 {
+    color: #000;
     font-size: 3rem;
     margin-bottom: 20px;
     font-family: 'MinhaFonte', sans-serif;
 }
 
 .conteudo-inicio h2 {
+    color: #000;
     font-size: 1.5rem;
     margin-bottom: 20px;
     font-weight: 400;
 }
 
 .conteudo-inicio p {
+    color: #000;
     font-size: 1.1rem;
     margin-bottom: 30px;
     line-height: 1.6;
