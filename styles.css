@@ -1,8 +1,3 @@
-
-#inicio {
-    position: relative;
-}
-
 @font-face {
     font-family: 'MinhaFonte';
     src: url('fonts/arialbd.ttf') format('woff2'),
@@ -109,6 +104,7 @@ html {
 
 /* Estilo das seções (cores de destaque) */
 
+
 .conteudo-contato {
     color: #000;
     max-width: 800px;
@@ -202,12 +198,9 @@ html {
 }
 
 .conteudo-inicio h1 {
-    color: #000;
     font-size: 3rem;
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translateY(-50%);
+    margin-bottom: 20px;
+    font-family: 'wff5', sans-serif;
 }
 
 .conteudo-inicio h2 {
