@@ -27,8 +27,8 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     z-index: 9999;
     cursor: pointer;
     transition: 0.3s;
@@ -51,7 +51,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: rgba(37, 211, 102, 0.4);
+    background: rgba(70, 248, 0, 0.719);
     animation: pulse 1.5s infinite;
     top: 0;
     left: 0;
@@ -331,11 +331,37 @@ html {
 }
 
 #portfolio {
-    background: rgba(0, 153, 255, 0.7); /* fundo azul translúcido */
+    background: url('imagens/Layout/portfolio.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+#portfolio::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 102, 255, 0.4);
+    top: 0;
+    left: 0;
+    z-index: 0;
 }
 
 #contato {
-    background: rgba(0, 255, 127, 0.7); /* fundo verde translúcido */
+    background: url('imagens/Layout/contato.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+#contato::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 255, 127, 0.4);
+    top: 0;
+    left: 0;
+    z-index: 0;
 }
 
 /* Imagens nos cantos */
