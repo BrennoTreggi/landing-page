@@ -1,21 +1,25 @@
 // Espera o HTML carregar totalmente
 document.addEventListener("DOMContentLoaded", () => {
 
-    const sections = document.querySelectorAll("section");
+    const links = document.querySelectorAll("nav a");
+    const pages = document.querySelectorAll(".page");
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("ativo");
-        }
+    links.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const targetId = link.getAttribute("href").replace("#", "");
+            
+            // Remove active de todas
+            pages.forEach(page => {
+                page.classList.remove("active");
+            });
+
+            // Ativa a página clicada
+            const targetPage = document.getElementById(targetId);
+            targetPage.classList.add("active");
+        });
     });
-}, {
-    threshold: 0.2
-});
-
-sections.forEach(section => {
-    observer.observe(section);
-});
 
 const btn = document.querySelector(".btn");
 
@@ -76,23 +80,4 @@ btn.addEventListener("click", () => {
         });
     }
 
-});
-const navLinks = document.querySelectorAll("nav a");
-
-window.addEventListener("scroll", () => {
-    let current = "";
-
-    document.querySelectorAll("section").forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (pageYOffset >= sectionTop - 100) {
-            current = section.getAttribute("id");
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove("ativo");
-        if (link.getAttribute("href") === "#" + current) {
-            link.classList.add("ativo");
-        }
-    });
 });
