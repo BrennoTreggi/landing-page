@@ -1,4 +1,14 @@
-
+@font-face {
+    font-family: 'MinhaFonte';
+    src: url('fonts/arialbd.ttf') format('woff2'),
+         url('fonts/arialbi.ttf') format('woff'),
+         url('fonts/SHOWG.TTF') format('woff3'),
+         url('fonts/Super\ Cartoon.ttf')format('woff4'),
+         url('fonts/ROCCB___.TTF') format('woff1'),
+         url('fonts/ariblk.ttf') format('woff5');
+    font-weight: normal;
+    font-style: normal;
+}
 .page {
     display: none;
     height: 100vh;
@@ -103,8 +113,9 @@ html {
 .conteudo-inicio h1 {
     color: #000;
     font-size: 3rem;
-    margin-bottom: 20px;
-    font-family: 'MinhaFonte', sans-serif;
+    margin-left: 100px;
+    text-align: left;
+    font-family:'woff5';
 }
 
 .conteudo-inicio h2 {
