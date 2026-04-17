@@ -1,7 +1,7 @@
 :root {
   --cor-principal: hwb(36 0% 3% / 0.911); /* TROQUE PELA COR DA SUA LOGO */
   --fundo: oklab(100% 0 -0.00011);
-  --card: #91ff0052;
+  --card: hsla(93, 100%, 49%, 0.664);
   --texto: hsl(0, 0%, 0%);
 }
 
