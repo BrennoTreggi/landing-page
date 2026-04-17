@@ -5,6 +5,17 @@
   --texto: hsl(0, 0%, 0%);
 }
 
+.card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.grid-imagens img {
+  width: 100%;
+  border-radius: 6px;
+}
+
 body {
   margin:0;
   font-family: Arial;
