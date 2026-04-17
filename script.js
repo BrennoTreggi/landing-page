@@ -1,3 +1,11 @@
+function trocarPagina(pagina){
+  document.querySelectorAll("section").forEach(sec=>{
+    sec.classList.remove("active");
+  });
+
+  document.getElementById(pagina).classList.add("active");
+}
+
 const slides = document.querySelectorAll('.slide');
 const modal = document.getElementById('modal');
 const modalImg = document.getElementById('modal-img');
