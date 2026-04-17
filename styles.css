@@ -93,8 +93,44 @@ html {
 }
 
 /* Estilo das seções (cores de destaque) */
-#inicio {
-    background: rgba(0, 0, 0, 0.5); /* fundo escuro com transparência */
+.conteudo-inicio {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+.conteudo-inicio h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-family: 'MinhaFonte', sans-serif;
+}
+
+.conteudo-inicio h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.conteudo-inicio p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Botão */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #ffcc00;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #ffaa00;
 }
 
 #orcamento {
