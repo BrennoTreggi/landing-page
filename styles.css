@@ -11,6 +11,19 @@
 }
 
 .whatsapp-float {
+    width: 60px;
+    height: 60px;
+}
+
+@media (max-width: 768px) {
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+.whatsapp-float {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -45,6 +58,17 @@
     z-index: -1;
 }
 
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+}
+
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -56,9 +80,15 @@
     }
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 .page {
     display: none;
-    height: 100vh;
+    min-height: 100vh;
     padding: 120px 20px;
 }
 
@@ -133,17 +163,16 @@ section {
 }
 
 /* Títulos */
-section h1, section h2 {
-    font-size: 3em;
-    margin-bottom: 20px;
+section h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
 }
 
+section h2 {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+}
 section p {
-    font-size: 1.2em;
-    max-width: 800px;
-    margin: 0 auto;
+    font-size: clamp(1.0rem, 1vw, 1.2rem);
 }
-
 /* Efeito de rolagem suave */
 html {
     scroll-behavior: smooth;
