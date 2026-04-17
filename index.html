@@ -4,41 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfólio - Seu Nome</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Seção Hero -->
-  <header class="hero">
-    <div class="conteudo-hero">
+  <!-- Navegação -->
+  <nav class="navbar">
+    <div class="logo">Seu Logo</div>
+    <ul class="menu">
+      <li><a href="#hero">Início</a></li>
+      <li><a href="#sobre">Sobre Mim</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
+      <li><a href="#orcamento">Orçamento</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- Seção Hero (Página Inicial) -->
+  <section id="hero" class="hero">
+    <div class="hero-conteudo">
       <h1>Seu Nome</h1>
-      <p>Designer Gráfico, UX/UI e Modelagem 3D</p>
+      <p>Design Gráfico, UX/UI e Modelagem 3D</p>
       <a href="#contato" class="btn">Fale Comigo</a>
     </div>
-  </header>
+  </section>
 
   <!-- Seção Sobre -->
   <section id="sobre" class="section">
     <h2>Sobre Mim</h2>
-    <p>Sou designer certificado com experiência em design gráfico, edição de vídeo e modelagem 3D. Atuo no mercado freelancer há mais de 4 anos, criando projetos personalizados e criativos para diversos clientes.</p>
+    <p>Sou designer certificado com experiência em design gráfico, edição de vídeo e modelagem 3D. Atuo como freelancer há mais de 4 anos, entregando projetos personalizados e criativos.</p>
   </section>
 
-  <!-- Seção Serviços -->
-  <section id="servicos" class="section">
-    <h2>Serviços</h2>
-    <div class="cards">
-      <div class="card">Layout de Sites</div>
-      <div class="card">Aberturas / Animações</div>
-      <div class="card">Vídeos Personalizados</div>
-      <div class="card">Restauração de Fotos</div>
-      <div class="card">Modelagem 3D</div>
-      <div class="card">Renderização 3D</div>
-      <div class="card">Diagramação</div>
-      <div class="card">Criação de Imagens</div>
-    </div>
-  </section>
-
-  <!-- Seção Portfólio (com carrossel) -->
- <h2>Meu Portfólio</h2>
+  <!-- Seção Portfólio -->
+  <section id="portfolio" class="section">
+   <h2>Meu Portfólio</h2>
 
 <div class="projeto">
   <h3>Projeto 1</h3>
@@ -89,11 +87,19 @@
       <img src="Portfolio/Projeto 10/p10 img (7).png" class="slide">
     </div>
 
-    <button class="next" onclick="mudarSlide(this, 1)">❯</button>
-  </div>
-</div>
+    <!-- Adicione outros projetos seguindo o mesmo padrão -->
+  </section>
 
-    <!-- Adicione mais projetos aqui, seguindo o mesmo formato -->
+  <!-- Seção Orçamento -->
+  <section id="orcamento" class="section">
+    <h2>Orçamento</h2>
+    <p>Solicite um orçamento personalizado para o seu projeto! Preencha o formulário abaixo.</p>
+    <form>
+      <input type="text" name="nome" placeholder="Seu Nome" required>
+      <input type="email" name="email" placeholder="Seu E-mail" required>
+      <textarea name="descricao" placeholder="Descreva seu projeto" required></textarea>
+      <button type="submit" class="btn">Enviar</button>
+    </form>
   </section>
 
   <!-- Seção Contato -->

@@ -1,3 +1,4 @@
+/* Reset e estilo base */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -5,32 +6,25 @@ body {
   color: #fff;
 }
 
-.hero {
-  background: linear-gradient(135deg, #ffcc00, #ff6600); /* amarelo e laranja */
-  padding: 150px 20px;
-  text-align: center;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: #000;
 }
 
-.hero h1 {
-  margin: 0;
-  font-size: 48px;
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffcc00; /* amarelo */
 }
 
-.hero p {
-  font-size: 20px;
-  margin: 20px 0;
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
-.btn {
-  background-color: #000; /* botão preto */
-  color: #fff;
-  padding: 12px 30px;
-  text-decoration: none;
-  border-radius: 6px;
-  display: inline-block;
-  margin-top: 20px;
-}
-
-.section {
-  padding: 60px 20px;
-  text-align: center}
+.menu li a {
+  color: #fff;}
