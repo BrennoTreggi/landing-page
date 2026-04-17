@@ -5,18 +5,62 @@
   --texto: hsl(0, 0%, 0%);
 }
 
-.carrossel img {
-  display: none;
-  width: 100%;
+.carrossel {
+  position: relative;
+  max-width: 800px;
+  margin: 30px auto;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+.slide {
+  min-width: 100%;
+  cursor: pointer;
+  transition: transform 0.3s;
   border-radius: 10px;
 }
 
-.carrossel img.ativa {
-  display: block;
+.slide:hover {
+  transform: scale(1.05);
 }
-.grid-imagens img {
+
+.projeto {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
   width: 100%;
-  border-radius: 6px;
+  height: 100%;
+  background-color: rgba(0,0,0,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-imagem {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  cursor: pointer;
 }
 
 body {
