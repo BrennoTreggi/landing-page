@@ -1,16 +1,27 @@
 // Espera o HTML carregar totalmente
 document.addEventListener("DOMContentLoaded", () => {
 
-    // =========================
-    // MENU MOBILE (se quiser usar depois)
-    // =========================
-    const menuLinks = document.querySelectorAll("nav a");
+    const links = document.querySelectorAll("nav a");
+    const pages = document.querySelectorAll(".page");
 
-    menuLinks.forEach(link => {
-        link.addEventListener("click", () => {
-            console.log("Navegando para:", link.getAttribute("href"));
+    links.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const targetId = link.getAttribute("href").replace("#", "");
+            
+            // Remove active de todas
+            pages.forEach(page => {
+                page.classList.remove("active");
+            });
+
+            // Ativa a página clicada
+            const targetPage = document.getElementById(targetId);
+            targetPage.classList.add("active");
         });
     });
+
+});
 
     // =========================
     // SCROLL SUAVE (extra controle)
