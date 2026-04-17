@@ -172,13 +172,9 @@ section h2 {
 section p {
     font-size: clamp(1.0rem, 1vw, 1.2rem);
 }
-/* Efeito de rolagem suave */
-html {
-    scroll-behavior: smooth;
-}
+
 
 /* Estilo das seções (cores de destaque) */
-
 
 .conteudo-contato {
     color: #000;
