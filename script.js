@@ -14,24 +14,47 @@ function calcular(){
 
   document.getElementById("total").innerText = "Total: R$" + total;
 }
-const slides = document.querySelectorAll('.slide');
-const modal = document.getElementById('modal');
-const modalImg = document.getElementById('modal-img');
-const close = document.querySelector('.close');
 
-slides.forEach(slide => {
-  slide.addEventListener('click', () => {
-    modal.style.display = 'flex';
-    modalImg.src = slide.src;
+// trocar slide
+function mudarSlide(botao, direcao){
+  const carrossel = botao.parentElement;
+  const slides = carrossel.querySelectorAll(".slide");
+
+  let index = 0;
+
+  slides.forEach((img, i) => {
+    if(img.classList.contains("ativo")){
+      index = i;
+      img.classList.remove("ativo");
+    }
+  });
+
+  index += direcao;
+
+  if(index < 0) index = slides.length - 1;
+  if(index >= slides.length) index = 0;
+
+  slides[index].classList.add("ativo");
+}
+
+// EXPANDIR IMAGEM
+const modal = document.createElement("div");
+modal.classList.add("modal");
+
+const modalImg = document.createElement("img");
+
+modal.appendChild(modalImg);
+document.body.appendChild(modal);
+
+// clique nas imagens
+document.querySelectorAll(".slide").forEach(img => {
+  img.addEventListener("click", () => {
+    modal.style.display = "flex";
+    modalImg.src = img.src;
   });
 });
 
-close.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
-
-window.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.style.display = 'none';
-  }
+// fechar modal
+modal.addEventListener("click", () => {
+  modal.style.display = "none";
 });
