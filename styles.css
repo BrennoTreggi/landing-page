@@ -9,27 +9,7 @@
     font-weight: normal;
     font-style: normal;
 }
-.page {
-    display: none;
-    height: 100vh;
-    padding: 120px 20px;
-}
 
-.page.active {
-    display: block;
-}
-
-/* animação opcional */
-.page {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: 0.5s;
-}
-
-.page.active {
-    opacity: 1;
-    transform: translateY(0);
-}
 /* Reset básico */
 * {
     margin: 0;
@@ -61,7 +41,9 @@ nav ul {
     list-style: none;
     padding: 15px 0;
 }
-
+nav a.ativo {
+    color: #ffcc00;
+}
 nav ul li {
     margin: 0 20px;
 }
@@ -96,7 +78,16 @@ section p {
     max-width: 800px;
     margin: 0 auto;
 }
+section {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+}
 
+section.ativo {
+    opacity: 1;
+    transform: translateY(0);
+}
 /* Efeito de rolagem suave */
 html {
     scroll-behavior: smooth;
