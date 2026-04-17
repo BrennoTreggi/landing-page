@@ -38,8 +38,8 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    color: hwb(0 100% 0%);
+    font-family: 'MinhaFonte', sans-serif;
+    color: hwb(0 0% 100%);
     background: url('imagens/Layout/Fundo.jpg') no-repeat center center/cover;
     height: 100vh;
     position: relative; /* para permitir posicionamento absoluto dos elementos internos */
@@ -115,7 +115,6 @@ html {
     font-size: 3rem;
     margin-left: 100px;
     text-align: left;
-    font-family:'woff5';
 }
 
 .conteudo-inicio h2 {
