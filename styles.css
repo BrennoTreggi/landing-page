@@ -10,6 +10,35 @@
     font-style: normal;
 }
 
+
+#form-orcamento {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.Diagramação {
+    background: rgba(255,255,255,0.8);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.detalhes {
+    display: none;
+    margin-top: 10px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detalhes input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
 .whatsapp-float {
     width: 60px;
     height: 60px;
