@@ -47,25 +47,6 @@ btn.addEventListener("click", () => {
     });
 
     // =========================
-    // EFEITO AO ROLAR (animação)
-    // =========================
-    const sections = document.querySelectorAll("section");
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("ativo");
-            }
-        });
-    }, {
-        threshold: 0.2
-    });
-
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-
-    // =========================
     // FORMULÁRIO (CONTATO/ORÇAMENTO)
     // =========================
     const form = document.querySelector("form");
