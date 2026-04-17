@@ -1,18 +1,68 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const items = document.querySelectorAll('.carousel-item');
-    let currentIndex = 0;
+// Espera o HTML carregar totalmente
+document.addEventListener("DOMContentLoaded", () => {
 
-    function showItem(index) {
-        items.forEach((item, i) => {
-            item.style.display = i === index ? 'block' : 'none';
+    // =========================
+    // MENU MOBILE (se quiser usar depois)
+    // =========================
+    const menuLinks = document.querySelectorAll("nav a");
+
+    menuLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            console.log("Navegando para:", link.getAttribute("href"));
+        });
+    });
+
+    // =========================
+    // SCROLL SUAVE (extra controle)
+    // =========================
+    const linksInternos = document.querySelectorAll('a[href^="#"]');
+
+    linksInternos.forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute("href");
+            const section = document.querySelector(targetId);
+
+            section.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        });
+    });
+
+    // =========================
+    // EFEITO AO ROLAR (animação)
+    // =========================
+    const sections = document.querySelectorAll("section");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("ativo");
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+    // =========================
+    // FORMULÁRIO (CONTATO/ORÇAMENTO)
+    // =========================
+    const form = document.querySelector("form");
+
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            alert("Mensagem enviada com sucesso! 🚀");
+
+            form.reset();
         });
     }
 
-    function nextItem() {
-        currentIndex = (currentIndex + 1) % items.length;
-        showItem(currentIndex);
-    }
-
-    showItem(currentIndex);
-    setInterval(nextItem, 3000); // Troca a cada 3 segundos
 });

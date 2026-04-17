@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,67 +8,41 @@
 </head>
 <body>
 
-    <!-- Barra de navegação -->
+    <!-- Menu -->
     <nav>
         <ul>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="portfolio.html">Portfólio</a></li>
-            <li><a href="orcamento.html">Orçamento</a></li>
+            <li><a href="#inicio">Página Inicial</a></li>
+            <li><a href="#orcamento">Orçamento</a></li>
+            <li><a href="#portfolio">Portfólio</a></li>
+            <li><a href="#contato">Contato</a></li>
         </ul>
     </nav>
 
-    <!-- Página Inicial -->
+    <!-- Seção Inicial -->
     <section id="inicio">
-        <h1>Sobre Mim</h1>
-        <p>Coloque aqui suas informações profissionais...</p>
-
-        <h2>Serviços</h2>
-        <ul>
-            <li>Layout de Sites</li>
-            <li>Modelagem 3D</li>
-            <li>Edição de Vídeo</li>
-            <!-- Adicione mais serviços aqui -->
-        </ul>
+        <h1>Bem-vindo ao Meu Portfólio</h1>
+        <p>Explorando o mundo do design gráfico.</p>
     </section>
 
-    <!-- Página de Portfólio -->
-    <!-- Crie um arquivo separado, mas a estrutura básica será assim -->
-    <section id="portfolio">
-        <h1>Meu Portfólio</h1>
-        <div class="carousel">
-            <!-- Carrossel de imagens -->
-            <div class="carousel-item">
-                <img src="imagem1.jpg" alt="Projeto 1">
-            </div>
-            <div class="carousel-item">
-                <img src="imagem2.jpg" alt="Projeto 2">
-            </div>
-            <!-- Adicione mais itens de carrossel -->
-        </div>
-    </section>
-
-    <!-- Página de Orçamento -->
+    <!-- Seção de Orçamento -->
     <section id="orcamento">
-        <h1>Solicite um Orçamento</h1>
-        <p>Preencha o formulário abaixo e entrarei em contato!</p>
-        <form id="orcamento-form">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="servico">Serviço:</label>
-            <select id="servico" name="servico">
-                <option value="layout">Layout de Sites</option>
-                <option value="3d">Modelagem 3D</option>
-                <option value="video">Edição de Vídeo</option>
-            </select>
-            <label for="descricao">Descrição do Projeto:</label>
-            <textarea id="descricao" name="descricao" required></textarea>
-            <!-- Botão de envio -->
-            <button type="submit">Enviar</button>
-        </form>
-        <p>O pagamento será feito após o contato.</p>
-        <!-- Aqui você pode inserir um link ou widget de pagamento -->
+        <h2>Orçamento</h2>
+        <p>Solicite um orçamento personalizado para o seu projeto.</p>
+        <!-- Aqui você pode inserir um formulário ou detalhes de preços -->
+    </section>
+
+    <!-- Seção de Portfólio -->
+    <section id="portfolio">
+        <h2>Portfólio</h2>
+        <p>Veja alguns dos meus trabalhos recentes.</p>
+        <!-- Aqui você pode inserir um carrossel ou galerias de imagens -->
+    </section>
+
+    <!-- Seção de Contato -->
+    <section id="contato">
+        <h2>Contato</h2>
+        <p>Entre em contato para mais informações.</p>
+        <!-- Você pode adicionar um formulário aqui -->
     </section>
 
     <script src="script.js"></script>
