@@ -21,7 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+const btn = document.querySelector(".btn");
 
+btn.addEventListener("click", () => {
+    console.log("Usuário clicou no orçamento");
+});
 
     // =========================
     // SCROLL SUAVE (extra controle)
