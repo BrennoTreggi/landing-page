@@ -1,3 +1,8 @@
+
+#inicio {
+    position: relative;
+}
+
 @font-face {
     font-family: 'MinhaFonte';
     src: url('fonts/arialbd.ttf') format('woff2'),
@@ -199,8 +204,10 @@ html {
 .conteudo-inicio h1 {
     color: #000;
     font-size: 3rem;
-    margin-left: 100px;
-    text-align: left;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
 }
 
 .conteudo-inicio h2 {
