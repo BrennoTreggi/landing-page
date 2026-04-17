@@ -36,25 +36,26 @@ function mudarSlide(botao, direcao){
 
   slides[index].classList.add("ativo");
 }
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("imgModal");
+const fechar = document.querySelector(".fechar");
 
-// EXPANDIR IMAGEM
-const modal = document.createElement("div");
-modal.classList.add("modal");
-
-const modalImg = document.createElement("img");
-
-modal.appendChild(modalImg);
-document.body.appendChild(modal);
-
-// clique nas imagens
+// pega TODAS as imagens do carrossel
 document.querySelectorAll(".slide").forEach(img => {
-  img.addEventListener("click", () => {
-    modal.style.display = "flex";
-    modalImg.src = img.src;
+  img.addEventListener("click", function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
   });
 });
 
-// fechar modal
-modal.addEventListener("click", () => {
+// fechar clicando no X
+fechar.onclick = function(){
   modal.style.display = "none";
-});
+}
+
+// fechar clicando fora da imagem
+modal.onclick = function(e){
+  if(e.target === modal){
+    modal.style.display = "none";
+  }
+}
