@@ -1,150 +1,36 @@
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  padding-top: 50px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.9);
-}
-
-.modal-conteudo {
-  margin: auto;
-  display: block;
-  max-width: 80%;
-  max-height: 80%;
-}
-
-.fechar {
-  position: absolute;
-  top: 20px;
-  right: 35px;
-  color: white;
-  font-size: 40px;
-  cursor: pointer;
-}
-.carrossel {
-  position: relative;
-  width: 300px;
-  margin: auto;
-}
-
-.slides {
-  position: relative;
-}
-
-.slide {
-  display: none;
-  width: 100%;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.slide.ativo {
-  display: block;
-}
-
-/* BOTÕES */
-.prev, .next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.6);
-  color: white;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 10px;
-}
-
-.prev { left: 0; }
-.next { right: 0; }
-
-/* MODAL (EXPANDIR) */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.9);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal img {
-  max-width: 90%;
-  max-height: 90%;
-}
-
-
-:root {
-  --cor-principal: hwb(36 0% 3% / 0.911); /* TROQUE PELA COR DA SUA LOGO */
-  --fundo: oklab(100% 0 -0.00011);
-  --card: hsla(93, 100%, 49%, 0.664);
-  --texto: hsl(0, 0%, 0%);
-}
-
 body {
-  margin:0;
-  font-family: Arial;
-  background: var(--fundo);
-  color: var(--texto);
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #111; /* fundo preto */
+  color: #fff;
 }
 
-/* HEADER */
-header {
-  text-align:center;
-  padding:20px;
+.hero {
+  background: linear-gradient(135deg, #ffcc00, #ff6600); /* amarelo e laranja */
+  padding: 150px 20px;
+  text-align: center;
 }
 
-.logo {
-  width:120px;
+.hero h1 {
+  margin: 0;
+  font-size: 48px;
 }
 
-/* MENU */
-nav button {
-  background: var(--cor-principal);
-  border:none;
-  padding:10px 20px;
-  margin:5px;
-  cursor:pointer;
-  font-weight:bold;
-  border-radius:6px;
+.hero p {
+  font-size: 20px;
+  margin: 20px 0;
 }
 
-/* PÁGINAS */
-section {
-  display:none;
-  padding:40px;
-  text-align:center;
-}
-
-.active {
-  display:block;
-}
-
-/* CARDS */
-.card {
-  background: var(--card);
-  padding:15px;
-  margin:10px;
-  display:inline-block;
-  border-radius:10px;
-}
-
-.card img {
-  width:200px;
-}
-
-/* BOTÃO */
 .btn {
-  background: var(--cor-principal);
-  border:none;
-  padding:12px 20px;
-  margin:10px;
-  cursor:pointer;
-  border-radius:6px;
+  background-color: #000; /* botão preto */
+  color: #fff;
+  padding: 12px 30px;
+  text-decoration: none;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 20px;
 }
+
+.section {
+  padding: 60px 20px;
+  text-align: center}

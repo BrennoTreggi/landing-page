@@ -1,42 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title> Design & Modelagem 3D</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfólio - Seu Nome</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+  <!-- Seção Hero -->
+  <header class="hero">
+    <div class="conteudo-hero">
+      <h1>Seu Nome</h1>
+      <p>Designer Gráfico, UX/UI e Modelagem 3D</p>
+      <a href="#contato" class="btn">Fale Comigo</a>
+    </div>
+  </header>
 
-<header>
-<img src="Logo/Logo BT.png" class="logo">
+  <!-- Seção Sobre -->
+  <section id="sobre" class="section">
+    <h2>Sobre Mim</h2>
+    <p>Sou designer certificado com experiência em design gráfico, edição de vídeo e modelagem 3D. Atuo no mercado freelancer há mais de 4 anos, criando projetos personalizados e criativos para diversos clientes.</p>
+  </section>
 
-<h1>Design & Modelagem 3D</h1>
+  <!-- Seção Serviços -->
+  <section id="servicos" class="section">
+    <h2>Serviços</h2>
+    <div class="cards">
+      <div class="card">Layout de Sites</div>
+      <div class="card">Aberturas / Animações</div>
+      <div class="card">Vídeos Personalizados</div>
+      <div class="card">Restauração de Fotos</div>
+      <div class="card">Modelagem 3D</div>
+      <div class="card">Renderização 3D</div>
+      <div class="card">Diagramação</div>
+      <div class="card">Criação de Imagens</div>
+    </div>
+  </section>
 
-<nav>
-<button onclick="trocarPagina('home')">Início</button>
-<button onclick="trocarPagina('portfolio')">Portfólio</button>
-<button onclick="trocarPagina('contratar')">Contratar</button>
-</nav>
-</header>
-
-<!-- HOME -->
-<section id="home" class="active">
-<h2>Transformando ideias em Design & 3D</h2>
-<p>Qualquer serviço profissional de Design Gráfico e Modelagem 3D.</p>
-
-<button onclick="trocarPagina('contratar')" class="btn">
-Solicitar Orçamento
-</button>
-</section>
-
-<!-- PORTFÓLIO -->
-<section id="portfolio">
-<h2>Meu Portfólio</h2>
+  <!-- Seção Portfólio (com carrossel) -->
+ <h2>Meu Portfólio</h2>
 
 <div class="projeto">
   <h3>Projeto 1</h3>
@@ -91,44 +93,20 @@ Solicitar Orçamento
   </div>
 </div>
 
+    <!-- Adicione mais projetos aqui, seguindo o mesmo formato -->
+  </section>
 
+  <!-- Seção Contato -->
+  <section id="contato" class="section">
+    <h2>Contato</h2>
+    <p>Entre em contato pelo WhatsApp:</p>
+    <a href="https://wa.me/SEUNUMERO" class="btn">WhatsApp</a>
+  </section>
 
-<h3>Contato</h3>
+  <footer class="footer">
+    <p>© 2026 Seu Nome. Todos os direitos reservados.</p>
+  </footer>
 
-<a href="https://api.whatsapp.com/send/?phone=5521991984365&text=Gostaria+de+fazer+or%C3%A7amento+%21%21&type=phone_number&app_absent=0&fbclid=IwY2xjawQyT8xleHRuA2FlbQIxMABicmlkETE0MEd5Y052aVJ4cEZmbkk0c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHi04C-dpSL-IWslWeRQPECKcL-PhKxdbXpEIg_Me6Rgs-6mOOAKy1wxRkoj1_aem_xBR4MmBemUhl27wNqGXFZA" target="_blank">
-<button class="btn">Peça seu Orçamento!!</button>
-</a>
-
-</section>
-
-<!-- CONTRATAR -->
-<section id="contratar">
-<h2>Contratar Serviço</h2>
-
-<input type="text" placeholder="Seu nome">
-
-<select id="servico">
-<option value="50">Logo - R$50</option>
-<option value="100">3D - R$100</option>
-<option value="200">Render - R$200</option>
-</select>
-
-<input type="number" id="qtd" value="1">
-
-<p id="total">Total: R$50</p>
-
-<button class="btn" onclick="calcular()">Calcular</button>
-<button class="btn">Pagar</button>
-
-</section>
-
-<script src="script.js">  
-</script>
-
-<div id="modal" class="modal">
-  <span class="fechar">&times;</span>
-  <img class="modal-conteudo" id="imgModal">
-</div>
-
+  <script src="script.js"></script>
 </body>
 </html>
