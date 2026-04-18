@@ -31,6 +31,19 @@ function calcularTotal() {
     return total;
 }
 
+document.querySelectorAll(".servico").forEach(servico => {
+    const checkbox = servico.querySelector("input[type='checkbox']");
+    const detalhes = servico.querySelector(".detalhes");
+
+    checkbox.addEventListener("change", () => {
+        if (checkbox.checked) {
+            detalhes.style.display = "block";
+        } else {
+            detalhes.style.display = "none";
+        }
+    });
+});
+
 // PAGAMENTO
 async function pagarAgora() {
     const total = calcularTotal();
