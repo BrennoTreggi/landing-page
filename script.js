@@ -1,42 +1,24 @@
-const precos = {
-    layout: 500,
-    animacao: 200,
-    video: 300,
-    restauracao: 50,
-    modelagem3d: 150,
-    render: 100,
-    diagramacao: 5,
-    imagem: 80,
-    cartao: 0.5,
-    panfleto: 0.3,
-    folder: 1,
-    banner: 50
-};
 
 // CALCULAR TOTAL
 function calcularTotal() {
     let total = 0;
 
-    document.querySelectorAll(".servico").forEach(servico => {
-        const checkbox = servico.querySelector("input[type='checkbox']");
-        const quantidadeInput = servico.querySelector(".quantidade");
-
+    document.querySelectorAll('.servico-row').forEach(row => {
+        const checkbox = row.querySelector('.servico-checkbox');
         if (!checkbox.checked) return;
 
-        const key = checkbox.value; // importante: value no input
-        const qtd = parseInt(quantidadeInput.value) || 0;
+        const key = checkbox.dataset.key;
+        const qtd = parseInt(row.querySelector('.quantidade').value) || 0;
 
         let precoUnitario = 0;
 
         switch (key) {
-
             case 'layout':
                 precoUnitario = qtd === 1 ? 700 : 500;
                 break;
 
             case 'animacao':
             case 'video':
-                // aqui você está usando quantidade como segundos
                 precoUnitario = qtd <= 30 ? 150 : 100;
                 break;
 
@@ -87,9 +69,12 @@ function calcularTotal() {
         total += qtd * precoUnitario;
     });
 
-    document.getElementById("total").innerText = total.toFixed(2);
+    document.getElementById('total').textContent = total.toFixed(2);
     return total;
 }
+document.querySelectorAll(".quantidade").forEach(input => {
+    input.addEventListener("input", calcularTotal);
+});
 
 // PAGAMENTO
 async function pagarAgora() {
