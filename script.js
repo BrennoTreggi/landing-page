@@ -19,11 +19,67 @@ function calcularTotal() {
         const checkbox = row.querySelector('.servico-checkbox');
         const quantidade = parseFloat(row.querySelector('.quantidade').value) || 0;
         const preco = parseFloat(row.querySelector('.preco').value) || 0;
-
+        const key = checkbox.dataset.key;
+        const qtd = parseInt(row.querySelector('.quantidade').value) || 0;
+        let precoUnitario = 0;
+        if (!checkbox.checked) return;
         if (checkbox.checked && quantidade > 0) {
             total += preco * quantidade;
         }
+
+        switch (key) {
+            case 'layout':
+                precoUnitario = qtd === 1 ? 700 : 500;
+                break;
+
+            case 'animacao':
+            case 'video':
+                precoUnitario = qtd <= 30 ? 150 : 100;
+                break;
+
+            case 'restauracao':
+                precoUnitario = qtd === 1 ? 120 : 100;
+                break;
+
+            case 'modelagem3d':
+                precoUnitario = qtd === 1 ? 200 : 150;
+                break;
+
+            case 'render':
+                precoUnitario = qtd === 1 ? 200 : 150;
+                break;
+
+            case 'diagramacao':
+                if (qtd >= 15 && qtd <= 20) precoUnitario = 6.5;
+                else if (qtd <= 30) precoUnitario = 5.3;
+                else if (qtd <= 80) precoUnitario = 4.7;
+                else if (qtd <= 120) precoUnitario = 3.7;
+                break;
+
+            case 'imagem':
+                precoUnitario = 30;
+                break;
+
+            case 'cartao':
+                precoUnitario = 80;
+                break;
+
+            case 'panfleto':
+                precoUnitario = 100;
+                break;
+
+            case 'folder':
+                precoUnitario = 120;
+                break;
+
+            case 'banner':
+                precoUnitario = 150;
+                break;
+        }
+
+        total += qtd * precoUnitario;
     });
+    
 
     document.getElementById('total').innerText = total.toFixed(2);
     return total;
