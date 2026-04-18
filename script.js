@@ -1,8 +1,19 @@
 const precos = {
     layout: 500,
-    video: 300
+    animacao: 200,
+    video: 300,
+    restauracao: 50,
+    modelagem3d: 150,
+    render: 100,
+    diagramacao: 5,
+    imagem: 80,
+    cartao: 0.5,
+    panfleto: 0.3,
+    folder: 1,
+    banner: 50
 };
 
+// CALCULAR TOTAL
 function calcularTotal() {
     let total = 0;
 
@@ -21,38 +32,47 @@ function calcularTotal() {
     return total;
 }
 
+// PAGAMENTO
 async function pagarAgora() {
     const total = calcularTotal();
 
     if (total <= 0) {
-        alert("Selecione um serviço!");
+        alert("Selecione pelo menos um serviço!");
         return;
     }
 
-    const response = await fetch("http://localhost:3000/criar-pagamento", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ valor: total })
-    });
+    try {
+        const response = await fetch("http://localhost:3000/criar-pagamento", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ valor: total })
+        });
 
-    const data = await response.json();
-    window.open(data.link, "_blank");
+        const data = await response.json();
+
+        if (data.link) {
+            window.open(data.link, "_blank");
+        } else {
+            alert("Erro ao gerar pagamento!");
+        }
+
+    } catch (erro) {
+        console.error("Erro:", erro);
+        alert("Erro ao conectar com o servidor!");
+    }
 }
 
+// EXECUTA TUDO DEPOIS QUE CARREGAR
 document.addEventListener("DOMContentLoaded", () => {
 
-    // CALCULAR
-    document.querySelectorAll(".servico input").forEach(input => {
-        input.addEventListener("input", calcularTotal);
-    });
-
-    // DETALHES
+    // ATIVAR INPUTS E DETALHES
     document.querySelectorAll(".servico").forEach(servico => {
         const checkbox = servico.querySelector("input[type='checkbox']");
         const detalhes = servico.querySelector(".detalhes");
 
+        // começa escondido
         detalhes.style.display = "none";
 
         checkbox.addEventListener("change", () => {
@@ -61,7 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // SPA
+    // EVENTO DE CÁLCULO (quantidade)
+    document.querySelectorAll(".quantidade").forEach(input => {
+        input.addEventListener("input", calcularTotal);
+    });
+
+    // NAVEGAÇÃO SPA
     const links = document.querySelectorAll("nav a");
     const pages = document.querySelectorAll(".page");
 
@@ -69,10 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
 
-            const id = link.getAttribute("href").replace("#", "");
+            const targetId = link.getAttribute("href").replace("#", "");
 
-            pages.forEach(p => p.classList.remove("active"));
-            document.getElementById(id).classList.add("active");
+            pages.forEach(page => page.classList.remove("active"));
+            document.getElementById(targetId).classList.add("active");
         });
     });
 
