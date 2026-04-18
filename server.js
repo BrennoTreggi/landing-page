@@ -1,13 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 
 // NOVA FORMA DO MERCADO PAGO
-import { loadMercadoPago } from "@mercadopago/sdk-js";
-
-await loadMercadoPago();
-const mp = new window.MercadoPago("YOUR_PUBLIC_KEY");
-
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 
 const app = express();
@@ -15,12 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// SERVIR ARQUIVOS ESTÁTICOS
-app.use(express.static(path.join(__dirname)));
-
 // CONFIGURAÇÃO CORRETA
 const client = new MercadoPagoConfig({
-    accessToken: 'APP_USR-310df60c-46f7-4d69-beb2-651368c67df1'
+    accessToken: 'APP_USR-6307161791349576-041719-d63e4d48d6c64210c217dfccc521cc13-3344260680'
 });
 
 app.post('/criar-pagamento', async (req, res) => {
@@ -29,22 +20,17 @@ app.post('/criar-pagamento', async (req, res) => {
 
         const preference = new Preference(client);
 
-       const response = await preference.create({
-    body: {
-        items: [
-            {
-                title: 'Orçamento de Serviços',
-                quantity: 1,
-                unit_price: Number(valor)
+        const response = await preference.create({
+            body: {
+                items: [
+                    {
+                        title: 'Orçamento de Serviços',
+                        quantity: 1,
+                        unit_price: Number(valor)
+                    }
+                ]
             }
-        ],
-        payment_methods: {
-            excluded_payment_types: [],
-            excluded_payment_methods: [],
-            installments: 1
-        }
-    }
-});
+        });
 
         res.json({
             link: response.init_point

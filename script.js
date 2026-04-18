@@ -43,7 +43,7 @@ function calcularTotal() {
                 break;
 
             case 'diagramacao':
-                if (qtd >= 10 && qtd <= 20) precoUnitario = 6.8;
+                if (qtd >= 5 && qtd <= 20) precoUnitario = 6.8;
                 else if (qtd >= 21 && qtd <= 30) precoUnitario = 5.9;
                 else if (qtd >= 31 && qtd <= 80) precoUnitario = 4.7;
                 else if (qtd >= 81 && qtd <= 130) precoUnitario = 3.7;
