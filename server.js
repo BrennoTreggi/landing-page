@@ -24,17 +24,22 @@ app.post('/criar-pagamento', async (req, res) => {
 
         const preference = new Preference(client);
 
-        const response = await preference.create({
-            body: {
-                items: [
-                    {
-                        title: 'Orçamento de Serviços',
-                        quantity: 1,
-                        unit_price: Number(valor)
-                    }
-                ]
+       const response = await preference.create({
+    body: {
+        items: [
+            {
+                title: 'Orçamento de Serviços',
+                quantity: 1,
+                unit_price: Number(valor)
             }
-        });
+        ],
+        payment_methods: {
+            excluded_payment_types: [],
+            excluded_payment_methods: [],
+            installments: 1
+        }
+    }
+});
 
         res.json({
             link: response.init_point
