@@ -80,6 +80,7 @@ function calcularTotal() {
     });
 
     document.getElementById('total').textContent = total.toFixed(2);
+    return total;
 }
 
 async function pagarAgora() {
