@@ -1,132 +1,71 @@
-<form id="form-orcamento">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Minha Landing Page</title>
+<link rel="stylesheet" href="styles.css">
+</head>
 
-<!-- Layout -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="layout">
-        Layout de sites
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: Landing page, e-commerce...">
-</div>
+<body>
 
-<!-- Animação -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="animacao">
-        Aberturas / Animações
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: intro, duração...">
-</div>
+<nav>
+    <ul>
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#orcamento">Orçamento</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#contato">Contato</a></li>
+    </ul>
+</nav>
 
-<!-- Vídeo -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="video">
-        Vídeos personalizados
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: estilo, duração...">
-</div>
+<!-- INICIO -->
+<section id="inicio" class="page active">
+    <div class="conteudo-inicio">
+        <h1>Bem-vindo</h1>
+        <p>Seu site profissional</p>
+    </div>
+</section>
 
-<!-- Restauração -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="restauracao">
-        Restauração de Fotos
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: foto antiga, danos...">
-</div>
+<!-- ORÇAMENTO -->
+<section id="orcamento" class="page">
+    <div class="conteudo-orcamento">
 
-<!-- 3D -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="modelagem3d">
-        Modelos 3D
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: tipo de modelo...">
-</div>
+        <form id="form-orcamento">
 
-<!-- Render -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="render">
-        Renderização 3D
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: qualidade...">
-</div>
+            <div class="servico">
+                <label><input type="checkbox" value="layout"> Layout de sites</label>
+                <input type="number" class="quantidade" value="1">
+                <input type="text" class="detalhes" placeholder="Detalhes">
+            </div>
 
-<!-- Diagramação -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="diagramacao">
-        Diagramação
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: páginas...">
-</div>
+            <div class="servico">
+                <label><input type="checkbox" value="video"> Vídeos personalizados</label>
+                <input type="number" class="quantidade" value="1">
+                <input type="text" class="detalhes" placeholder="Detalhes">
+            </div>
 
-<!-- Imagem -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="imagem">
-        Criação de imagens
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: estilo...">
-</div>
+            <div id="total-container">
+                Total: R$ <span id="total">0.00</span>
 
-<!-- Cartão -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="cartao">
-        Cartão de visita
-    </label>
-    <input type="number" class="quantidade" value="100" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: frente/verso...">
-</div>
+                <button type="button" onclick="pagarAgora()" class="btn-pagar">
+                    Finalizar Pedido
+                </button>
+            </div>
 
-<!-- Panfleto -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="panfleto">
-        Panfletos
-    </label>
-    <input type="number" class="quantidade" value="100" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: tamanho...">
-</div>
+        </form>
 
-<!-- Folder -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="folder">
-        Folder
-    </label>
-    <input type="number" class="quantidade" value="50" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: dobra...">
-</div>
+    </div>
+</section>
 
-<!-- Banner -->
-<div class="servico">
-    <label>
-        <input type="checkbox" value="banner">
-        Banner
-    </label>
-    <input type="number" class="quantidade" value="1" min="1">
-    <input type="text" class="detalhes" placeholder="Ex: tamanho...">
-</div>
+<!-- PORTFOLIO -->
+<section id="portfolio" class="page">
+    <h1>Portfólio</h1>
+</section>
 
-<!-- TOTAL -->
-<div id="total-container">
-    Total: R$ <span id="total">0.00</span>
+<!-- CONTATO -->
+<section id="contato" class="page">
+    <h1>Contato</h1>
+</section>
 
-    <button type="button" class="btn-pagar" onclick="pagarAgora()">
-        Finalizar Pedido
-    </button>
-</div>
-
-</form>
+<script src="script.js"></script>
+</body>
+</html>
