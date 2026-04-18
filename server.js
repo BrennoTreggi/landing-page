@@ -21,16 +21,25 @@ app.post('/criar-pagamento', async (req, res) => {
         const preference = new Preference(client);
 
         const response = await preference.create({
-            body: {
-                items: [
-                    {
-                        title: 'Orçamento de Serviços',
-                        quantity: 1,
-                        unit_price: Number(valor)
-                    }
-                ]
+    body: {
+        items: [
+            {
+                title: 'Orçamento de Serviços',
+                quantity: 1,
+                unit_price: Number(valor)
             }
-        });
+        ],
+        payment_methods: {
+            excluded_payment_types: [
+                { id: "credit_card" },
+                { id: "debit_card" },
+                { id: "ticket" }
+            ]
+        },
+        statement_descriptor: "BT DESIGN",
+        binary_mode: true
+    }
+});
 
         res.json({
             link: response.init_point
