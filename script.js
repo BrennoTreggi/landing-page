@@ -10,7 +10,7 @@ function calcularTotal() {
         const key = checkbox.dataset.key;
         const qtd = parseInt(row.querySelector('.quantidade').value) || 0;
 
-        let precoUnitario = 0;
+        let precoUnitario = 1;
 
         switch (key) {
             case 'layout':
