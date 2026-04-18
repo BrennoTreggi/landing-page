@@ -3,234 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Portfólio</title>
+    <title>BT Design | Portfólio</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
-    <!-- Menu -->
-    <nav>
-        <ul>
-            <li><a href="#inicio">Página Inicial</a></li>
-            <li><a href="#orcamento">Orçamento</a></li>
-            <li><a href="#portfolio">Portfólio</a></li>
-            <li><a href="#contato">Contato</a></li>
-        </ul>
-    </nav>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="#inicio" class="brand-link">
+                <img src="imagens/Logo/Logo BT.png" alt="Logo BT" class="logo">
+                <span class="brand-text">BT Design</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#orcamento">Orçamento</a></li>
+                    <li><a href="#portfolio">Portfólio</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    <!-- Pagina Inicial -->
-    <section id="inicio" class="page active">
-    <div class="container">
-    <div class="conteudo-inicio">
-        
-        <h1>Transformo ideias em design que vende, conecta e impressiona.</h1>
+    <main>
+        <section id="inicio" class="page active">
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="hero-copy">
+                        <span class="eyebrow">Design Gráfico · Modelagem 3D · Vídeo</span>
+                        <h1>Transformo ideias em design que vende, conecta e impressiona.</h1>
+                        <p>Crio identidades visuais, artes e projetos gráficos pensados para destacar sua marca no mercado e atrair o público certo.</p>
+                        <p>Mais do que estética, o design certo comunica, posiciona e gera resultados com estratégia, criatividade e atenção ao detalhe.</p>
+                        <a class="btn" href="#orcamento">Simular orçamento</a>
+                    </div>
+                    <div class="hero-details">
+                        <div class="tools-card">
+                            <h2>Ferramentas que eu uso</h2>
+                            <div class="tool-badges">
+                                <span>Adobe</span>
+                                <span>Maya</span>
+                                <span>ZBrush</span>
+                            </div>
+                        </div>
+                        <div class="service-summary">
+                            <article>
+                                <h3>Design Gráfico</h3>
+                                <p>Identidade visual, diagramação, banners e artes para mídia digital e impressa.</p>
+                            </article>
+                            <article>
+                                <h3>Modelagem 3D</h3>
+                                <p>Criação e reparo de modelos 3D, renderização e arquivos prontos para impressão.</p>
+                            </article>
+                            <article>
+                                <h3>Edição de Vídeo</h3>
+                                <p>Vídeos personalizados, aberturas animadas e peças dinâmicas para redes sociais.</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                <img class="img-canto-esquerdo" src="imagens/Portfolio/Projeto 1/p1 img 1.png" alt="Detalhe do projeto 1">
+                <img class="img-canto-direito" src="imagens/Portfolio/Projeto 2/p2 img 1.png" alt="Detalhe do projeto 2">
+            </div>
+        </section>
 
-        <h2>
-            Crio identidades visuais, artes e projetos gráficos pensados para destacar sua marca no mercado e atrair o público certo.
-        </h2>
+        <section id="orcamento" class="page">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Orçamento</span>
+                    <h1>Calcule o valor do seu projeto agora.</h1>
+                    <p>Escolha os serviços que você precisa, ajuste a quantidade e o valor unitário. O total é calculado automaticamente.</p>
+                </div>
+                <form id="form-orcamento" class="orcamento-grid">
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="layout">
+                            Layout de sites
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Layout de sites">
+                        <input type="number" min="0" step="0.01" value="500" class="preco" aria-label="Preço Layout de sites">
+                        <input type="text" placeholder="Ex: Landing page, e-commerce..." class="observacao" aria-label="Detalhes Layout de sites">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="animacao">
+                            Aberturas / Animações
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Aberturas / Animações">
+                        <input type="number" min="0" step="0.01" value="200" class="preco" aria-label="Preço Aberturas / Animações">
+                        <input type="text" placeholder="Ex: intro, duração..." class="observacao" aria-label="Detalhes Aberturas / Animações">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="video">
+                            Vídeos personalizados
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Vídeos personalizados">
+                        <input type="number" min="0" step="0.01" value="300" class="preco" aria-label="Preço Vídeos personalizados">
+                        <input type="text" placeholder="Ex: estilo, duração..." class="observacao" aria-label="Detalhes Vídeos personalizados">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="restauracao">
+                            Restauração de Fotos
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Restauração de Fotos">
+                        <input type="number" min="0" step="0.01" value="50" class="preco" aria-label="Preço Restauração de Fotos">
+                        <input type="text" placeholder="Ex: foto antiga, danos..." class="observacao" aria-label="Detalhes Restauração de Fotos">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="modelagem3d">
+                            Criação e reparo de modelos 3D (.STL, OBJ, FBX, DAE)
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Modelos 3D">
+                        <input type="number" min="0" step="0.01" value="150" class="preco" aria-label="Preço Modelos 3D">
+                        <input type="text" placeholder="Ex: tipo de modelo..." class="observacao" aria-label="Detalhes Modelos 3D">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="render">
+                            Renderização 3D
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Renderização 3D">
+                        <input type="number" min="0" step="0.01" value="100" class="preco" aria-label="Preço Renderização 3D">
+                        <input type="text" placeholder="Ex: qualidade, cenário..." class="observacao" aria-label="Detalhes Renderização 3D">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="diagramacao">
+                            Diagramação
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Diagramação">
+                        <input type="number" min="0" step="0.01" value="5" class="preco" aria-label="Preço Diagramação">
+                        <input type="text" placeholder="Ex: 30 páginas, A5..." class="observacao" aria-label="Detalhes Diagramação">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="imagem">
+                            Criação de imagens personalizada
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Imagens personalizadas">
+                        <input type="number" min="0" step="0.01" value="80" class="preco" aria-label="Preço Imagens personalizadas">
+                        <input type="text" placeholder="Ex: estilo, uso..." class="observacao" aria-label="Detalhes Imagens personalizadas">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="cartao">
+                            Cartão de visita
+                        </label>
+                        <input type="number" min="1" value="100" class="quantidade" aria-label="Quantidade Cartão de visita">
+                        <input type="number" min="0" step="0.01" value="0.5" class="preco" aria-label="Preço Cartão de visita">
+                        <input type="text" placeholder="Ex: frente/verso..." class="observacao" aria-label="Detalhes Cartão de visita">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="panfleto">
+                            Panfletos
+                        </label>
+                        <input type="number" min="1" value="100" class="quantidade" aria-label="Quantidade Panfletos">
+                        <input type="number" min="0" step="0.01" value="0.3" class="preco" aria-label="Preço Panfletos">
+                        <input type="text" placeholder="Ex: tamanho, cor..." class="observacao" aria-label="Detalhes Panfletos">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="folder">
+                            Folder
+                        </label>
+                        <input type="number" min="1" value="50" class="quantidade" aria-label="Quantidade Folder">
+                        <input type="number" min="0" step="0.01" value="1" class="preco" aria-label="Preço Folder">
+                        <input type="text" placeholder="Ex: dobra, formato..." class="observacao" aria-label="Detalhes Folder">
+                    </div>
+                    <div class="servico-row">
+                        <label>
+                            <input type="checkbox" class="servico-checkbox" data-key="banner">
+                            Banner
+                        </label>
+                        <input type="number" min="1" value="1" class="quantidade" aria-label="Quantidade Banner">
+                        <input type="number" min="0" step="0.01" value="50" class="preco" aria-label="Preço Banner">
+                        <input type="text" placeholder="Ex: tamanho, uso..." class="observacao" aria-label="Detalhes Banner">
+                    </div>
+                </form>
+                <div id="total-container">
+                    <span>Total estimado:</span>
+                    <strong>R$ <span id="total">0.00</span></strong>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="pagarAgora()">Finalizar orçamento</button>
+            </div>
+        </section>
 
-        <p>
-            Mais do que estética, o design certo comunica, posiciona e gera resultados.
-            Cada projeto é desenvolvido com estratégia, criatividade e atenção aos detalhes,
-            para que sua marca não seja apenas vista — mas lembrada.
-        </p>
+        <section id="portfolio" class="page">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Portfólio</span>
+                    <h1>Projetos que falam por si.</h1>
+                    <p>Conheça alguns trabalhos que desenvolvi e veja como o design pode transformar marcas e ideias.</p>
+                </div>
+                <div class="portfolio-grid">
+                    <article class="project-card">
+                        <h3>Projeto 1</h3>
+                        <div class="project-images">
+                            <img src="imagens/Portfolio/Projeto 1/p1 img 1.png" alt="Projeto 1">
+                            <img src="imagens/Portfolio/Projeto 1/p1 img 2.png" alt="Projeto 1">
+                            <img src="imagens/Portfolio/Projeto 1/p1 img 3.png" alt="Projeto 1">
+                        </div>
+                    </article>
+                    <article class="project-card">
+                        <h3>Projeto 2</h3>
+                        <div class="project-images">
+                            <img src="imagens/Portfolio/Projeto 2/p2 img 1.png" alt="Projeto 2">
+                            <img src="imagens/Portfolio/Projeto 2/p2 img 2.png" alt="Projeto 2">
+                            <img src="imagens/Portfolio/Projeto 2/p2 img 3.png" alt="Projeto 2">
+                        </div>
+                    </article>
+                    <article class="project-card">
+                        <h3>Projeto 3</h3>
+                        <div class="project-images">
+                            <img src="imagens/Portfolio/Projeto 3/p3 img 1.png" alt="Projeto 3">
+                            <img src="imagens/Portfolio/Projeto 3/p3 img 2.png" alt="Projeto 3">
+                            <img src="imagens/Portfolio/Projeto 3/p3 img 3.png" alt="Projeto 3">
+                        </div>
+                    </article>
+                    <article class="project-card">
+                        <h3>Projeto 4</h3>
+                        <div class="project-images">
+                            <img src="imagens/Portfolio/Projeto 4/p4 img 1.png" alt="Projeto 4">
+                            <img src="imagens/Portfolio/Projeto 4/p4 img 2.png" alt="Projeto 4">
+                            <img src="imagens/Portfolio/Projeto 4/p4 img 3.png" alt="Projeto 4">
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-        <a href="#orcamento" class="btn">Solicite seu orçamento</a>
+        <section id="sobre" class="page">
+            <div class="container about-container">
+                <div class="about-grid">
+                    <div class="about-content">
+                        <span class="eyebrow">Sobre mim</span>
+                        <h1>Minha trajetória como estudante e criador.</h1>
+                        <p>Sou estudante de Design com foco em criação de peças visuais que unem estratégia e impacto. Trabalho com identidade visual, edição de vídeo, modelagem 3D e soluções completas para marcas que querem se destacar.</p>
+                        <p>Tenho desenvolvimento acadêmico e profissional em projetos de design gráfico e produção 3D, sempre buscando evolução técnica com criatividade e atenção aos detalhes.</p>
+                        <p>Além dos meus projetos, participo de desafios e estudo constantemente para dominar ferramentas como Adobe, Maya e ZBrush.</p>
+                    </div>
+                    <div class="about-images">
+                        <img src="imagens/Eu/identidade.jpg" alt="Minha identidade visual">
+                        <img src="imagens/Eu/Carteirinha de Estudante Frente.png" alt="Carteirinha de estudante">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    </div>
-
-   </section>
-
-   <!-- Orçamento -->
-    <section id="orcamento" class="page">
-    <div class="container">        
-    <div class="conteudo-orcamento">
-
-      <h1>Invista no design certo para destacar sua marca.</h1>
-
-     <h2>Solicite um orçamento personalizado e descubra como posso transformar sua ideia em um projeto visual profissional.</h2>
-
-     <p>Cada projeto é único. Por isso, analiso suas necessidades, objetivos e público para criar soluções que realmente fazem sentido para o seu negócio.
-Aqui, você não recebe apenas um preço — recebe estratégia, criatividade e resultado.</p>
-
-     <a>Solicite seu orçamento</a>
-
-<form id="form-orcamento">
-
-<!-- Layout de sites -->
-    <label>
-        <input type="checkbox" name="servico" value="layout">
-        Layout de sites
-    </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: Landing page, e-commerce..." class="detalhes">
-</div>
-
-<!-- Aberturas -->
-
-    <label>
-        <input type="checkbox" name="servico" value="animacao">
-        Aberturas / Animações
-    </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: intro, duração..." class="detalhes">
-</div>
-
-<!-- Vídeos -->
-
-    <label>
-        <input type="checkbox" name="servico" value="video">
-        Vídeos personalizados
-    </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: estilo, duração..." class="detalhes">
-</div>
-
-<!-- Restauração -->
-    <label>
-        <input type="checkbox" name="servico" value="restauracao">
-        Restauração de Fotos
-    </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: foto antiga, danos..." class="detalhes">
-</div>
-
-<!-- 3D -->
-
-    <label>
-        <input type="checkbox" name="servico" value="modelagem3d">
-        Modelos 3D (.STL, OBJ, FBX...)
-    </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: tipo de modelo..." class="detalhes">
-</div>
-
-<!-- Render -->
-
-    <label>
-        <input type="checkbox" name="servico" value="render">
-        Renderização 3D
-    </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: qualidade, cenário..." class="detalhes">
-</div>
-
-<!-- Diagramação -->
-
-    <label>
-        <input type="checkbox" name="servico" value="diagramacao">
-        Diagramação
-     </label>
-     <input type="number" min="1" value="1" class="quantidade">
-     <input type="text" placeholder="Ex: 30 páginas, A5..." class="detalhes">
-</div>
-
-<!-- Imagens -->
-
-    <label>
-        <input type="checkbox" name="servico" value="imagem">
-        Criação de imagens personalizada
-    </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: estilo, uso..." class="detalhes">
-</div>
-
-<!-- Cartão -->
-
-    <label>
-        <input type="checkbox" name="servico" value="cartao">
-        Cartão de visita
-    </label>
-    <input type="number" min="1" value="100" class="quantidade">
-    <input type="text" placeholder="Ex: frente/verso..." class="detalhes">
-</div>
-
-<!-- Panfleto -->
-
-    <label>
-        <input type="checkbox" name="servico" value="panfleto">
-        Panfletos
-    </label>
-    <input type="number" min="1" value="100" class="quantidade">
-    <input type="text" placeholder="Ex: tamanho, cor..." class="detalhes">
-</div>
-
-<!-- Folder -->
-
-    <label>
-        <input type="checkbox" name="servico" value="folder">
-        Folder
-    </label>
-    <input type="number" min="1" value="50" class="quantidade">
-    <input type="text" placeholder="Ex: dobra, formato..." class="detalhes">
-</div>
-
-<!-- Banner -->
-
-    <label>
-        <input type="checkbox" name="servico" value="banner">
-        Banner
-    </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: tamanho, uso..." class="detalhes">
-</div>
-
-<br><br>
-
-
-        Total: R$ <span id="total">0.00</span>
-
-        <button type="button" class="btn-pagar" onclick="finalizarPedido()">
-            Finalizar Pedido
-        </button>
-    </div>
-</form>
-    </div>
-
-   </section>
-   
-
-        <!-- Portfólio -->
-    <section id="portfolio" class="page">
-      <div class="container">
-      <div class="conteudo-portfolio">
-     <h1>Projetos que falam por si.</h1>
-
-    <h2>Conheça alguns dos trabalhos que desenvolvi e veja como o design pode transformar marcas e ideias.</h2>
-
-     <p>Cada projeto apresentado aqui foi pensado para resolver um problema específico e gerar impacto visual.
-Do conceito à entrega final, o foco é sempre criar algo único, funcional e memorável.</p>
-
-     <a class="btn">Veja mais projetos ou solicite o seu.</a>
-
-    </div>
-
-   </section>
-
-    <!-- Contato -->
-     <section id="contato" class="page">
-     <div class="container">
-     <div class="conteudo-contato">
-     
-
-     <h1>Vamos tirar sua ideia do papel?</h1>
-
-     <h2>Entre em contato e vamos conversar sobre o seu projeto.</h2>
-
-      <p>Seja para tirar dúvidas, solicitar um orçamento ou iniciar um projeto, estou pronto para te ajudar.
-Respondo o mais rápido possível para garantir que sua ideia comece a ganhar forma quanto antes.</p>
-
-     <a class="btn">Fale comigo agora e vamos criar algo incrível.</a>
-        
-    </div>  
-
-   </section> 
-    <a href="https://wa.me/5521991984365?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20or%C3%A7amento%20!!"
-   class="whatsapp-float" target="_blank">
-
-    <img src="imagens/Logo/Sapp.png" alt="WhatsApp">
-
-    </a> 
+    <a href="https://wa.me/5521991984365?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20or%C3%A7amento%20!!" class="whatsapp-float" target="_blank">
+        <img src="imagens/Logo/Sapp.png" alt="WhatsApp">
+    </a>
 
     <script src="script.js"></script>
 </body>
