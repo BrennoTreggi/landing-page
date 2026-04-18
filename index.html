@@ -230,7 +230,22 @@ Respondo o mais rápido possível para garantir que sua ideia comece a ganhar fo
     </a> 
 
     <script src="script.js"></script>
+<div class="servico">
+    <label>
+        <input type="checkbox" value="layout">
+        Layout de Sites
+    </label>
 
+    <input type="number" class="quantidade" value="1" min="1">
+</div>
+
+<div id="total-container">
+    Total: R$ <span id="total">0.00</span>
+
+    <button class="btn-pagar" onclick="pagarAgora()">
+        Finalizar Pedido
+    </button>
+</div>
     
 <button type="button" onclick="pagarAgora()">Pagar Agora</button>
 </body>
