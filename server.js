@@ -3,6 +3,11 @@ const cors = require('cors');
 const path = require('path');
 
 // NOVA FORMA DO MERCADO PAGO
+import { loadMercadoPago } from "@mercadopago/sdk-js";
+
+await loadMercadoPago();
+const mp = new window.MercadoPago("YOUR_PUBLIC_KEY");
+
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 
 const app = express();
@@ -15,7 +20,7 @@ app.use(express.static(path.join(__dirname)));
 
 // CONFIGURAÇÃO CORRETA
 const client = new MercadoPagoConfig({
-    accessToken: 'APP_USR-6307161791349576-041719-d63e4d48d6c64210c217dfccc521cc13-3344260680'
+    accessToken: 'APP_USR-310df60c-46f7-4d69-beb2-651368c67df1'
 });
 
 app.post('/criar-pagamento', async (req, res) => {
