@@ -9,13 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const targetId = link.getAttribute("href").replace("#", "");
 
+            // Remove active de todas
             pages.forEach(page => {
                 page.classList.remove("active");
             });
 
+            // Adiciona na página clicada
             document.getElementById(targetId).classList.add("active");
         });
     });
+
 
     // SCROLL SUAVE
     document.querySelectorAll('a[href^="#"]').forEach(link => {
@@ -24,13 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const section = document.querySelector(this.getAttribute("href"));
 
-            section.scrollIntoView({
-                behavior: "smooth"
+            
             });
         });
     });
 
-});
+
 
 // CALCULAR TOTAL
 function calcularTotal() {
