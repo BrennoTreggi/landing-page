@@ -5,7 +5,11 @@ function calcularTotal() {
 
     document.querySelectorAll('.servico-row').forEach(row => {
         const checkbox = row.querySelector('.servico-checkbox');
-        if (!checkbox.checked) return;
+        const precoInput = row.querySelector('.preco');
+        if (!checkbox.checked) {
+            precoInput.value = '0.00';
+            return;
+        }
 
         const key = checkbox.dataset.key;
         const qtd = parseInt(row.querySelector('.quantidade').value) || 0;
@@ -40,10 +44,10 @@ function calcularTotal() {
 
             case 'diagramacao':
                 if (qtd >= 15 && qtd <= 20) precoUnitario = 6.5;
-                else if (qtd <= 30) precoUnitario = 5.3;
-                else if (qtd <= 80) precoUnitario = 4.7;
-                else if (qtd <= 120) precoUnitario = 3.7
-                 else if (qtd <= 150) precoUnitario = 2.9;
+                else if (qtd >= 21 && qtd <= 30) precoUnitario = 5.3;
+                else if (qtd >= 31 && qtd <= 80) precoUnitario = 4.7;
+                else if (qtd >= 81 && qtd <= 130) precoUnitario = 3.7;
+                else if (qtd >= 131) precoUnitario = 2.3;
                 break;
 
             case 'imagem':
@@ -55,27 +59,25 @@ function calcularTotal() {
                 break;
 
             case 'panfleto':
-                precoUnitario = 100;
+                precoUnitario = 80;
                 break;
 
             case 'folder':
-                precoUnitario = 120;
+                precoUnitario = 100;
                 break;
 
             case 'banner':
-                precoUnitario = 150;
+                precoUnitario = 130;
                 break;
         }
 
+        precoInput.value = precoUnitario.toFixed(2);
         total += qtd * precoUnitario;
     });
 
     document.getElementById('total').textContent = total.toFixed(2);
     return total;
 }
-document.querySelectorAll(".quantidade").forEach(input => {
-    input.addEventListener("input", calcularTotal);
-});
 
 // PAGAMENTO
 async function pagarAgora() {
@@ -86,24 +88,38 @@ async function pagarAgora() {
         return;
     }
 
-    const response = await fetch("http://localhost:3000/criar-pagamento", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ valor: total })
-    });
+    try {
+        const response = await fetch("http://localhost:3000/criar-pagamento", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ valor: total })
+        });
 
-    const data = await response.json();
-    window.open(data.link, "_blank");
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+
+        const data = await response.json();
+        window.open(data.link, "_blank");
+    } catch (error) {
+        alert("Erro ao processar o pagamento. Verifique se o servidor está rodando.");
+        console.error(error);
+    }
 }
 
 // EXECUTA QUANDO CARREGA
 document.addEventListener("DOMContentLoaded", () => {
 
-    // EVENTO DE CÁLCULO
-    document.querySelectorAll(".servico input").forEach(input => {
-        input.addEventListener("input", calcularTotal);
+    // EVENTO DE CÁLCULO PARA CHECKBOXES
+    document.querySelectorAll('.servico-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', calcularTotal);
+    });
+
+    // EVENTO DE CÁLCULO PARA QUANTIDADES
+    document.querySelectorAll('.quantidade').forEach(input => {
+        input.addEventListener('input', calcularTotal);
     });
 
     // NAVEGAÇÃO SPA

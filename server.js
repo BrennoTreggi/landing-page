@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 // NOVA FORMA DO MERCADO PAGO
 const { MercadoPagoConfig, Preference } = require('mercadopago');
@@ -8,6 +9,9 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+// SERVIR ARQUIVOS ESTÁTICOS
+app.use(express.static(path.join(__dirname)));
 
 // CONFIGURAÇÃO CORRETA
 const client = new MercadoPagoConfig({
