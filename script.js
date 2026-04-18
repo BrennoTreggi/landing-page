@@ -8,9 +8,9 @@ function calcularTotal() {
         if (!checkbox.checked) return;
 
         const key = checkbox.dataset.key;
-        const qtd = parseInt(row.querySelector('.quantidade').value) || 1;
+        const qtd = parseInt(row.querySelector('.quantidade').value) || 0;
 
-        let precoUnitario = 1;
+        let precoUnitario = 0;
 
         switch (key) {
             case 'layout':
@@ -42,7 +42,8 @@ function calcularTotal() {
                 if (qtd >= 15 && qtd <= 20) precoUnitario = 6.5;
                 else if (qtd <= 30) precoUnitario = 5.3;
                 else if (qtd <= 80) precoUnitario = 4.7;
-                else if (qtd <= 120) precoUnitario = 3.7;
+                else if (qtd <= 120) precoUnitario = 3.7
+                 else if (qtd <= 150) precoUnitario = 2.9;
                 break;
 
             case 'imagem':
