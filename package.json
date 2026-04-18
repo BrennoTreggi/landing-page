@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/BrennoTreggi/landing-page#readme",
   "dependencies": {
+    "@mercadopago/sdk-js": "^0.0.3",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "mercadopago": "^2.12.0"
