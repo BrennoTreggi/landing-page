@@ -23,26 +23,14 @@ function calcularTotal() {
 
         if (checkbox.checked) {
             const valor = precos[checkbox.value] || 0;
-            total += valor * (parseInt(quantidade.value) || 1);
+            const qtd = parseInt(quantidade.value) || 1;
+            total += valor * qtd;
         }
     });
 
     document.getElementById("total").innerText = total.toFixed(2);
     return total;
 }
-
-document.querySelectorAll(".servico").forEach(servico => {
-    const checkbox = servico.querySelector("input[type='checkbox']");
-    const detalhes = servico.querySelector(".detalhes");
-
-    checkbox.addEventListener("change", () => {
-        if (checkbox.checked) {
-            detalhes.style.display = "block";
-        } else {
-            detalhes.style.display = "none";
-        }
-    });
-});
 
 // PAGAMENTO
 async function pagarAgora() {
@@ -53,23 +41,48 @@ async function pagarAgora() {
         return;
     }
 
-    const response = await fetch("http://localhost:3000/criar-pagamento", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ valor: total })
-    });
+    try {
+        const response = await fetch("http://localhost:3000/criar-pagamento", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ valor: total })
+        });
 
-    const data = await response.json();
-    window.open(data.link, "_blank");
+        const data = await response.json();
+
+        if (data.link) {
+            window.open(data.link, "_blank");
+        } else {
+            alert("Erro ao gerar pagamento!");
+        }
+
+    } catch (erro) {
+        console.error("Erro:", erro);
+        alert("Erro ao conectar com o servidor!");
+    }
 }
 
-// EXECUTA QUANDO CARREGA
+// EXECUTA TUDO DEPOIS QUE CARREGAR
 document.addEventListener("DOMContentLoaded", () => {
 
-    // EVENTO DE CÁLCULO
-    document.querySelectorAll(".servico input").forEach(input => {
+    // ATIVAR INPUTS E DETALHES
+    document.querySelectorAll(".servico").forEach(servico => {
+        const checkbox = servico.querySelector("input[type='checkbox']");
+        const detalhes = servico.querySelector(".detalhes");
+
+        // começa escondido
+        detalhes.style.display = "none";
+
+        checkbox.addEventListener("change", () => {
+            detalhes.style.display = checkbox.checked ? "block" : "none";
+            calcularTotal();
+        });
+    });
+
+    // EVENTO DE CÁLCULO (quantidade)
+    document.querySelectorAll(".quantidade").forEach(input => {
         input.addEventListener("input", calcularTotal);
     });
 
