@@ -1,3 +1,41 @@
+const precos = {
+    layout: 500,
+    animacao: 200,
+    video: 300,
+    restauracao: 50,
+    modelagem3d: 150,
+    render: 100,
+    diagramacao: 5,
+    imagem: 80,
+    cartao: 0.5,
+    panfleto: 0.3,
+    folder: 1,
+    banner: 50
+};
+
+function calcularTotal() {
+    let total = 0;
+
+    document.querySelectorAll(".servico").forEach(servico => {
+        const checkbox = servico.querySelector("input[type='checkbox']");
+        const quantidade = servico.querySelector(".quantidade");
+
+        if (checkbox.checked) {
+            const valor = precos[checkbox.value] || 0;
+            total += valor * (parseInt(quantidade.value) || 1);
+        }
+    });
+
+    document.getElementById("total").innerText = total.toFixed(2);
+    return total;
+}
+
+// Atualiza automaticamente
+document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("change", calcularTotal);
+});
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const links = document.querySelectorAll("nav a");

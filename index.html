@@ -53,8 +53,137 @@
      <p>Cada projeto é único. Por isso, analiso suas necessidades, objetivos e público para criar soluções que realmente fazem sentido para o seu negócio.
 Aqui, você não recebe apenas um preço — recebe estratégia, criatividade e resultado.</p>
 
-     <a class="btn">Peça seu orçamento agora e comece seu projeto.</a>
+     <a>Solicite seu orçamento</a>
 
+<form id="form-orcamento">
+
+<!-- Layout de sites -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="layout">
+        Layout de sites
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: Landing page, e-commerce..." class="detalhes">
+</div>
+
+<!-- Aberturas -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="animacao">
+        Aberturas / Animações
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: intro, duração..." class="detalhes">
+</div>
+
+<!-- Vídeos -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="video">
+        Vídeos personalizados
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: estilo, duração..." class="detalhes">
+</div>
+
+<!-- Restauração -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="restauracao">
+        Restauração de Fotos
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: foto antiga, danos..." class="detalhes">
+</div>
+
+<!-- 3D -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="modelagem3d">
+        Modelos 3D (.STL, OBJ, FBX...)
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: tipo de modelo..." class="detalhes">
+</div>
+
+<!-- Render -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="render">
+        Renderização 3D
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: qualidade, cenário..." class="detalhes">
+</div>
+
+<!-- Diagramação -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="diagramacao">
+        Diagramação
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: 30 páginas, A5..." class="detalhes">
+</div>
+
+<!-- Imagens -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="imagem">
+        Criação de imagens personalizada
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: estilo, uso..." class="detalhes">
+</div>
+
+<!-- Cartão -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="cartao">
+        Cartão de visita
+    </label>
+    <input type="number" min="1" value="100" class="quantidade">
+    <input type="text" placeholder="Ex: frente/verso..." class="detalhes">
+</div>
+
+<!-- Panfleto -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="panfleto">
+        Panfletos
+    </label>
+    <input type="number" min="1" value="100" class="quantidade">
+    <input type="text" placeholder="Ex: tamanho, cor..." class="detalhes">
+</div>
+
+<!-- Folder -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="folder">
+        Folder
+    </label>
+    <input type="number" min="1" value="50" class="quantidade">
+    <input type="text" placeholder="Ex: dobra, formato..." class="detalhes">
+</div>
+
+<!-- Banner -->
+<div class="servico">
+    <label>
+        <input type="checkbox" name="servico" value="banner">
+        Banner
+    </label>
+    <input type="number" min="1" value="1" class="quantidade">
+    <input type="text" placeholder="Ex: tamanho, uso..." class="detalhes">
+</div>
+
+<br><br>
+
+<h2>Total: R$ <span id="total">0</span></h2>
+
+<button type="button" onclick="pagarAgora()">Pagar Agora</button>
+
+</form>
     </div>
 
    </section>
