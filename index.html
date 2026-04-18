@@ -1,237 +1,132 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Portfólio</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    
-    <!-- Menu -->
-    <nav>
-        <ul>
-            <li><a href="#inicio">Página Inicial</a></li>
-            <li><a href="#orcamento">Orçamento</a></li>
-            <li><a href="#portfolio">Portfólio</a></li>
-            <li><a href="#contato">Contato</a></li>
-        </ul>
-    </nav>
-
-    <!-- Pagina Inicial -->
-    <section id="inicio" class="page active">
-    <div class="container">
-    <div class="conteudo-inicio">
-        
-        <h1>Transformo ideias em design que vende, conecta e impressiona.</h1>
-
-        <h2>
-            Crio identidades visuais, artes e projetos gráficos pensados para destacar sua marca no mercado e atrair o público certo.
-        </h2>
-
-        <p>
-            Mais do que estética, o design certo comunica, posiciona e gera resultados.
-            Cada projeto é desenvolvido com estratégia, criatividade e atenção aos detalhes,
-            para que sua marca não seja apenas vista — mas lembrada.
-        </p>
-
-        <a href="#orcamento" class="btn">Solicite seu orçamento</a>
-
-    </div>
-
-   </section>
-
-   <!-- Orçamento -->
-    <section id="orcamento" class="page">
-    <div class="container">        
-    <div class="conteudo-orcamento">
-
-      <h1>Invista no design certo para destacar sua marca.</h1>
-
-     <h2>Solicite um orçamento personalizado e descubra como posso transformar sua ideia em um projeto visual profissional.</h2>
-
-     <p>Cada projeto é único. Por isso, analiso suas necessidades, objetivos e público para criar soluções que realmente fazem sentido para o seu negócio.
-Aqui, você não recebe apenas um preço — recebe estratégia, criatividade e resultado.</p>
-
-     <a>Solicite seu orçamento</a>
-
 <form id="form-orcamento">
 
-<!-- Layout de sites -->
+<!-- Layout -->
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="layout">
+        <input type="checkbox" value="layout">
         Layout de sites
     </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: Landing page, e-commerce..." class="detalhes">
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: Landing page, e-commerce...">
 </div>
 
-<!-- Aberturas -->
-
+<!-- Animação -->
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="animacao">
+        <input type="checkbox" value="animacao">
         Aberturas / Animações
     </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: intro, duração..." class="detalhes">
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: intro, duração...">
 </div>
 
-<!-- Vídeos -->
-
+<!-- Vídeo -->
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="video">
+        <input type="checkbox" value="video">
         Vídeos personalizados
     </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: estilo, duração..." class="detalhes">
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: estilo, duração...">
 </div>
 
 <!-- Restauração -->
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="restauracao">
+        <input type="checkbox" value="restauracao">
         Restauração de Fotos
     </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: foto antiga, danos..." class="detalhes">
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: foto antiga, danos...">
 </div>
 
 <!-- 3D -->
-
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="modelagem3d">
-        Modelos 3D (.STL, OBJ, FBX...)
+        <input type="checkbox" value="modelagem3d">
+        Modelos 3D
     </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: tipo de modelo..." class="detalhes">
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: tipo de modelo...">
 </div>
 
 <!-- Render -->
-
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="render">
+        <input type="checkbox" value="render">
         Renderização 3D
     </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: qualidade, cenário..." class="detalhes">
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: qualidade...">
 </div>
 
 <!-- Diagramação -->
-
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="diagramacao">
+        <input type="checkbox" value="diagramacao">
         Diagramação
-     </label>
-     <input type="number" min="1" value="1" class="quantidade">
-     <input type="text" placeholder="Ex: 30 páginas, A5..." class="detalhes">
+    </label>
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: páginas...">
 </div>
 
-<!-- Imagens -->
-
+<!-- Imagem -->
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="imagem">
-        Criação de imagens personalizada
+        <input type="checkbox" value="imagem">
+        Criação de imagens
     </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: estilo, uso..." class="detalhes">
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: estilo...">
 </div>
 
 <!-- Cartão -->
-
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="cartao">
+        <input type="checkbox" value="cartao">
         Cartão de visita
     </label>
-    <input type="number" min="1" value="100" class="quantidade">
-    <input type="text" placeholder="Ex: frente/verso..." class="detalhes">
+    <input type="number" class="quantidade" value="100" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: frente/verso...">
 </div>
 
 <!-- Panfleto -->
-
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="panfleto">
+        <input type="checkbox" value="panfleto">
         Panfletos
     </label>
-    <input type="number" min="1" value="100" class="quantidade">
-    <input type="text" placeholder="Ex: tamanho, cor..." class="detalhes">
+    <input type="number" class="quantidade" value="100" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: tamanho...">
 </div>
 
 <!-- Folder -->
-
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="folder">
+        <input type="checkbox" value="folder">
         Folder
     </label>
-    <input type="number" min="1" value="50" class="quantidade">
-    <input type="text" placeholder="Ex: dobra, formato..." class="detalhes">
+    <input type="number" class="quantidade" value="50" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: dobra...">
 </div>
 
 <!-- Banner -->
-
+<div class="servico">
     <label>
-        <input type="checkbox" name="servico" value="banner">
+        <input type="checkbox" value="banner">
         Banner
     </label>
-    <input type="number" min="1" value="1" class="quantidade">
-    <input type="text" placeholder="Ex: tamanho, uso..." class="detalhes">
+    <input type="number" class="quantidade" value="1" min="1">
+    <input type="text" class="detalhes" placeholder="Ex: tamanho...">
 </div>
 
-<br><br>
+<!-- TOTAL -->
+<div id="total-container">
+    Total: R$ <span id="total">0.00</span>
 
+    <button type="button" class="btn-pagar" onclick="pagarAgora()">
+        Finalizar Pedido
+    </button>
+</div>
 
-        Total: R$ <span id="total">0.00</span>
-
-        <button type="button" class="btn-pagar" onclick="pagarAgora()">
-            Finalizar Pedido
-        </button>
-    </div>
 </form>
-    </div>
-
-   </section>
-   
-
-        <!-- Portfólio -->
-    <section id="portfolio" class="page">
-      <div class="container">
-      <div class="conteudo-portfolio">
-     <h1>Projetos que falam por si.</h1>
-
-    <h2>Conheça alguns dos trabalhos que desenvolvi e veja como o design pode transformar marcas e ideias.</h2>
-
-     <p>Cada projeto apresentado aqui foi pensado para resolver um problema específico e gerar impacto visual.
-Do conceito à entrega final, o foco é sempre criar algo único, funcional e memorável.</p>
-
-     <a class="btn">Veja mais projetos ou solicite o seu.</a>
-
-    </div>
-
-   </section>
-
-    <!-- Contato -->
-     <section id="contato" class="page">
-     <div class="container">
-     <div class="conteudo-contato">
-     
-
-     <h1>Vamos tirar sua ideia do papel?</h1>
-
-     <h2>Entre em contato e vamos conversar sobre o seu projeto.</h2>
-
-      <p>Seja para tirar dúvidas, solicitar um orçamento ou iniciar um projeto, estou pronto para te ajudar.
-Respondo o mais rápido possível para garantir que sua ideia comece a ganhar forma quanto antes.</p>
-
-     <a class="btn">Fale comigo agora e vamos criar algo incrível.</a>
-        
-    </div>  
-
-   </section> 
-    <a href="https://wa.me/5521991984365?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20or%C3%A7amento%20!!"
-   class="whatsapp-float" target="_blank">
-
-    <img src="imagens/Logo/Sapp.png" alt="WhatsApp">
-
-    </a> 
-
-    <script src="script.js"></script>
-</body>
-</html>
