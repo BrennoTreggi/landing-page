@@ -8,7 +8,7 @@ function calcularTotal() {
         if (!checkbox.checked) return;
 
         const key = checkbox.dataset.key;
-        const qtd = parseInt(row.querySelector('.quantidade').value) || 0;
+        const qtd = parseInt(row.querySelector('.quantidade').value) || 1;
 
         let precoUnitario = 1;
 
