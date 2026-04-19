@@ -200,10 +200,10 @@
                 <button type="button" class="btn btn-primary" onclick="pagarAgora()">Finalizar orçamento</button>
             </div>
             
-            <div id="Pagamento">
+        <div id="Pagamento">
             <h2>Pagamento</h2>   
-            <button onclick="pagarPix(50)">Pagar com PIX</button>
-            <button onclick="pagarBoleto(50)">Pagar com Boleto</button>
+            <button onclick="pagarPix(pagarAgora())">Pagar com PIX</button>
+            <button onclick="pagarBoleto(pagarAgora())">Pagar com Boleto</button>
 
              <div id="pix-area" style="display:none;">
               <h3>PIX</h3>
@@ -215,8 +215,9 @@
                  <h3>Boleto</h3>
                   <a id="linkBoleto" target="_blank">Abrir boleto</a>
             </div>
+        </div>
         </section>
-
+    
         <section id="portfolio" class="page">
             <div class="container">
                 <div class="section-head">
