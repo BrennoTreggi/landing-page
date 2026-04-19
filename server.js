@@ -23,11 +23,11 @@ app.post('/pagar-pix', async (req, res) => {
                 payment_method_id: "pix",
 
                 payer: {
-                    email: "comprador@email.com",
-                    first_name: "Cliente",
+                    email: "test_user_8363282714826584978@testuser.com",
+                    first_name: "Teste",
                     last_name: "Teste",
                     identification: {
-                        type: "CPF",
+                        type: "255.255.255-99",
                         number: "12345678909"
                     }
                 }

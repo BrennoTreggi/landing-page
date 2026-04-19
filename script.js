@@ -86,7 +86,7 @@ async function pagarPix() {
     document.getElementById("boleto-area").classList.add("hidden");
     const total = calcularTotal();
 
-    if (total <= 0) {
+     if (!valor || valor <= 0) {
         alert("Selecione pelo menos um serviço!");
         return;
     }
