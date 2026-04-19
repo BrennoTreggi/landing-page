@@ -16,6 +16,18 @@ app.use(cors());
 // SERVIR ARQUIVOS ESTÁTICOS
 app.use(express.static(path.join(__dirname)));
 
+app.get('/sucesso', (req, res) => {
+    res.send('<h1>Pagamento aprovado</h1><p>Obrigado! Seu pagamento foi processado com sucesso.</p>');
+});
+
+app.get('/falha', (req, res) => {
+    res.send('<h1>Pagamento não aprovado</h1><p>O pagamento não foi concluído. Tente novamente.</p>');
+});
+
+app.get('/pendente', (req, res) => {
+    res.send('<h1>Pagamento pendente</h1><p>O pagamento está pendente. Aguarde a confirmação.</p>');
+});
+
 // CONFIGURAÇÃO - DESCOMENTE PARA PRODUÇÃO
 // const client = new MercadoPagoConfig({
 //     accessToken: 'APP_USR-5024817526090385-041903-7e8220b36a3f8b6087fa59d420076b84-2338582345'
@@ -71,6 +83,10 @@ app.post('/criar-pagamento', async (req, res) => {
         }
         res.status(500).json({ erro: 'Erro ao criar pagamento', detalhes: erro.message });
     }
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(3000, () => {
