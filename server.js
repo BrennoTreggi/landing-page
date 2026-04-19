@@ -16,37 +16,33 @@ app.post('/pagar-pix', async (req, res) => {
     try {
         const { valor } = req.body;
 
-        console.log("VALOR RECEBIDO:", valor); // debug
-
-        const payment = new Payment(client);
-
-        const result = await payment.create({
+        const pagamento = await payment.create({
             body: {
                 transaction_amount: Number(valor),
-                description: 'Pagamento de serviços',
-                payment_method_id: 'pix',
+                description: "Pagamento via PIX",
+                payment_method_id: "pix",
+
                 payer: {
-                    email: 'teste@email.com'
+                    email: "comprador@email.com",
+                    first_name: "Cliente",
+                    last_name: "Teste",
+                    identification: {
+                        type: "CPF",
+                        number: "12345678909"
+                    }
                 }
             }
         });
 
-        console.log("RESPOSTA MP:", result); // debug importante
-
-        if (!result.point_of_interaction) {
-            return res.status(500).json({
-                erro: "PIX não retornado",
-                detalhe: result
-            });
-        }
+        console.log("RESPOSTA MP:", pagamento); // 👈 DEBUG
 
         res.json({
-            qr_code: result.point_of_interaction.transaction_data.qr_code,
-            qr_code_base64: result.point_of_interaction.transaction_data.qr_code_base64
+            qr_code: pagamento.point_of_interaction.transaction_data.qr_code,
+            qr_code_base64: pagamento.point_of_interaction.transaction_data.qr_code_base64
         });
 
     } catch (erro) {
-        console.error("ERRO COMPLETO:", erro);
+        console.error("ERRO REAL:", erro);
         res.status(500).json({ erro: 'Erro ao gerar PIX' });
     }
 });
