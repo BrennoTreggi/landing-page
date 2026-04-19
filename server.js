@@ -16,15 +16,15 @@ app.use(cors());
 // SERVIR ARQUIVOS ESTÁTICOS
 app.use(express.static(path.join(__dirname)));
 
-// CONFIGURAÇÃO CORRETA - TOKEN DE TESTE PARA TESTES
-const client = new MercadoPagoConfig({
-    accessToken: 'TEST-5024817526090385-041903-496668c0ddc145b7db2c2d59369ae5f9-2338582345'
-});
-
-// PARA PRODUÇÃO, ALTERE PARA:
+// CONFIGURAÇÃO - DESCOMENTE PARA PRODUÇÃO
 // const client = new MercadoPagoConfig({
 //     accessToken: 'APP_USR-5024817526090385-041903-7e8220b36a3f8b6087fa59d420076b84-2338582345'
 // });
+
+// CONFIGURAÇÃO PARA TESTES (descomente abaixo para usar token de produção)
+const client = new MercadoPagoConfig({
+    accessToken: 'TEST-5024817526090385-041903-496668c0ddc145b7db2c2d59369ae5f9-2338582345'
+});
 
 app.post('/criar-pagamento', async (req, res) => {
     try {
@@ -55,8 +55,7 @@ app.post('/criar-pagamento', async (req, res) => {
                     success: "http://localhost:3000/sucesso",
                     failure: "http://localhost:3000/falha",
                     pending: "http://localhost:3000/pendente"
-                },
-                auto_return: "approved"
+                }
             }
         });
 
@@ -66,8 +65,11 @@ app.post('/criar-pagamento', async (req, res) => {
         });
 
     } catch (erro) {
-        console.error("ERRO:", erro);
-        res.status(500).json({ erro: 'Erro ao criar pagamento' });
+        console.error("ERRO DETALHADO:", erro.message || erro);
+        if (erro.response) {
+            console.error("Resposta MP:", erro.response.data);
+        }
+        res.status(500).json({ erro: 'Erro ao criar pagamento', detalhes: erro.message });
     }
 });
 
