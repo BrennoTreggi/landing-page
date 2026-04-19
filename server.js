@@ -11,7 +11,7 @@ app.use(cors());
 
 // CONFIGURAÇÃO CORRETA
 const client = new MercadoPagoConfig({
-    accessToken: 'APP_USR-1014551474085507-041901-de6ba6509f8af45142aa3a2d1ab7b4fa-3344260680'
+    accessToken: 'APP_USR-3587674818144140-041901-a92264984e2a696ad92811da722dc2a8-2338582345'
 });
 
 app.post('/criar-pagamento', async (req, res) => {
