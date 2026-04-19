@@ -30,7 +30,6 @@ app.post('/pagar-pix', async (req, res) => {
                 payment_method_id: "pix",
 
                 payer: {
-                    email: "brennotreggi3@hotmail.com",
                     first_name: "Teste",
                     last_name: "Teste",
                     identification: {
