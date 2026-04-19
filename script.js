@@ -80,7 +80,7 @@ function calcularTotal() {
 }
 
 // PAGAMENTO
-async function pagarAgora() {
+async function pagarPix() {
     const total = calcularTotal();
 
     if (total <= 0) {
@@ -89,7 +89,7 @@ async function pagarAgora() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/criar-pagamento", {
+        const response = await fetch("http://localhost:3000/pagar-pix", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -97,14 +97,20 @@ async function pagarAgora() {
             body: JSON.stringify({ valor: total })
         });
 
-        if (!response.ok) {
-            throw new Error('Erro na resposta do servidor');
-        }
-
         const data = await response.json();
-        window.open(data.link, "_blank");
+
+        // MOSTRAR ÁREA PIX
+        document.getElementById('pix-area').style.display = 'block';
+
+        // MOSTRAR QR CODE
+        document.getElementById('qrcode').src =
+            "data:image/png;base64," + data.qr_code_base64;
+
+        // MOSTRAR CÓDIGO COPIA E COLA
+        document.getElementById('pixCode').value = data.qr_code;
+
     } catch (error) {
-        alert("Erro ao processar o pagamento. Verifique se o servidor está rodando.");
+        alert("Erro ao gerar PIX");
         console.error(error);
     }
 }
