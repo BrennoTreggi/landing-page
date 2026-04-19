@@ -1,6 +1,6 @@
 
 // CALCULAR TOTAL
-function pagarAgora() {
+function calcularTotal() {
     let total = 0;
 
     document.querySelectorAll('.servico-row').forEach(row => {
@@ -43,7 +43,7 @@ function pagarAgora() {
                 break;
 
             case 'diagramacao':
-                if (qtd >= 5 && qtd <= 20) precoUnitario = 6.8;
+                if (qtd >= 10 && qtd <= 20) precoUnitario = 6.8;
                 else if (qtd >= 21 && qtd <= 30) precoUnitario = 5.9;
                 else if (qtd >= 31 && qtd <= 80) precoUnitario = 4.7;
                 else if (qtd >= 81 && qtd <= 130) precoUnitario = 3.7;
@@ -80,34 +80,33 @@ function pagarAgora() {
 }
 
 // PAGAMENTO
-function pagarPix(valor) {
-    fetch('http://localhost:3000/pagar-pix', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ valor })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('pix-area').style.display = 'block';
+async function pagarAgora() {
+    const total = calcularTotal();
 
-        document.getElementById('qrcode').src =
-            "data:image/png;base64," + data.qr_code_base64;
+    if (total <= 0) {
+        alert("Selecione pelo menos um serviço!");
+        return;
+    }
 
-        document.getElementById('pixCode').value = data.qr_code;
-    });
-}
+    try {
+        const response = await fetch("http://localhost:3000/criar-pagamento", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ valor: total })
+        });
 
-function pagarBoleto(valor) {
-    fetch('http://localhost:3000/pagar-boleto', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ valor })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('boleto-area').style.display = 'block';
-        document.getElementById('linkBoleto').href = data.boleto;
-    });
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+
+        const data = await response.json();
+        window.open(data.link, "_blank");
+    } catch (error) {
+        alert("Erro ao processar o pagamento. Verifique se o servidor está rodando.");
+        console.error(error);
+    }
 }
 
 // EXECUTA QUANDO CARREGA
@@ -115,12 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // EVENTO DE CÁLCULO PARA CHECKBOXES
     document.querySelectorAll('.servico-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', pagarAgora);
+        checkbox.addEventListener('change', calcularTotal);
     });
 
     // EVENTO DE CÁLCULO PARA QUANTIDADES
     document.querySelectorAll('.quantidade').forEach(input => {
-        input.addEventListener('input', pagarAgora);
+        input.addEventListener('input', calcularTotal);
     });
 
     // NAVEGAÇÃO SPA
