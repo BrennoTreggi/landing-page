@@ -82,6 +82,7 @@ function calcularTotal() {
 // PAGAMENTO
 async function pagarAgora() {
     const total = calcularTotal();
+    console.log("Total calculado:", total);
 
     if (total <= 0) {
         alert("Selecione pelo menos um serviço!");
@@ -89,6 +90,7 @@ async function pagarAgora() {
     }
 
     try {
+        console.log("Enviando fetch para /criar-pagamento com valor:", total);
         const response = await fetch("http://localhost:3000/criar-pagamento", {
             method: "POST",
             headers: {
@@ -97,12 +99,18 @@ async function pagarAgora() {
             body: JSON.stringify({ valor: total })
         });
 
+        console.log("Response status:", response.status);
         if (!response.ok) {
             throw new Error('Erro na resposta do servidor');
         }
 
         const data = await response.json();
-        window.open(data.link, "_blank");
+        console.log("Data recebida:", data);
+        if (data.link) {
+            window.open(data.link, "_blank");
+        } else {
+            alert("Link de pagamento não recebido");
+        }
     } catch (error) {
         alert("Erro ao processar o pagamento. Verifique se o servidor está rodando.");
         console.error(error);

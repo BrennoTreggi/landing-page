@@ -29,6 +29,7 @@ const client = new MercadoPagoConfig({
 app.post('/criar-pagamento', async (req, res) => {
     try {
         const { valor } = req.body;
+        console.log("Recebido valor:", valor);
 
         if (!valor || valor <= 0) {
             return res.status(400).json({ erro: "Valor inválido" });
@@ -59,6 +60,7 @@ app.post('/criar-pagamento', async (req, res) => {
             }
         });
 
+        console.log("Preference criada:", response.init_point);
         res.json({
             link: response.init_point
         });
