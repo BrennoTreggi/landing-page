@@ -202,10 +202,12 @@
                  Finalizar orçamento e Pagar com Pix
               </button>
 
-             <div id="pix-area" style="display:none; margin-top:20px;">
+            <div id="pix-area" class="hidden">
+                <div id="boleto-area" class="hidden">
               <h3>Pagamento via PIX</h3>
-              <img id="qrcode" width="200">
-             <textarea id="pixCode" style="width:100%; height:100px;"></textarea>
+              <img id="qrcode" width="200" alt="QR code para pagamento via PIX">
+             <label for="pixCode">Código PIX:</label>
+             <textarea id="pixCode" class="pix-code-textarea" placeholder="Cole ou copie o código PIX aqui" title="Código para pagamento via PIX"></textarea>
              </div>       
 
         </section>
@@ -462,7 +464,7 @@ seja no design gráfico, UX/UI ou modelagem 3D, até alcançar o sucesso profiss
         </section>
     </main>
 
-    <a href="https://wa.me/5521991984365?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20or%C3%A7amento%20!!" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/5521991984365?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20or%C3%A7amento%20!!" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
         <img src="imagens/Logo/Sapp.png" alt="WhatsApp">
     </a>
 

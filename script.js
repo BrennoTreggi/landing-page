@@ -1,4 +1,5 @@
-
+document.getElementById("pix-area").classList.remove("hidden");
+document.getElementById("boleto-area").classList.add("hidden");
 // CALCULAR TOTAL
 function calcularTotal() {
     let total = 0;
