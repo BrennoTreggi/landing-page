@@ -89,13 +89,35 @@ async function pagarAgora() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/criar-pagamento", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ valor: total })
-        });
+       function pagarPix(valor) {
+    fetch('http://localhost:3000/pagar-pix', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ valor: total })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('pix-area').style.display = 'block';
+
+        document.getElementById('qrcode').src =
+            "data:image/png;base64," + data.qr_code_base64;
+
+        document.getElementById('pixCode').value = data.qr_code;
+    });
+}
+
+function pagarBoleto(valor) {
+    fetch('http://localhost:3000/pagar-boleto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ valor: total })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('boleto-area').style.display = 'block';
+        document.getElementById('linkBoleto').href = data.boleto;
+    });
+}
 
         if (!response.ok) {
             throw new Error('Erro na resposta do servidor');

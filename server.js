@@ -1,56 +1,65 @@
 const express = require('express');
 const cors = require('cors');
 
-// NOVA FORMA DO MERCADO PAGO
-const { MercadoPagoConfig, Preference } = require('mercadopago');
-
 const app = express();
-
 app.use(express.json());
 app.use(cors());
 
-// CONFIGURAÇÃO CORRETA
-const client = new MercadoPagoConfig({
-    accessToken: 'APP_USR-6307161791349576-041719-d63e4d48d6c64210c217dfccc521cc13-3344260680'
-});
+const TOKEN = 'APP_USR-8959984422569476-041719-2c2f0cab47e614339a175c63d3cf9ec6-2338582345';
 
-app.post('/criar-pagamento', async (req, res) => {
-    try {
-        const { valor } = req.body;
+// ================= PIX =================
+app.post('/pagar-pix', async (req, res) => {
+    const { valor } = req.body;
 
-        const preference = new Preference(client);
-
-        const response = await preference.create({
-    body: {
-        items: [
-            {
-                title: 'Orçamento de Serviços',
-                quantity: 1,
-                unit_price: Number(valor)
-            }
-        ],
-        payment_methods: {
-            excluded_payment_types: [
-                { id: "credit_card" },
-                { id: "debit_card" },
-                { id: "ticket" }
-            ]
+    const response = await fetch('https://api.mercadopago.com/v1/payments', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+            'Content-Type': 'application/json'
         },
-        statement_descriptor: "BT DESIGN",
-        binary_mode: true
-    }
+        body: JSON.stringify({
+            transaction_amount: Number(valor),
+            description: 'Pagamento de serviço',
+            payment_method_id: 'pix',
+            payer: {
+                email: 'cliente@email.com'
+            }
+        })
+    });
+
+    const data = await response.json();
+
+    res.json({
+        qr_code: data.point_of_interaction.transaction_data.qr_code,
+        qr_code_base64: data.point_of_interaction.transaction_data.qr_code_base64
+    });
 });
 
-        res.json({
-            link: response.init_point
-        });
+// ================= BOLETO =================
+app.post('/pagar-boleto', async (req, res) => {
+    const { valor } = req.body;
 
-    } catch (erro) {
-        console.error(erro);
-        res.status(500).json({ erro: 'Erro ao criar pagamento' });
-    }
+    const response = await fetch('https://api.mercadopago.com/v1/payments', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            transaction_amount: Number(valor),
+            description: 'Pagamento via boleto',
+            payment_method_id: 'bolbradesco',
+            payer: {
+                email: 'cliente@email.com'
+            }
+        })
+    });
+
+    const data = await response.json();
+
+    res.json({
+        boleto: data.transaction_details.external_resource_url
+    });
 });
 
-app.listen(3000, () => {
-    console.log('Servidor rodando em http://localhost:3000');
-});
+app.listen(3000, () => console.log('Servidor rodando'));
