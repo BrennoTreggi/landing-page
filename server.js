@@ -50,3 +50,7 @@ app.post('/pagar-pix', async (req, res) => {
         res.status(500).json({ erro: 'Erro ao gerar PIX' });
     }
 });
+
+app.listen(3000, () => {
+    console.log('Servidor rodando em http://localhost:3000');
+});

@@ -1,5 +1,4 @@
-document.getElementById("pix-area").classList.remove("hidden");
-document.getElementById("boleto-area").classList.add("hidden");
+
 // CALCULAR TOTAL
 function calcularTotal() {
     let total = 0;
@@ -82,6 +81,9 @@ function calcularTotal() {
 
 // PAGAMENTO
 async function pagarPix() {
+
+    document.getElementById("pix-area").classList.remove("hidden");
+    document.getElementById("boleto-area").classList.add("hidden");
     const total = calcularTotal();
 
     if (total <= 0) {
