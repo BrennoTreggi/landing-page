@@ -1,3 +1,6 @@
+.hidden {
+    display: none;
+}
 :root {
     --brand-yellow: #ffcc00;
     --brand-yellow-dark: #e6b800;
