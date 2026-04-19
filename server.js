@@ -3,19 +3,30 @@
 
 const express = require('express');
 const cors = require('cors');
-const { MercadoPagoConfig, Payment } = require('mercadopago');
+const path = require('path');
 
-const app = express(); // 🔥 ESSA LINHA É OBRIGATÓRIA
+// NOVA FORMA DO MERCADO PAGO
+const { MercadoPagoConfig, Preference } = require('mercadopago');
+
+const app = express();
+
 app.use(express.json());
 app.use(cors());
 
+// SERVIR ARQUIVOS ESTÁTICOS
+app.use(express.static(path.join(__dirname)));
+
+// CONFIGURAÇÃO CORRETA - TOKEN DE TESTE PARA TESTES
 const client = new MercadoPagoConfig({
     accessToken: 'TEST-5024817526090385-041903-496668c0ddc145b7db2c2d59369ae5f9-2338582345'
 });
 
-const payment = new Payment(client);
+// PARA PRODUÇÃO, ALTERE PARA:
+// const client = new MercadoPagoConfig({
+//     accessToken: 'APP_USR-5024817526090385-041903-7e8220b36a3f8b6087fa59d420076b84-2338582345'
+// });
 
-app.post('/pagar-pix', async (req, res) => {
+app.post('/criar-pagamento', async (req, res) => {
     try {
         const { valor } = req.body;
 
@@ -23,75 +34,40 @@ app.post('/pagar-pix', async (req, res) => {
             return res.status(400).json({ erro: "Valor inválido" });
         }
 
-        const pagamento = await payment.create({
-            body: {
-                transaction_amount: Number(valor),
-                description: "Pagamento via PIX",
-                payment_method_id: "pix",
+        const preference = new Preference(client);
 
-                payer: {
-                    first_name: "Teste",
-                    last_name: "Teste",
-                    identification: {
-                        type: "CPF",
-                        number: "12345678909"
+        const response = await preference.create({
+            body: {
+                items: [
+                    {
+                        title: 'Orçamento de Serviços',
+                        quantity: 1,
+                        unit_price: Number(valor)
                     }
-                }
+                ],
+                payment_methods: {
+                    excluded_payment_methods: [],
+                    excluded_payment_types: [],
+                    installments: 12 // Até 12 parcelas
+                },
+                back_urls: {
+                    success: "http://localhost:3000/sucesso",
+                    failure: "http://localhost:3000/falha",
+                    pending: "http://localhost:3000/pendente"
+                },
+                auto_return: "approved"
             }
         });
 
-        console.log("RESPOSTA MP:", pagamento);
-
         res.json({
-            qr_code: pagamento.point_of_interaction.transaction_data.qr_code,
-            qr_code_base64: pagamento.point_of_interaction.transaction_data.qr_code_base64
+            link: response.init_point
         });
 
     } catch (erro) {
-        console.error("ERRO REAL:", erro);
-        res.status(500).json({ erro });
+        console.error("ERRO:", erro);
+        res.status(500).json({ erro: 'Erro ao criar pagamento' });
     }
 });
-
-async function pagarPix() {
-
-    document.getElementById("pix-area").classList.remove("hidden");
-    document.getElementById("boleto-area").classList.add("hidden");
-
-    const total = calcularTotal();
-
-    if (!total || total <= 0) {
-        alert("Selecione pelo menos um serviço!");
-        return;
-    }
-
-    try {
-        const response = await fetch("http://localhost:3000/pagar-pix", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ valor: total })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            console.error(data);
-            alert("Erro ao gerar pagamento");
-            return;
-        }
-
-        document.getElementById('qrcode').src =
-            "data:image/png;base64," + data.qr_code_base64;
-
-        document.getElementById('pixCode').value = data.qr_code;
-
-    } catch (error) {
-        alert("Erro ao conectar com servidor");
-        console.error(error);
-    }
-}
 
 app.listen(3000, () => {
     console.log('Servidor rodando em http://localhost:3000');
