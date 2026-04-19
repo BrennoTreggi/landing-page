@@ -16,6 +16,8 @@ app.post('/pagar-pix', async (req, res) => {
     try {
         const { valor } = req.body;
 
+        console.log("VALOR RECEBIDO:", valor); // debug
+
         const payment = new Payment(client);
 
         const result = await payment.create({
@@ -29,17 +31,22 @@ app.post('/pagar-pix', async (req, res) => {
             }
         });
 
+        console.log("RESPOSTA MP:", result); // debug importante
+
+        if (!result.point_of_interaction) {
+            return res.status(500).json({
+                erro: "PIX não retornado",
+                detalhe: result
+            });
+        }
+
         res.json({
             qr_code: result.point_of_interaction.transaction_data.qr_code,
             qr_code_base64: result.point_of_interaction.transaction_data.qr_code_base64
         });
 
     } catch (erro) {
-        console.error(erro);
+        console.error("ERRO COMPLETO:", erro);
         res.status(500).json({ erro: 'Erro ao gerar PIX' });
     }
-});
-
-app.listen(3000, () => {
-    console.log('Servidor rodando em http://localhost:3000');
 });
