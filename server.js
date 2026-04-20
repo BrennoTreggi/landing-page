@@ -28,15 +28,11 @@ app.get('/pendente', (req, res) => {
     res.send('<h1>Pagamento pendente</h1><p>O pagamento está pendente. Aguarde a confirmação.</p>');
 });
 
-// CONFIGURAÇÃO - DESCOMENTE PARA PRODUÇÃO
-// const client = new MercadoPagoConfig({
-//     accessToken: 'APP_USR-5024817526090385-041903-7e8220b36a3f8b6087fa59d420076b84-2338582345'
-// });
 
-// CONFIGURAÇÃO PARA TESTES (descomente abaixo para usar token de produção)
-const client = new MercadoPagoConfig({
-    accessToken: 'TEST-5024817526090385-041903-496668c0ddc145b7db2c2d59369ae5f9-2338582345'
-});
+ const client = new MercadoPagoConfig({
+     accessToken: 'TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345'
+ });
+
 
 app.post('/criar-pagamento', async (req, res) => {
     try {
@@ -85,7 +81,7 @@ app.post('/criar-pagamento', async (req, res) => {
     }
 });
 
-app.get('*', (req, res) => {
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
