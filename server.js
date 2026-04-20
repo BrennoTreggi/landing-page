@@ -30,7 +30,7 @@ app.get('/pendente', (req, res) => {
 
 
  const client = new MercadoPagoConfig({
-     accessToken: 'TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345'
+     accessToken: 'APP_USR-5024817526090385-041920-0a380918c8baa31cd423f3186e3961de-2338582345'
  });
 
 
