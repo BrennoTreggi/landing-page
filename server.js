@@ -3,48 +3,33 @@ const cors = require('cors');
 const path = require('path');
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { v4: uuidv4 } = require('uuid');
-const API_URL = 'https://landing-page-production.up.railway.app';
-
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname)));
 
-/*
-  Mercado Pago environment variables
-
-  Sandbox (credenciais de teste):
-    MERCADOPAGO_ENVIRONMENT=sandbox
-    MERCADOPAGO_TEST_ACCESS_TOKEN=TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345
-    MERCADOPAGO_PUBLIC_KEY_TEST=TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1
-
-  Produção:
-    MERCADOPAGO_ENVIRONMENT=production
-    MERCADOPAGO_ACCESS_TOKEN=APP_USR-...
-    MERCADOPAGO_PUBLIC_KEY=APP_USR-...
-*/
 const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'production').toLowerCase();
-const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN ;
-const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST ;
-const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN|| 'APP_USR-5024817526090385-041920-0a380918c8baa31cd423f3186e3961de-2338582345';
-const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY|| 'APP_USR-59a1f21f-5773-4541-af86-e7d246228221' ;
 
-const accessToken = environment === 'production' ? productionAccessToken : sandboxAccessToken;
-const publicKey = environment === 'production' ? productionPublicKey : sandboxPublicKey;
+const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN;
+const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST;
+
+const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN || 'APP_USR-SEU_TOKEN_AQUI';
+const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY || 'APP_USR-SUA_PUBLIC_KEY_AQUI';
+
+const accessToken = environment === 'production'
+  ? productionAccessToken
+  : sandboxAccessToken;
+
+const publicKey = environment === 'production'
+  ? productionPublicKey
+  : sandboxPublicKey;
 
 if (!accessToken) {
-  throw new Error(
-    `MERCADOPAGO_${environment === 'production' ? 'ACCESS_TOKEN' : 'TEST_ACCESS_TOKEN'} não definido. ` +
-    'Configure o token correto antes de iniciar o servidor.'
-  );
+  throw new Error('Token do Mercado Pago não configurado.');
 }
 
 console.log(`Ambiente Mercado Pago: ${environment}`);
-console.log(`Usando token de ${environment === 'production' ? 'produção' : 'sandbox'}`);
-if (publicKey) {
-  console.log(`Chave pública disponível para uso no frontend.`);
-}
 
 const client = new MercadoPagoConfig({
   accessToken
@@ -52,42 +37,32 @@ const client = new MercadoPagoConfig({
 
 const preferenceClient = new Preference(client);
 
-// Função para criar headers com Idempotency Key
 function getHeaders() {
   return {
-    'Authorization': `Bearer ${accessToken}`,
+    Authorization: `Bearer ${accessToken}`,
     'Content-Type': 'application/json',
     'X-Idempotency-Key': uuidv4()
   };
 }
 
-// Função para fazer POST à API do Mercado Pago (usando Payments API)
 async function makePaymentRequest(paymentData) {
-  try {
-    const response = await fetch('https://api.mercadopago.com/v1/payments', {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(paymentData)
-    });
+  const response = await fetch('https://api.mercadopago.com/v1/payments', {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify(paymentData)
+  });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw error;
-    }
-
-    return await response.json();
-  } catch (erro) {
-    console.error('Erro ao criar payment:', JSON.stringify(erro, null, 2));
-    throw erro;
+  if (!response.ok) {
+    const error = await response.json();
+    throw error;
   }
-}
 
-// ROTAS ANTIGAS - Preference (checkout redirect)
+  return await response.json();
+}
 
 app.post('/criar-pagamento', async (req, res) => {
   try {
     const { valor } = req.body;
-    console.log('Recebido valor:', valor);
 
     if (!valor || Number(valor) <= 0) {
       return res.status(400).json({ erro: 'Valor inválido' });
@@ -106,55 +81,30 @@ app.post('/criar-pagamento', async (req, res) => {
         email: 'test_user_123456@testuser.com'
       },
       payment_methods: {
-        excluded_payment_methods: [],
-        excluded_payment_types: [],
         installments: 12
       },
-    back_urls: {
-  success: 'https://brennotreggi.github.io/landing-page/',
-  failure: 'https://brennotreggi.github.io/landing-page/',
-  pending: 'https://brennotreggi.github.io/landing-page/'
-}
+      back_urls: {
+        success: 'https://brennotreggi.github.io/landing-page/',
+        failure: 'https://brennotreggi.github.io/landing-page/',
+        pending: 'https://brennotreggi.github.io/landing-page/'
+      }
     };
 
-    console.log('Preference data enviada:', JSON.stringify(preferenceData, null, 2));
     const response = await preferenceClient.create({ body: preferenceData });
     const checkoutLink = response.sandbox_init_point || response.init_point;
-    console.log('Preference criada:', checkoutLink);
-
-    if (!checkoutLink) {
-      return res.status(500).json({ erro: 'Nenhum link de checkout retornado' });
-    }
 
     return res.json({ link: checkoutLink });
   } catch (erro) {
-    console.error('ERRO DETALHADO:', JSON.stringify(erro, null, 2));
-    if (erro && erro.cause) {
-      console.error('Causa do erro:', JSON.stringify(erro.cause, null, 2));
-    }
-    return res.status(500).json({ erro: 'Erro ao criar pagamento', detalhes: erro.message || JSON.stringify(erro) });
+    console.error(erro);
+    return res.status(500).json({ erro: 'Erro ao criar pagamento' });
   }
 });
 
-app.get('/sucesso', (req, res) => {
-  res.send('<h1>Pagamento aprovado</h1><p>Obrigado! Seu pagamento foi processado com sucesso.</p>');
-});
-
-app.get('/falha', (req, res) => {
-  res.send('<h1>Pagamento não aprovado</h1><p>O pagamento não foi concluído. Tente novamente.</p>');
-});
-
-app.get('/pendente', (req, res) => {
-  res.send('<h1>Pagamento pendente</h1><p>O pagamento está pendente. Aguarde a confirmação.</p>');
-});
-
-// ===== NOVA ROTA: Processar pagamento com Cartão (Core Methods) =====
-fetch(`${API_URL}/process_payment`, async (req, res) => {
+app.post('/process_payment', async (req, res) => {
   try {
     const {
       token,
       issuer_id,
-      issuer,
       installments,
       cardholderName,
       identificationType,
@@ -163,23 +113,6 @@ fetch(`${API_URL}/process_payment`, async (req, res) => {
       paymentMethodId,
       transactionAmount
     } = req.body;
-
-    console.log('Recebido pagamento com cartão:', {
-      email,
-      installments,
-      amount: transactionAmount,
-      cardholderName,
-      identificationType,
-      identificationNumber
-    });
-
-    if (!token || !paymentMethodId || !transactionAmount) {
-      return res.status(400).json({ erro: 'Dados incompletos para pagamento' });
-    }
-
-    if (!email || !cardholderName || !identificationType || !identificationNumber) {
-      return res.status(400).json({ erro: 'Dados do pagador incompletos' });
-    }
 
     const paymentData = {
       transaction_amount: parseFloat(transactionAmount),
@@ -193,56 +126,41 @@ fetch(`${API_URL}/process_payment`, async (req, res) => {
           type: identificationType,
           number: identificationNumber
         },
-        first_name: cardholderName ? (cardholderName.split(' ')[0] || cardholderName) : 'Cliente',
-        last_name: cardholderName ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado'
+        first_name: cardholderName || 'Cliente'
       }
     };
 
-    // Adicionar issuer_id apenas se fornecido (aceita issuer ou issuer_id)
-    const issuerId = issuer_id || issuer;
-    if (issuerId) {
-      paymentData.issuer_id = parseInt(issuerId);
+    if (issuer_id) {
+      paymentData.issuer_id = parseInt(issuer_id);
     }
 
     const payment = await makePaymentRequest(paymentData);
-    console.log('Payment criado com cartão:', payment.id);
 
     return res.json({
       success: true,
       paymentId: payment.id,
-      status: payment.status,
-      statusDetail: payment.status_detail
+      status: payment.status
     });
   } catch (erro) {
-    console.error('ERRO ao processar pagamento com cartão:', JSON.stringify(erro, null, 2));
-    return res.status(400).json({
-      erro: 'Erro ao processar pagamento',
-      detalhes: erro.message || erro.error || JSON.stringify(erro)
-    });
+    console.error(erro);
+    return res.status(400).json({ erro: 'Erro ao processar pagamento' });
   }
 });
 
-// ===== NOVA ROTA: Processar pagamento com Pix =====
-fetch(`${API_URL}/process_payment_pix`, async (req, res) => {
+app.post('/process_payment_pix', async (req, res) => {
   try {
     const {
+      email,
+      transactionAmount,
       payerFirstName,
       payerLastName,
-      email,
       identificationType,
-      identificationNumber,
-      transactionAmount
+      identificationNumber
     } = req.body;
-
-    console.log('Recebido pagamento com Pix:', { email, amount: transactionAmount });
-
-    if (!email || !transactionAmount) {
-      return res.status(400).json({ erro: 'Dados incompletos para pagamento' });
-    }
 
     const paymentData = {
       transaction_amount: parseFloat(transactionAmount),
-      description: 'Orçamento de Serviços - Pix',
+      description: 'Pagamento Pix',
       payment_method_id: 'pix',
       payer: {
         email,
@@ -256,52 +174,33 @@ fetch(`${API_URL}/process_payment_pix`, async (req, res) => {
     };
 
     const payment = await makePaymentRequest(paymentData);
-    console.log('Payment criado com Pix:', payment.id);
 
     return res.json({
       success: true,
       paymentId: payment.id,
-      status: payment.status,
-      ticketUrl: payment.point_of_interaction?.transaction_data?.ticket_url,
       qrCode: payment.point_of_interaction?.transaction_data?.qr_code,
-      qrCodeBase64: payment.point_of_interaction?.transaction_data?.qr_code_base64
+      ticketUrl: payment.point_of_interaction?.transaction_data?.ticket_url
     });
   } catch (erro) {
-    console.error('ERRO ao processar pagamento com Pix:', JSON.stringify(erro, null, 2));
-    return res.status(400).json({
-      erro: 'Erro ao processar pagamento',
-      detalhes: erro.message || erro.error || JSON.stringify(erro)
-    });
+    console.error(erro);
+    return res.status(400).json({ erro: 'Erro no Pix' });
   }
 });
 
-// ===== NOVA ROTA: Processar pagamento com Boleto =====
-fetch(`${API_URL}/process_payment_boleto`, async (req, res) => {
+app.post('/process_payment_boleto', async (req, res) => {
   try {
     const {
+      email,
+      transactionAmount,
       payerFirstName,
       payerLastName,
-      email,
       identificationType,
-      identificationNumber,
-      zipCode,
-      streetName,
-      streetNumber,
-      neighborhood,
-      city,
-      state,
-      transactionAmount
+      identificationNumber
     } = req.body;
-
-    console.log('Recebido pagamento com Boleto:', { email, amount: transactionAmount });
-
-    if (!email || !transactionAmount || !zipCode || !streetName || !city || !state) {
-      return res.status(400).json({ erro: 'Dados incompletos para pagamento' });
-    }
 
     const paymentData = {
       transaction_amount: parseFloat(transactionAmount),
-      description: 'Orçamento de Serviços - Boleto',
+      description: 'Pagamento Boleto',
       payment_method_id: 'bolbradesco',
       payer: {
         email,
@@ -310,60 +209,29 @@ fetch(`${API_URL}/process_payment_boleto`, async (req, res) => {
         identification: {
           type: identificationType,
           number: identificationNumber
-        },
-        address: {
-          zip_code: zipCode,
-          street_name: streetName,
-          street_number: streetNumber || 'S/N',
-          neighborhood,
-          city,
-          federal_unit: state
         }
       }
     };
 
     const payment = await makePaymentRequest(paymentData);
-    console.log('Payment criado com Boleto:', payment.id);
 
     return res.json({
       success: true,
       paymentId: payment.id,
-      status: payment.status,
-      ticketUrl: payment.transaction_details?.external_resource_url,
-      barcode: payment.barcode?.content
+      ticketUrl: payment.transaction_details?.external_resource_url
     });
   } catch (erro) {
-    console.error('ERRO ao processar pagamento com Boleto:', JSON.stringify(erro, null, 2));
-    return res.status(400).json({
-      erro: 'Erro ao processar pagamento',
-      detalhes: erro.message || erro.error || JSON.stringify(erro)
-    });
+    console.error(erro);
+    return res.status(400).json({ erro: 'Erro no boleto' });
   }
 });
 
-// Endpoint para retornar a PUBLIC KEY
 app.get('/api/public-key', (req, res) => {
-  if (!publicKey) {
-    return res.status(500).json({ erro: 'Chave pública não configurada' });
-  }
   res.json({ publicKey });
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 const PORT = process.env.PORT || 3000;
-const server = app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
 
-server.on('error', (error) => {
-  if (error.code === 'EADDRINUSE') {
-    console.error(`Erro: porta ${PORT} já está em uso. Pare o processo que está usando essa porta ou altere a variável PORT.`);
-  } else {
-    console.error('Erro ao iniciar o servidor:', error);
-  }
-  process.exit(1);
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
-
