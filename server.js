@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { v4: uuidv4 } = require('uuid');
+const API_URL = 'https://landing-page-production.up.railway.app';
+
 
 const app = express();
 app.use(express.json());
@@ -23,10 +25,10 @@ app.use(express.static(path.join(__dirname)));
     MERCADOPAGO_PUBLIC_KEY=APP_USR-...
 */
 const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'sandbox').toLowerCase();
-const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN || 'TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345';
-const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST || 'TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1';
-const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
-const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY;
+const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN ;
+const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST ;
+const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN|| 'APP_USR-5024817526090385-041920-0a380918c8baa31cd423f3186e3961de-2338582345';
+const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY|| 'APP_USR-59a1f21f-5773-4541-af86-e7d246228221';
 
 const accessToken = environment === 'production' ? productionAccessToken : sandboxAccessToken;
 const publicKey = environment === 'production' ? productionPublicKey : sandboxPublicKey;
@@ -147,7 +149,7 @@ app.get('/pendente', (req, res) => {
 });
 
 // ===== NOVA ROTA: Processar pagamento com Cartão (Core Methods) =====
-app.post('/process_payment', async (req, res) => {
+fetch(`${API_URL}/process_payment`, async (req, res) => {
   try {
     const {
       token,
@@ -186,13 +188,13 @@ app.post('/process_payment', async (req, res) => {
       installments: parseInt(installments) || 1,
       payment_method_id: paymentMethodId,
       payer: {
-        email: environment === 'sandbox' ? 'brennotreggi3@hotmail.com' : email,
+        email,
         identification: {
-          type: environment === 'sandbox' ? 'CPF' : identificationType,
-          number: environment === 'sandbox' ? '02439880795' : identificationNumber
+          type: identificationType,
+          number: identificationNumber
         },
-        first_name: environment === 'sandbox' ? 'Anna Paula' : (cardholderName ? (cardholderName.split(' ')[0] || cardholderName) : 'Cliente'),
-        last_name: environment === 'sandbox' ? 'Pinto Treggi' : (cardholderName ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado')
+        first_name: cardholderName ? (cardholderName.split(' ')[0] || cardholderName) : 'Cliente',
+        last_name: cardholderName ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado'
       }
     };
 
@@ -221,7 +223,7 @@ app.post('/process_payment', async (req, res) => {
 });
 
 // ===== NOVA ROTA: Processar pagamento com Pix =====
-app.post('/process_payment_pix', async (req, res) => {
+fetch(`${API_URL}/process_payment_pix`, async (req, res) => {
   try {
     const {
       payerFirstName,
@@ -274,7 +276,7 @@ app.post('/process_payment_pix', async (req, res) => {
 });
 
 // ===== NOVA ROTA: Processar pagamento com Boleto =====
-app.post('/process_payment_boleto', async (req, res) => {
+fetch(`${API_URL}/process_payment_boleto`, async (req, res) => {
   try {
     const {
       payerFirstName,
