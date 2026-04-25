@@ -24,11 +24,11 @@ app.use(express.static(path.join(__dirname)));
     MERCADOPAGO_ACCESS_TOKEN=APP_USR-...
     MERCADOPAGO_PUBLIC_KEY=APP_USR-...
 */
-const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'sandbox').toLowerCase();
+const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'production').toLowerCase();
 const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN ;
 const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST ;
 const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN|| 'APP_USR-5024817526090385-041920-0a380918c8baa31cd423f3186e3961de-2338582345';
-const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY|| 'APP_USR-59a1f21f-5773-4541-af86-e7d246228221';
+const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY|| 'APP_USR-59a1f21f-5773-4541-af86-e7d246228221' ;
 
 const accessToken = environment === 'production' ? productionAccessToken : sandboxAccessToken;
 const publicKey = environment === 'production' ? productionPublicKey : sandboxPublicKey;
