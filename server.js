@@ -110,11 +110,11 @@ app.post('/criar-pagamento', async (req, res) => {
         excluded_payment_types: [],
         installments: 12
       },
-      back_urls: {
-        success: 'http://localhost:3000/sucesso',
-        failure: 'http://localhost:3000/falha',
-        pending: 'http://localhost:3000/pendente'
-      }
+    back_urls: {
+  success: 'https://brennotreggi.github.io/landing-page/',
+  failure: 'https://brennotreggi.github.io/landing-page/',
+  pending: 'https://brennotreggi.github.io/landing-page/'
+}
     };
 
     console.log('Preference data enviada:', JSON.stringify(preferenceData, null, 2));
