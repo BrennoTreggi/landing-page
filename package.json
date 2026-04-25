@@ -4,6 +4,9 @@
   "description": "Landing page com integração de pagamento Mercado Pago",
   "main": "server.js",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node server.js"
   },
