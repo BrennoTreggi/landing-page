@@ -1,90 +1,367 @@
-
-
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-
-// NOVA FORMA DO MERCADO PAGO
 const { MercadoPagoConfig, Preference } = require('mercadopago');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
-
 app.use(express.json());
 app.use(cors());
-
-// SERVIR ARQUIVOS ESTÁTICOS
 app.use(express.static(path.join(__dirname)));
 
+/*
+  Mercado Pago environment variables
+
+  Sandbox (credenciais de teste):
+    MERCADOPAGO_ENVIRONMENT=sandbox
+    MERCADOPAGO_TEST_ACCESS_TOKEN=TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345
+    MERCADOPAGO_PUBLIC_KEY_TEST=TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1
+
+  Produção:
+    MERCADOPAGO_ENVIRONMENT=production
+    MERCADOPAGO_ACCESS_TOKEN=APP_USR-...
+    MERCADOPAGO_PUBLIC_KEY=APP_USR-...
+*/
+const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'sandbox').toLowerCase();
+const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN || 'TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345';
+const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST || 'TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1';
+const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
+const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY;
+
+const accessToken = environment === 'production' ? productionAccessToken : sandboxAccessToken;
+const publicKey = environment === 'production' ? productionPublicKey : sandboxPublicKey;
+
+if (!accessToken) {
+  throw new Error(
+    `MERCADOPAGO_${environment === 'production' ? 'ACCESS_TOKEN' : 'TEST_ACCESS_TOKEN'} não definido. ` +
+    'Configure o token correto antes de iniciar o servidor.'
+  );
+}
+
+console.log(`Ambiente Mercado Pago: ${environment}`);
+console.log(`Usando token de ${environment === 'production' ? 'produção' : 'sandbox'}`);
+if (publicKey) {
+  console.log(`Chave pública disponível para uso no frontend.`);
+}
+
+const client = new MercadoPagoConfig({
+  accessToken
+});
+
+const preferenceClient = new Preference(client);
+
+// Função para criar headers com Idempotency Key
+function getHeaders() {
+  return {
+    'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+    'X-Idempotency-Key': uuidv4()
+  };
+}
+
+// Função para fazer POST à API do Mercado Pago (usando Payments API)
+async function makePaymentRequest(paymentData) {
+  try {
+    const response = await fetch('https://api.mercadopago.com/v1/payments', {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(paymentData)
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw error;
+    }
+
+    return await response.json();
+  } catch (erro) {
+    console.error('Erro ao criar payment:', JSON.stringify(erro, null, 2));
+    throw erro;
+  }
+}
+
+// ROTAS ANTIGAS - Preference (checkout redirect)
+
+app.post('/criar-pagamento', async (req, res) => {
+  try {
+    const { valor } = req.body;
+    console.log('Recebido valor:', valor);
+
+    if (!valor || Number(valor) <= 0) {
+      return res.status(400).json({ erro: 'Valor inválido' });
+    }
+
+    const preferenceData = {
+      items: [
+        {
+          title: 'Orçamento de Serviços',
+          quantity: 1,
+          unit_price: Number(valor),
+          currency_id: 'BRL'
+        }
+      ],
+      payer: {
+        email: 'test_user_123456@testuser.com'
+      },
+      payment_methods: {
+        excluded_payment_methods: [],
+        excluded_payment_types: [],
+        installments: 12
+      },
+      back_urls: {
+        success: 'http://localhost:3000/sucesso',
+        failure: 'http://localhost:3000/falha',
+        pending: 'http://localhost:3000/pendente'
+      }
+    };
+
+    console.log('Preference data enviada:', JSON.stringify(preferenceData, null, 2));
+    const response = await preferenceClient.create({ body: preferenceData });
+    const checkoutLink = response.sandbox_init_point || response.init_point;
+    console.log('Preference criada:', checkoutLink);
+
+    if (!checkoutLink) {
+      return res.status(500).json({ erro: 'Nenhum link de checkout retornado' });
+    }
+
+    return res.json({ link: checkoutLink });
+  } catch (erro) {
+    console.error('ERRO DETALHADO:', JSON.stringify(erro, null, 2));
+    if (erro && erro.cause) {
+      console.error('Causa do erro:', JSON.stringify(erro.cause, null, 2));
+    }
+    return res.status(500).json({ erro: 'Erro ao criar pagamento', detalhes: erro.message || JSON.stringify(erro) });
+  }
+});
+
 app.get('/sucesso', (req, res) => {
-    res.send('<h1>Pagamento aprovado</h1><p>Obrigado! Seu pagamento foi processado com sucesso.</p>');
+  res.send('<h1>Pagamento aprovado</h1><p>Obrigado! Seu pagamento foi processado com sucesso.</p>');
 });
 
 app.get('/falha', (req, res) => {
-    res.send('<h1>Pagamento não aprovado</h1><p>O pagamento não foi concluído. Tente novamente.</p>');
+  res.send('<h1>Pagamento não aprovado</h1><p>O pagamento não foi concluído. Tente novamente.</p>');
 });
 
 app.get('/pendente', (req, res) => {
-    res.send('<h1>Pagamento pendente</h1><p>O pagamento está pendente. Aguarde a confirmação.</p>');
+  res.send('<h1>Pagamento pendente</h1><p>O pagamento está pendente. Aguarde a confirmação.</p>');
 });
 
+// ===== NOVA ROTA: Processar pagamento com Cartão (Core Methods) =====
+app.post('/process_payment', async (req, res) => {
+  try {
+    const {
+      token,
+      issuer_id,
+      issuer,
+      installments,
+      cardholderName,
+      identificationType,
+      identificationNumber,
+      email,
+      paymentMethodId,
+      transactionAmount
+    } = req.body;
 
- const client = new MercadoPagoConfig({
-     accessToken: 'APP_USR-5024817526090385-041920-0a380918c8baa31cd423f3186e3961de-2338582345'
- });
+    console.log('Recebido pagamento com cartão:', {
+      email,
+      installments,
+      amount: transactionAmount,
+      cardholderName,
+      identificationType,
+      identificationNumber
+    });
 
-
-app.post('/criar-pagamento', async (req, res) => {
-    try {
-        const { valor } = req.body;
-        console.log("Recebido valor:", valor);
-
-        if (!valor || valor <= 0) {
-            return res.status(400).json({ erro: "Valor inválido" });
-        }
-
-        const preference = new Preference(client);
-
-        const response = await preference.create({
-            body: {
-                items: [
-                    {
-                        title: 'Orçamento de Serviços',
-                        quantity: 1,
-                        unit_price: Number(valor)
-                    }
-                ],
-                payment_methods: {
-                    excluded_payment_methods: [],
-                    excluded_payment_types: [],
-                    installments: 12 // Até 12 parcelas
-                },
-                back_urls: {
-                    success: "http://localhost:3000/sucesso",
-                    failure: "http://localhost:3000/falha",
-                    pending: "http://localhost:3000/pendente"
-                }
-            }
-        });
-
-        console.log("Preference criada:", response.init_point);
-        res.json({
-            link: response.init_point
-        });
-
-    } catch (erro) {
-        console.error("ERRO DETALHADO:", erro.message || erro);
-        if (erro.response) {
-            console.error("Resposta MP:", erro.response.data);
-        }
-        res.status(500).json({ erro: 'Erro ao criar pagamento', detalhes: erro.message });
+    if (!token || !paymentMethodId || !transactionAmount) {
+      return res.status(400).json({ erro: 'Dados incompletos para pagamento' });
     }
+
+    if (!email || !cardholderName || !identificationType || !identificationNumber) {
+      return res.status(400).json({ erro: 'Dados do pagador incompletos' });
+    }
+
+    const paymentData = {
+      transaction_amount: parseFloat(transactionAmount),
+      token,
+      description: 'Orçamento de Serviços',
+      installments: parseInt(installments) || 1,
+      payment_method_id: paymentMethodId,
+      payer: {
+        email: environment === 'sandbox' ? 'brennotreggi3@hotmail.com' : email,
+        identification: {
+          type: environment === 'sandbox' ? 'CPF' : identificationType,
+          number: environment === 'sandbox' ? '02439880795' : identificationNumber
+        },
+        first_name: environment === 'sandbox' ? 'Anna Paula' : (cardholderName ? (cardholderName.split(' ')[0] || cardholderName) : 'Cliente'),
+        last_name: environment === 'sandbox' ? 'Pinto Treggi' : (cardholderName ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado')
+      }
+    };
+
+    // Adicionar issuer_id apenas se fornecido (aceita issuer ou issuer_id)
+    const issuerId = issuer_id || issuer;
+    if (issuerId) {
+      paymentData.issuer_id = parseInt(issuerId);
+    }
+
+    const payment = await makePaymentRequest(paymentData);
+    console.log('Payment criado com cartão:', payment.id);
+
+    return res.json({
+      success: true,
+      paymentId: payment.id,
+      status: payment.status,
+      statusDetail: payment.status_detail
+    });
+  } catch (erro) {
+    console.error('ERRO ao processar pagamento com cartão:', JSON.stringify(erro, null, 2));
+    return res.status(400).json({
+      erro: 'Erro ao processar pagamento',
+      detalhes: erro.message || erro.error || JSON.stringify(erro)
+    });
+  }
 });
 
-app.use((req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+// ===== NOVA ROTA: Processar pagamento com Pix =====
+app.post('/process_payment_pix', async (req, res) => {
+  try {
+    const {
+      payerFirstName,
+      payerLastName,
+      email,
+      identificationType,
+      identificationNumber,
+      transactionAmount
+    } = req.body;
+
+    console.log('Recebido pagamento com Pix:', { email, amount: transactionAmount });
+
+    if (!email || !transactionAmount) {
+      return res.status(400).json({ erro: 'Dados incompletos para pagamento' });
+    }
+
+    const paymentData = {
+      transaction_amount: parseFloat(transactionAmount),
+      description: 'Orçamento de Serviços - Pix',
+      payment_method_id: 'pix',
+      payer: {
+        email,
+        first_name: payerFirstName,
+        last_name: payerLastName,
+        identification: {
+          type: identificationType,
+          number: identificationNumber
+        }
+      }
+    };
+
+    const payment = await makePaymentRequest(paymentData);
+    console.log('Payment criado com Pix:', payment.id);
+
+    return res.json({
+      success: true,
+      paymentId: payment.id,
+      status: payment.status,
+      ticketUrl: payment.point_of_interaction?.transaction_data?.ticket_url,
+      qrCode: payment.point_of_interaction?.transaction_data?.qr_code,
+      qrCodeBase64: payment.point_of_interaction?.transaction_data?.qr_code_base64
+    });
+  } catch (erro) {
+    console.error('ERRO ao processar pagamento com Pix:', JSON.stringify(erro, null, 2));
+    return res.status(400).json({
+      erro: 'Erro ao processar pagamento',
+      detalhes: erro.message || erro.error || JSON.stringify(erro)
+    });
+  }
 });
 
-app.listen(3000, () => {
-    console.log('Servidor rodando em http://localhost:3000');
+// ===== NOVA ROTA: Processar pagamento com Boleto =====
+app.post('/process_payment_boleto', async (req, res) => {
+  try {
+    const {
+      payerFirstName,
+      payerLastName,
+      email,
+      identificationType,
+      identificationNumber,
+      zipCode,
+      streetName,
+      streetNumber,
+      neighborhood,
+      city,
+      state,
+      transactionAmount
+    } = req.body;
+
+    console.log('Recebido pagamento com Boleto:', { email, amount: transactionAmount });
+
+    if (!email || !transactionAmount || !zipCode || !streetName || !city || !state) {
+      return res.status(400).json({ erro: 'Dados incompletos para pagamento' });
+    }
+
+    const paymentData = {
+      transaction_amount: parseFloat(transactionAmount),
+      description: 'Orçamento de Serviços - Boleto',
+      payment_method_id: 'bolbradesco',
+      payer: {
+        email,
+        first_name: payerFirstName,
+        last_name: payerLastName,
+        identification: {
+          type: identificationType,
+          number: identificationNumber
+        },
+        address: {
+          zip_code: zipCode,
+          street_name: streetName,
+          street_number: streetNumber || 'S/N',
+          neighborhood,
+          city,
+          federal_unit: state
+        }
+      }
+    };
+
+    const payment = await makePaymentRequest(paymentData);
+    console.log('Payment criado com Boleto:', payment.id);
+
+    return res.json({
+      success: true,
+      paymentId: payment.id,
+      status: payment.status,
+      ticketUrl: payment.transaction_details?.external_resource_url,
+      barcode: payment.barcode?.content
+    });
+  } catch (erro) {
+    console.error('ERRO ao processar pagamento com Boleto:', JSON.stringify(erro, null, 2));
+    return res.status(400).json({
+      erro: 'Erro ao processar pagamento',
+      detalhes: erro.message || erro.error || JSON.stringify(erro)
+    });
+  }
 });
+
+// Endpoint para retornar a PUBLIC KEY
+app.get('/api/public-key', (req, res) => {
+  if (!publicKey) {
+    return res.status(500).json({ erro: 'Chave pública não configurada' });
+  }
+  res.json({ publicKey });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`Erro: porta ${PORT} já está em uso. Pare o processo que está usando essa porta ou altere a variável PORT.`);
+  } else {
+    console.error('Erro ao iniciar o servidor:', error);
+  }
+  process.exit(1);
+});
+
