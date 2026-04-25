@@ -79,7 +79,7 @@ function calcularTotal() {
     return total;
 }
 
-/*async function pagarAgora() {
+async function pagarAgora() {
     const total = calcularTotal();
     console.log('Total calculado:', total);
 
@@ -115,7 +115,7 @@ function calcularTotal() {
         alert('Erro ao processar o pagamento. Verifique o console e se o servidor está rodando.');
         console.error(error);
     }
-}*/
+}
 
 let pageLoaderInterval;
 
