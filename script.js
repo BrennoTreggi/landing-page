@@ -79,7 +79,7 @@ function calcularTotal() {
     return total;
 }
 
-async function pagarAgora() {
+/*async function pagarAgora() {
     const total = calcularTotal();
     console.log('Total calculado:', total);
 
@@ -115,7 +115,7 @@ async function pagarAgora() {
         alert('Erro ao processar o pagamento. Verifique o console e se o servidor está rodando.');
         console.error(error);
     }
-}
+}*/
 
 let pageLoaderInterval;
 
@@ -671,7 +671,7 @@ async function testTokenCreation() {
 }
 
 // Modificar função pagarAgora para mostrar métodos de pagamento
-/*function pagarAgora() {
+function pagarAgora() {
     const total = calcularTotal();
     console.log('Total calculado:', total);
 
@@ -691,7 +691,7 @@ async function testTokenCreation() {
     const paymentMethods = document.getElementById('payment-methods');
     paymentMethods.classList.remove('hidden');
     paymentMethods.scrollIntoView({ behavior: 'smooth' });
-}*/
+}
 
 // Inicializar Mercado Pago quando DOM carregar
 document.addEventListener("DOMContentLoaded", () => {
