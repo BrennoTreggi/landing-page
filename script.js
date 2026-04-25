@@ -79,7 +79,7 @@ function calcularTotal() {
     return total;
 }
 
-async function pagarAgora() {
+async function pagarAgora1() {
     const total = calcularTotal();
     console.log('Total calculado:', total);
 
