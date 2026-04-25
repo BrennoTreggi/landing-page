@@ -89,7 +89,7 @@ async function pagarAgora() {
     }
 
     try {
-        const response = await fetch('/criar-pagamento', {
+        const response = await fetch(`${API_URL}/criar-pagamento`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -218,7 +218,7 @@ async function initMercadoPago() {
         console.log('Iniciando Mercado Pago...');
 
         // Buscar chave pública do servidor
-        const response = await fetch('/api/public-key');
+        const response = await fetch(`${API_URL}/api/public-key`);
         const data = await response.json();
 
         console.log('Chave pública recebida:', data.publicKey ? 'OK' : 'ERRO');
@@ -516,7 +516,7 @@ async function createCardToken(event) {
             throw new Error('Nome do titular do cartão não foi preenchido.');
         }
 
-        const response = await fetch('/process_payment', {
+        const response = await fetch(`${API_URL}/process_payment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -550,7 +550,7 @@ async function processPixPayment(event) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
 
-        const response = await fetch('/process_payment_pix', {
+        const response = await fetch(`${API_URL}/process_payment_pix`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -589,7 +589,7 @@ async function processBoletoPayment(event) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
 
-        const response = await fetch('/process_payment_boleto', {
+        const response = await fetch(`${API_URL}/process_payment_boleto`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
