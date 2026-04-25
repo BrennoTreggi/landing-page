@@ -3,7 +3,6 @@ const cors = require('cors');
 const path = require('path');
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { v4: uuidv4 } = require('uuid');
-const API_URL = 'https://btdesign3d.up.railway.app';
 
 
 const app = express();
