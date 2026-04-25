@@ -149,7 +149,7 @@ app.get('/pendente', (req, res) => {
 });
 
 // ===== NOVA ROTA: Processar pagamento com Cartão (Core Methods) =====
-fetch(`${API_URL}/process_payment`, async (req, res) => {
+app.post('/process_payment', async (req, res) => {
   try {
     const {
       token,
@@ -198,7 +198,6 @@ fetch(`${API_URL}/process_payment`, async (req, res) => {
       }
     };
 
-    // Adicionar issuer_id apenas se fornecido (aceita issuer ou issuer_id)
     const issuerId = issuer_id || issuer;
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
@@ -223,7 +222,7 @@ fetch(`${API_URL}/process_payment`, async (req, res) => {
 });
 
 // ===== NOVA ROTA: Processar pagamento com Pix =====
-fetch(`${API_URL}/process_payment_pix`, async (req, res) => {
+app.post('/process_payment_pix', async (req, res) => {
   try {
     const {
       payerFirstName,
@@ -276,7 +275,7 @@ fetch(`${API_URL}/process_payment_pix`, async (req, res) => {
 });
 
 // ===== NOVA ROTA: Processar pagamento com Boleto =====
-fetch(`${API_URL}/process_payment_boleto`, async (req, res) => {
+app.post('/process_payment_boleto', async (req, res) => {
   try {
     const {
       payerFirstName,

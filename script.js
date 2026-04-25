@@ -117,27 +117,54 @@ async function pagarAgora() {
     }
 }
 
+let pageLoaderInterval;
+
+function startPageLoader() {
+    const loader = document.getElementById('page-loader');
+    const bar = loader?.querySelector('.page-loader-bar');
+    if (!loader || !bar) return;
+
+    loader.classList.remove('page-loader-done');
+    bar.style.width = '0%';
+
+    let progress = 0;
+    clearInterval(pageLoaderInterval);
+    pageLoaderInterval = setInterval(() => {
+        progress = Math.min(progress + Math.random() * 6 + 8, 88);
+        bar.style.width = `${progress}%`;
+    }, 100);
+}
+
+function finishPageLoader() {
+    const loader = document.getElementById('page-loader');
+    const bar = loader?.querySelector('.page-loader-bar');
+    if (!loader || !bar) return;
+
+    clearInterval(pageLoaderInterval);
+    bar.style.width = '100%';
+    setTimeout(() => loader.classList.add('page-loader-done'), 250);
+}
+
 function initPageLoader() {
     const loader = document.getElementById('page-loader');
     const bar = loader?.querySelector('.page-loader-bar');
     if (!loader || !bar) return;
 
     let progress = 0;
-    const interval = setInterval(() => {
+    pageLoaderInterval = setInterval(() => {
         progress = Math.min(progress + Math.random() * 8 + 5, 92);
         bar.style.width = `${progress}%`;
     }, 120);
 
-    const finishLoader = () => {
-        clearInterval(interval);
-        bar.style.width = '100%';
-        setTimeout(() => loader.classList.add('page-loader-done'), 250);
+    const onLoadFinish = () => {
+        finishPageLoader();
+        window.removeEventListener('load', onLoadFinish);
     };
 
     if (document.readyState === 'complete') {
-        finishLoader();
+        finishPageLoader();
     } else {
-        window.addEventListener('load', finishLoader);
+        window.addEventListener('load', onLoadFinish);
     }
 }
 
@@ -164,11 +191,14 @@ document.addEventListener("DOMContentLoaded", () => {
     links.forEach(link => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
-
             const targetId = link.getAttribute("href").replace("#", "");
 
-            pages.forEach(page => page.classList.remove("active"));
-            document.getElementById(targetId).classList.add("active");
+            startPageLoader();
+            setTimeout(() => {
+                pages.forEach(page => page.classList.remove("active"));
+                document.getElementById(targetId).classList.add("active");
+                finishPageLoader();
+            }, 180);
         });
     });
 
