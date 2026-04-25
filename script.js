@@ -79,7 +79,7 @@ function calcularTotal() {
     return total;
 }
 
-async function pagarAgora1() {
+async function pagarAgora() {
     const total = calcularTotal();
     console.log('Total calculado:', total);
 
@@ -671,7 +671,7 @@ async function testTokenCreation() {
 }
 
 // Modificar função pagarAgora para mostrar métodos de pagamento
-function pagarAgora() {
+/*function pagarAgora() {
     const total = calcularTotal();
     console.log('Total calculado:', total);
 
@@ -691,7 +691,7 @@ function pagarAgora() {
     const paymentMethods = document.getElementById('payment-methods');
     paymentMethods.classList.remove('hidden');
     paymentMethods.scrollIntoView({ behavior: 'smooth' });
-}
+}*/
 
 // Inicializar Mercado Pago quando DOM carregar
 document.addEventListener("DOMContentLoaded", () => {
