@@ -181,7 +181,8 @@ app.post('/process_payment', async (req, res) => {
     }
      
  
-     let valorFinal = parseFloat(transactionAmount);
+     let valorOriginal = parseFloat(transactionAmount);
+let valorFinal = valorOriginal;
 let parcelasPermitidas = 1;
 let parcelasSolicitadas = parseInt(installments) || 1;
 
@@ -192,19 +193,19 @@ if (valorFinal < 380 && parcelasSolicitadas > 1) {
   });
 }
 
-if (valorFinal >= 380 && valorFinal < 600) {
+if (valorOriginal >= 380 && valorOriginal < 600) {
   parcelasPermitidas = 4;
 
   if (parcelasSolicitadas > 1) {
-    valorFinal = valorFinal * 1.04;
+    valorFinal = valorOriginal * 1.04;
   }
 }
 
-if (valorFinal >= 600) {
+if (valorOriginal >= 600) {
   parcelasPermitidas = 7;
 
   if (parcelasSolicitadas > 1) {
-    valorFinal = valorFinal * 1.04;
+    valorFinal = valorOriginal * 1.04;
   }
 }
 
