@@ -191,33 +191,38 @@ app.post('/process_payment', async (req, res) => {
           type: identificationType,
           number: identificationNumber
         },
-        first_name: cardholderName ? (cardholderName.split(' ')[0] || cardholderName) : 'Cliente',
-        last_name: cardholderName ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado'
+        first_name: cardholderName
+      ? cardholderName.split(' ')[0]
+      : 'Cliente',
+    last_name: cardholderName
+      ? cardholderName.split(' ').slice(1).join(' ') || 'Cliente'
+      : 'Cliente'
       }
     };
 
     const issuerId = issuer_id || issuer;
 
+
+{
+
+
     if (
   paymentMethodId !== 'debit_card' &&
   paymentMethodId !== 'account_money'
-) 
-{
- if (payment.payment_type_id !== "debit_card") {
-    paymentData.installments = parseInt(installments) || 1;
-}
+) {
+ paymentData.installments = parseInt(installments) || 1;
 }
 
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
     }
-
-
+   
     console.log("PAYMENT DATA ENVIADO:");
 console.log(JSON.stringify(paymentData, null, 2));
 console.log("paymentMethodId recebido:", paymentMethodId);
 console.log("issuer recebido:", issuer);
 console.log("installments recebido:", installments);
+
 
     const payment = await makePaymentRequest(paymentData);
     console.log('Payment criado com cartão:', payment.id);
