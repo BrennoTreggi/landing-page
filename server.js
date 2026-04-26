@@ -184,7 +184,7 @@ app.post('/process_payment', async (req, res) => {
       transaction_amount: parseFloat(transactionAmount),
       token,
       description: 'Orçamento de Serviços',
-      installments: parseInt(installments) || 1,
+      installments: parseInt(installments) || 12,
       payment_method_id: paymentMethodId,
       payer: {
         email,
@@ -320,7 +320,7 @@ app.post('/process_payment_boleto', async (req, res) => {
       }
     };
 
-    console.log(JSON.stringify(paymentData, null, 2));
+    
 
     const payment = await makePaymentRequest(paymentData);
     console.log('Payment criado com Boleto:', payment.id);
