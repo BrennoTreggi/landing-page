@@ -201,13 +201,23 @@ app.post('/process_payment', async (req, res) => {
     if (
   paymentMethodId !== 'debit_card' &&
   paymentMethodId !== 'account_money'
-) {
-  paymentData.installments = parseInt(installments) || 1;
+) 
+{
+ if (payment.payment_type_id !== "debit_card") {
+    paymentData.installments = parseInt(installments) || 1;
+}
 }
 
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
     }
+
+
+    console.log("PAYMENT DATA ENVIADO:");
+console.log(JSON.stringify(paymentData, null, 2));
+console.log("paymentMethodId recebido:", paymentMethodId);
+console.log("issuer recebido:", issuer);
+console.log("installments recebido:", installments);
 
     const payment = await makePaymentRequest(paymentData);
     console.log('Payment criado com cartão:', payment.id);
