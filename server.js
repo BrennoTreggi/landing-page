@@ -336,29 +336,31 @@ app.post('/process_payment_boleto', async (req, res) => {
     }
 
     const paymentData = {
-      transaction_amount: parseFloat(transactionAmount),
-      description: 'Orçamento de Serviços - Boleto',
-      payment_method_id: 'bolbradesco',
-      payer: {
-        email,
-        first_name: payerFirstName,
-        last_name: payerLastName,
-        identification: {
-          type: identificationType,
-          number: identificationNumber
-        },
-        address: {
-          zip_code: zipCode,
-          street_name: streetName,
-          street_number: streetNumber || 'S/N',
-          neighborhood,
-          city,
-          federal_unit: state
-        }
-      }
-    };
-
-    
+  transaction_amount: Number(parseFloat(transactionAmount).toFixed(2)),
+  description: 'Orçamento de Serviços - Boleto',
+  payment_method_id: 'bolbradesco',
+  payer: {
+    email,
+    first_name: payerFirstName.trim(),
+    last_name: payerLastName.trim(),
+    identification: {
+      type: identificationType,
+      number: identificationNumber
+    },
+    address: {
+      zip_code: zipCode,
+      street_name: streetName,
+      street_number: streetNumber || 'S/N',
+      neighborhood: neighborhood || 'Centro',
+      city,
+      federal_unit: state
+    }
+  }
+};
+    console.log(
+  'Boleto enviado:',
+  JSON.stringify(paymentData, null, 2)
+);
 
     const payment = await makePaymentRequest(paymentData);
     console.log('Payment criado com Boleto:', payment.id);
