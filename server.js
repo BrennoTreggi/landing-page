@@ -29,18 +29,18 @@ const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST || 'TEST-b85d84
 const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
 const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY;
 
-const accessToken = environment === 'production' ? productionAccessToken : sandboxAccessToken;
-const publicKey = environment === 'production' ? productionPublicKey : sandboxPublicKey;
+const accessToken = environment === 'sandbox' ? sandboxAccessToken : productionAccessToken;
+const publicKey = environment === 'sandbox' ? sandboxPublicKey : productionPublicKey;
 
 if (!accessToken) {
   throw new Error(
-    `MERCADOPAGO_${environment === 'production' ? 'ACCESS_TOKEN' : 'TEST_ACCESS_TOKEN'} não definido. ` +
+    `MERCADOPAGO_${environment === 'sandbox' ? 'ACCESS_TOKEN' : 'TEST_ACCESS_TOKEN'} não definido. ` +
     'Configure o token correto antes de iniciar o servidor.'
   );
 }
 
 console.log(`Ambiente Mercado Pago: ${environment}`);
-console.log(`Usando token de ${environment === 'production' ? 'produção' : 'sandbox'}`);
+console.log(`Usando token de ${environment === 'sandbox' ? 'sandbox' : 'produção'}`);
 if (publicKey) {
   console.log(`Chave pública disponível para uso no frontend.`);
 }
