@@ -107,7 +107,34 @@ app.post('/criar-pagamento', async (req, res) => {
       payment_methods: {
         excluded_payment_methods: [],
         excluded_payment_types: [],
-        installments: 12
+        let valorFinal = parseFloat(transactionAmount);
+let parcelasPermitidas = 1;
+let parcelasSolicitadas = parseInt(installments) || 1;
+
+// REGRA DE PARCELAMENTO
+
+if (valorFinal >= 380 && valorFinal < 600) {
+  parcelasPermitidas = 4;
+
+  if (parcelasSolicitadas > 1) {
+    valorFinal = valorFinal * 1.04; // 4% de juros
+  }
+}
+
+if (valorFinal >= 600) {
+  parcelasPermitidas = 7;
+
+  if (parcelasSolicitadas > 1) {
+    valorFinal = valorFinal * 1.04; // 4% de juros
+  }
+}
+
+// impedir parcelas acima do permitido
+if (parcelasSolicitadas > parcelasPermitidas) {
+  return res.status(400).json({
+    erro: `Máximo permitido: ${parcelasPermitidas}x para esse valor`
+  });
+}
       },
     back_urls: {
   success: 'https://btdesign3d.up.railway.app/sucesso',
@@ -179,31 +206,7 @@ app.post('/process_payment', async (req, res) => {
     if (!email || !cardholderName || !identificationType || !identificationNumber) {
       return res.status(400).json({ erro: 'Dados do pagador incompletos' });
     }
-      let valorFinal = parseFloat(transactionAmount);
-      let parcelasPermitidas = 1;
-      let parcelasSolicitadas = parseInt(installments) || 1;
-
-      // REGRA DE PARCELAMENTO
-
-      if (valorFinal >= 380 && valorFinal < 600) {
-
-        parcelasPermitidas = 4;
-
-
-        if (parcelasSolicitadas > 1) {
-
-          valorFinal = valorFinal * 1.04; // 4% de juros
-
-        }
-
-      }
-
-      if (valorFinal >= 600) {
-
-        parcelasPermitidas = 7;
-        
-        if (parcelasSolicitadas > 1) {
-    valorFinal = valorFinal * 1.04; // 4% de juros
+     
 
   }
 }
