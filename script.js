@@ -1,4 +1,4 @@
-const API_URL = 'https://btdesign3d.up.railway.app';
+
 // CALCULAR TOTAL
 function calcularTotal() {
     let total = 0;
@@ -79,7 +79,7 @@ function calcularTotal() {
     return total;
 }
 
-async function pagarAgora() {
+async function pagarAgora1() {
     const total = calcularTotal();
     console.log('Total calculado:', total);
 
@@ -516,7 +516,7 @@ async function createCardToken(event) {
             throw new Error('Nome do titular do cartão não foi preenchido.');
         }
 
-        const response = await fetch(`${API_URL}https://api.mercadopago.com/v1/payments`, {
+       const response = await fetch(`${API_URL}/process_payment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
