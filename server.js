@@ -184,6 +184,7 @@ app.post('/process_payment', async (req, res) => {
       transaction_amount: parseFloat(transactionAmount),
       token,
       description: 'Orçamento de Serviços',
+      installments: parseInt(installments) || 1,
       payment_method_id: paymentMethodId,
       payer: {
         email,
@@ -191,31 +192,15 @@ app.post('/process_payment', async (req, res) => {
           type: identificationType,
           number: identificationNumber
         },
-        first_name: cardholderName
-      ? cardholderName.split(' ')[0]
-      : 'Cliente',
-    last_name: cardholderName
-      ? cardholderName.split(' ').slice(1).join(' ') || 'Cliente'
-      : 'Cliente'
+        first_name: cardholderName ? (cardholderName.split(' ')[0] || cardholderName) : 'Cliente',
+        last_name: cardholderName ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado'
       }
     };
 
     const issuerId = issuer_id || issuer;
-
-    if (
-  paymentMethodId !== 'debit_card' &&
-  paymentMethodId !== 'account_money'
-) {
- paymentData.installments = parseInt(installments) || 1;
-}
-
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
     }
-   
-    
-    console.log(JSON.stringify(paymentData, null, 2));
-
 
     const payment = await makePaymentRequest(paymentData);
     console.log('Payment criado com cartão:', payment.id);
@@ -223,8 +208,6 @@ app.post('/process_payment', async (req, res) => {
     return res.json({
       success: true,
       paymentId: payment.id,
-      paymentMethod: payment.payment_method_id,
-      paymentType: payment.payment_type_id,
       status: payment.status,
       statusDetail: payment.status_detail
     });
