@@ -300,13 +300,13 @@ app.post('/process_payment_boleto', async (req, res) => {
     const paymentData = {
       transaction_amount: parseFloat(transactionAmount),
       description: 'Orçamento de Serviços - Boleto',
-      payment_method_id: 'pec',
+      payment_method_id: 'ticket',
       payer: {
         email,
         first_name: payerFirstName,
         last_name: payerLastName,
         identification: {
-          type: identificationType,
+          type: CPF, identificationType,
           number: identificationNumber
         },
         address: {
