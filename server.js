@@ -185,6 +185,13 @@ app.post('/process_payment', async (req, res) => {
 let parcelasPermitidas = 1;
 let parcelasSolicitadas = parseInt(installments) || 1;
 
+// abaixo de 380 → somente 1x
+if (valorFinal < 380 && parcelasSolicitadas > 1) {
+  return res.status(400).json({
+    erro: 'Parcelamento disponível apenas para compras acima de R$ 380,00'
+  });
+}
+
 if (valorFinal >= 380 && valorFinal < 600) {
   parcelasPermitidas = 4;
 
