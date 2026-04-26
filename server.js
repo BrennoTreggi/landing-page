@@ -202,10 +202,6 @@ app.post('/process_payment', async (req, res) => {
 
     const issuerId = issuer_id || issuer;
 
-
-{
-
-
     if (
   paymentMethodId !== 'debit_card' &&
   paymentMethodId !== 'account_money'
