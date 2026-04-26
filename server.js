@@ -184,7 +184,6 @@ app.post('/process_payment', async (req, res) => {
       transaction_amount: parseFloat(transactionAmount),
       token,
       description: 'Orçamento de Serviços',
-      installments: parseInt(installments) || 1,
       payment_method_id: paymentMethodId,
       payer: {
         email,
@@ -198,6 +197,14 @@ app.post('/process_payment', async (req, res) => {
     };
 
     const issuerId = issuer_id || issuer;
+
+    if (
+  paymentMethodId !== 'debit_card' &&
+  paymentMethodId !== 'account_money'
+) {
+  paymentData.installments = parseInt(installments) || 1;
+}
+
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
     }
