@@ -217,11 +217,8 @@ app.post('/process_payment', async (req, res) => {
       paymentData.issuer_id = parseInt(issuerId);
     }
    
-    console.log("PAYMENT DATA ENVIADO:");
-console.log(JSON.stringify(paymentData, null, 2));
-console.log("paymentMethodId recebido:", paymentMethodId);
-console.log("issuer recebido:", issuer);
-console.log("installments recebido:", installments);
+    
+    console.log(JSON.stringify(paymentData, null, 2));
 
 
     const payment = await makePaymentRequest(paymentData);
