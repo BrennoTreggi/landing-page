@@ -516,7 +516,7 @@ async function createCardToken(event) {
             throw new Error('Nome do titular do cartão não foi preenchido.');
         }
 
-        const response = await fetch(`${API_URL}/process_payment`, {
+        const response = await fetch(`${API_URL}https://api.mercadopago.com/v1/payments`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
