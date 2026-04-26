@@ -107,34 +107,7 @@ app.post('/criar-pagamento', async (req, res) => {
       payment_methods: {
         excluded_payment_methods: [],
         excluded_payment_types: [],
-        let valorFinal = parseFloat(transactionAmount);
-let parcelasPermitidas = 1;
-let parcelasSolicitadas = parseInt(installments) || 1;
-
-// REGRA DE PARCELAMENTO
-
-if (valorFinal >= 380 && valorFinal < 600) {
-  parcelasPermitidas = 4;
-
-  if (parcelasSolicitadas > 1) {
-    valorFinal = valorFinal * 1.04; // 4% de juros
-  }
-}
-
-if (valorFinal >= 600) {
-  parcelasPermitidas = 7;
-
-  if (parcelasSolicitadas > 1) {
-    valorFinal = valorFinal * 1.04; // 4% de juros
-  }
-}
-
-// impedir parcelas acima do permitido
-if (parcelasSolicitadas > parcelasPermitidas) {
-  return res.status(400).json({
-    erro: `Máximo permitido: ${parcelasPermitidas}x para esse valor`
-  });
-}
+        installments: 12
       },
     back_urls: {
   success: 'https://btdesign3d.up.railway.app/sucesso',
@@ -207,37 +180,53 @@ app.post('/process_payment', async (req, res) => {
       return res.status(400).json({ erro: 'Dados do pagador incompletos' });
     }
      
+ 
+     let valorFinal = parseFloat(transactionAmount);
+let parcelasPermitidas = 1;
+let parcelasSolicitadas = parseInt(installments) || 1;
 
+if (valorFinal >= 380 && valorFinal < 600) {
+  parcelasPermitidas = 4;
+
+  if (parcelasSolicitadas > 1) {
+    valorFinal = valorFinal * 1.04;
   }
 }
 
-// impedir parcelas acima do permitido
+if (valorFinal >= 600) {
+  parcelasPermitidas = 7;
+
+  if (parcelasSolicitadas > 1) {
+    valorFinal = valorFinal * 1.04;
+  }
+}
 
 if (parcelasSolicitadas > parcelasPermitidas) {
   return res.status(400).json({
-    erro: `Máximo permitido: ${parcelasPermitidas}x para esse valor`
+    erro: `Máximo permitido para esse valor: ${parcelasPermitidas}x`
   });
+}
 
-     }
- 
-
-      const paymentData = {
-      transaction_amount: parseFloat(transactionAmount),
-      token,
-      description: 'Orçamento de Serviços',
-      installments: parcelasSolicitadas,
-      payment_method_id: paymentMethodId,
-      payer: {
-        email,
-        identification: {
-          type: identificationType,
-          number: identificationNumber
-        },
-        first_name: cardholderName ? (cardholderName.split(' ')[0] || cardholderName) : 'Cliente',
-        last_name: cardholderName ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado'
-      }
-    };
-
+const paymentData = {
+  transaction_amount: Number(valorFinal.toFixed(2)),
+  token,
+  description: 'Orçamento de Serviços',
+  installments: parcelasSolicitadas,
+  payment_method_id: paymentMethodId,
+  payer: {
+    email,
+    identification: {
+      type: identificationType,
+      number: identificationNumber
+    },
+    first_name: cardholderName
+      ? (cardholderName.split(' ')[0] || cardholderName)
+      : 'Cliente',
+    last_name: cardholderName
+      ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName)
+      : 'Não informado'
+  }
+};
     const issuerId = issuer_id || issuer;
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
