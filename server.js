@@ -306,7 +306,7 @@ app.post('/process_payment_boleto', async (req, res) => {
         first_name: payerFirstName,
         last_name: payerLastName,
         identification: {
-          type: identificationType,
+          type: 'CPF', identificationType,
           number: identificationNumber
         },
         address: {
