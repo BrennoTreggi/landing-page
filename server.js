@@ -102,7 +102,7 @@ app.post('/criar-pagamento', async (req, res) => {
         }
       ],
       payer: {
-        email: 'brennotreggi3@hotmail.com '
+        email: 'brennotreggi3@hotmail.com'
       },
       payment_methods: {
         excluded_payment_methods: [],
