@@ -208,6 +208,8 @@ app.post('/process_payment', async (req, res) => {
     return res.json({
       success: true,
       paymentId: payment.id,
+      paymentMethod: payment.payment_method_id,
+      paymentType: payment.payment_type_id,
       status: payment.status,
       statusDetail: payment.status_detail
     });
