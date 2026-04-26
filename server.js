@@ -179,12 +179,50 @@ app.post('/process_payment', async (req, res) => {
     if (!email || !cardholderName || !identificationType || !identificationNumber) {
       return res.status(400).json({ erro: 'Dados do pagador incompletos' });
     }
+      let valorFinal = parseFloat(transactionAmount);
+      let parcelasPermitidas = 1;
+      let parcelasSolicitadas = parseInt(installments) || 1;
 
-    const paymentData = {
+      // REGRA DE PARCELAMENTO
+
+      if (valorFinal >= 380 && valorFinal < 600) {
+
+        parcelasPermitidas = 4;
+
+
+        if (parcelasSolicitadas > 1) {
+
+          valorFinal = valorFinal * 1.04; // 4% de juros
+
+        }
+
+      }
+
+      if (valorFinal >= 600) {
+
+        parcelasPermitidas = 7;
+        
+        if (parcelasSolicitadas > 1) {
+    valorFinal = valorFinal * 1.04; // 4% de juros
+
+  }
+}
+
+// impedir parcelas acima do permitido
+
+if (parcelasSolicitadas > parcelasPermitidas) {
+  return res.status(400).json({
+    erro: `Máximo permitido: ${parcelasPermitidas}x para esse valor`
+  });
+
+     }
+ 
+
+      const paymentData = {
       transaction_amount: parseFloat(transactionAmount),
       token,
       description: 'Orçamento de Serviços',
-      installments: parseInt(installments) || 12,
+      installments: parcelasSolicitadas,
       payment_method_id: paymentMethodId,
       payer: {
         email,
