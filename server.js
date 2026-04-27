@@ -10,19 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname)));
 
-/*
-  Mercado Pago environment variables
 
-  Sandbox (credenciais de teste):
-    MERCADOPAGO_ENVIRONMENT=sandbox
-    MERCADOPAGO_TEST_ACCESS_TOKEN=TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345
-    MERCADOPAGO_PUBLIC_KEY_TEST=TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1
-
-  Produção:
-    MERCADOPAGO_ENVIRONMENT=production
-    MERCADOPAGO_ACCESS_TOKEN=APP_USR-...
-    MERCADOPAGO_PUBLIC_KEY=APP_USR-...
-*/
 const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'sandbox').toLowerCase();
 const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN || 'TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345';
 const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST || 'TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1';
@@ -186,7 +174,7 @@ let valorFinal = valorOriginal;
 let parcelasPermitidas = 1;
 let parcelasSolicitadas = parseInt(installments) || 1;
 
-const Debug_mode = true; 
+const Debug_mode = false; 
 
 if (!Debug_mode) {
 // abaixo de 380 → somente 1x
