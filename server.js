@@ -171,8 +171,8 @@ app.post('/process_payment', async (req, res) => {
  
    
    
-     let valorOriginal = parseFloat(transactionAmount);
-   //  let valorFinal = valorOriginal;
+   //  let valorOriginal = parseFloat(transactionAmount);
+     let valorFinal = valorOriginal;
     // let parcelasPermitidas = 1;
    //  let parcelasSolicitadas = parseInt(installments) || 1;
  /*
