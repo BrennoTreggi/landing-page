@@ -171,10 +171,10 @@ app.post('/process_payment', async (req, res) => {
  
    
    
-   //  let valorOriginal = parseFloat(transactionAmount);
+     let valorOriginal = parseFloat(transactionAmount);
      let valorFinal = valorOriginal;
-    // let parcelasPermitidas = 1;
-   //  let parcelasSolicitadas = parseInt(installments) || 1;
+     let parcelasPermitidas = 1;
+     let parcelasSolicitadas = parseInt(installments) || 1;
  /*
 // abaixo de 380 → somente 1x
   if (valorFinal < 380 && parcelasSolicitadas > 1) {return res.status(400).json({
@@ -209,7 +209,7 @@ const paymentData = {
   transaction_amount: Number(valorFinal.toFixed(2)),
   token,
   description: 'Orçamento de Serviços',
-  installments:parseInt(installments) || 1,
+  installments: parcelasPermitidas,
   payment_method_id: paymentMethodId,
   payer: {
     email,
