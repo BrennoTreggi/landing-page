@@ -209,7 +209,7 @@ const paymentData = {
   transaction_amount: Number(valorFinal.toFixed(2)),
   token,
   description: 'Orçamento de Serviços',
-  installments: parcelasPermitidas,
+  installments: parcelasSolicitadas,
   payment_method_id: paymentMethodId,
   payer: {
     email,
