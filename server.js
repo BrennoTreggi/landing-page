@@ -192,6 +192,7 @@ app.post('/process_payment', async (req, res) => {
     }
      
  
+<<<<<<< HEAD
    
    
      let valorOriginal = parseFloat(transactionAmount);
@@ -199,25 +200,41 @@ app.post('/process_payment', async (req, res) => {
      let parcelasPermitidas = 1;
      let parcelasSolicitadas = parseInt(installments) || 1;
  /*
+=======
+     let valorFinal = parseFloat(transactionAmount);
+let parcelasPermitidas = 1;
+let parcelasSolicitadas = parseInt(installments) || 1;
+
+>>>>>>> parent of 1a7fbea (Update server.js)
 // abaixo de 380 → somente 1x
   if (valorFinal < 380 && parcelasSolicitadas > 1) {return res.status(400).json({
     erro: 'Parcelamento disponível apenas para compras acima de R$ 380,00'
   });
 }
+<<<<<<< HEAD
  
   if (valorOriginal >= 380 && valorOriginal < 600) {
+=======
+
+if (valorFinal >= 380 && valorFinal < 600) {
+>>>>>>> parent of 1a7fbea (Update server.js)
   parcelasPermitidas = 4;
 
   if (parcelasSolicitadas > 1) {
-    valorFinal = valorOriginal * 1.04;
+    valorFinal = valorFinal * 1.04;
   }
 }
+<<<<<<< HEAD
  
 if (valorOriginal >= 600) {
+=======
+
+if (valorFinal >= 600) {
+>>>>>>> parent of 1a7fbea (Update server.js)
   parcelasPermitidas = 7;
 
   if (parcelasSolicitadas > 1) {
-    valorFinal = valorOriginal * 1.04;
+    valorFinal = valorFinal * 1.04;
   }
 }
 
