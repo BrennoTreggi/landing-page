@@ -68,9 +68,17 @@ async function makePaymentRequest(paymentData) {
 
     return response.data;
   } catch (erro) {
-    console.error('Erro MP:', erro.response?.data || erro.message);
-    throw erro.response?.data || erro;
+  console.error("========== ERRO MERCADO PAGO ==========");
+
+  if (erro.response) {
+    console.error("STATUS:", erro.response.status);
+    console.error("DATA:", JSON.stringify(erro.response.data, null, 2));
+  } else {
+    console.error("ERRO:", erro.message);
   }
+
+  throw erro.response?.data || erro;
+}
 }
 
 // ROTAS ANTIGAS - Preference (checkout redirect)
@@ -244,6 +252,12 @@ const paymentData = {
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
     }
+
+    console.log("BODY RECEBIDO:");
+console.log(JSON.stringify(req.body, null, 2));
+
+console.log("PAYMENT DATA ENVIADO:");
+console.log(JSON.stringify(paymentData, null, 2));
 
     const payment = await makePaymentRequest(paymentData);
     console.log('Payment criado com cartão:', payment.id);
