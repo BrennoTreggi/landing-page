@@ -3,14 +3,26 @@ const cors = require('cors');
 const path = require('path');
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { v4: uuidv4 } = require('uuid');
-const axios = require('axios');
+
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname)));
 
+/*
+  Mercado Pago environment variables
 
+  Sandbox (credenciais de teste):
+    MERCADOPAGO_ENVIRONMENT=sandbox
+    MERCADOPAGO_TEST_ACCESS_TOKEN=TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345
+    MERCADOPAGO_PUBLIC_KEY_TEST=TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1
+
+  Produção:
+    MERCADOPAGO_ENVIRONMENT=production
+    MERCADOPAGO_ACCESS_TOKEN=APP_USR-...
+    MERCADOPAGO_PUBLIC_KEY=APP_USR-...
+*/
 const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'sandbox').toLowerCase();
 const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN || 'TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345';
 const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST || 'TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1';
@@ -19,9 +31,6 @@ const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY;
 
 const accessToken = environment === 'sandbox' ? sandboxAccessToken : productionAccessToken;
 const publicKey = environment === 'sandbox' ? sandboxPublicKey : productionPublicKey;
-
-console.log("ENV:", environment);
-console.log("TOKEN:", accessToken?.slice(0, 10));
 
 if (!accessToken) {
   throw new Error(
@@ -54,31 +63,22 @@ function getHeaders() {
 // Função para fazer POST à API do Mercado Pago (usando Payments API)
 async function makePaymentRequest(paymentData) {
   try {
-    const response = await axios.post(
-      'https://api.mercadopago.com/v1/payments',
-      paymentData,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-          'X-Idempotency-Key': uuidv4()
-        }
-      }
-    );
+    const response = await fetch('https://api.mercadopago.com/v1/payments', {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(paymentData)
+    });
 
-    return response.data;
+    if (!response.ok) {
+      const error = await response.json();
+      throw error;
+    }
+
+    return await response.json();
   } catch (erro) {
-  console.error("========== ERRO MERCADO PAGO ==========");
-
-  if (erro.response) {
-    console.error("STATUS:", erro.response.status);
-    console.error("DATA:", JSON.stringify(erro.response.data, null, 2));
-  } else {
-    console.error("ERRO:", erro.message);
+    console.error('Erro ao criar payment:', JSON.stringify(erro, null, 2));
+    throw erro;
   }
-
-  throw erro.response?.data || erro;
-}
 }
 
 // ROTAS ANTIGAS - Preference (checkout redirect)
@@ -102,7 +102,7 @@ app.post('/criar-pagamento', async (req, res) => {
         }
       ],
       payer: {
-        email: 'test@testuser.com'
+        email: 'test_user_3795585682180619933@testuser.com'
       },
       payment_methods: {
         excluded_payment_methods: [],
@@ -126,22 +126,13 @@ app.post('/criar-pagamento', async (req, res) => {
     }
 
     return res.json({ link: checkoutLink });
-  } 
-  catch (erro) {
-  console.error("========== ERRO MERCADO PAGO ==========");
-
-  if (erro.response) {
-    console.error("STATUS:", erro.response.status);
-    console.error("DATA:", JSON.stringify(erro.response.data, null, 2));
-  } else {
-    console.error("ERRO:", erro.message);
+  } catch (erro) {
+    console.error('ERRO DETALHADO:', JSON.stringify(erro, null, 2));
+    if (erro && erro.cause) {
+      console.error('Causa do erro:', JSON.stringify(erro.cause, null, 2));
+    }
+    return res.status(500).json({ erro: 'Erro ao criar pagamento', detalhes: erro.message || JSON.stringify(erro) });
   }
-
-  console.error("PAYMENT DATA ENVIADO:");
-  console.error(JSON.stringify(paymentData, null, 2));
-
-  throw erro.response?.data || erro;
-}
 });
 
 app.get('/sucesso', (req, res) => {
@@ -171,10 +162,8 @@ app.post('/process_payment', async (req, res) => {
       paymentMethodId,
       transactionAmount
     } = req.body;
-    
-    console.log("BODY RECEBIDO:", JSON.stringify(req.body, null, 2));
-    
-     console.log('Recebido pagamento com cartão:', {
+
+    console.log('Recebido pagamento com cartão:', {
       email,
       installments,
       amount: transactionAmount,
@@ -192,49 +181,31 @@ app.post('/process_payment', async (req, res) => {
     }
      
  
-<<<<<<< HEAD
-   
-   
      let valorOriginal = parseFloat(transactionAmount);
-     let valorFinal = valorOriginal;
-     let parcelasPermitidas = 1;
-     let parcelasSolicitadas = parseInt(installments) || 1;
- /*
-=======
-     let valorFinal = parseFloat(transactionAmount);
+let valorFinal = valorOriginal;
 let parcelasPermitidas = 1;
 let parcelasSolicitadas = parseInt(installments) || 1;
 
->>>>>>> parent of 1a7fbea (Update server.js)
 // abaixo de 380 → somente 1x
-  if (valorFinal < 380 && parcelasSolicitadas > 1) {return res.status(400).json({
+if (valorFinal < 380 && parcelasSolicitadas > 1) {
+  return res.status(400).json({
     erro: 'Parcelamento disponível apenas para compras acima de R$ 380,00'
   });
 }
-<<<<<<< HEAD
- 
-  if (valorOriginal >= 380 && valorOriginal < 600) {
-=======
 
-if (valorFinal >= 380 && valorFinal < 600) {
->>>>>>> parent of 1a7fbea (Update server.js)
+if (valorOriginal >= 380 && valorOriginal < 600) {
   parcelasPermitidas = 4;
 
   if (parcelasSolicitadas > 1) {
-    valorFinal = valorFinal * 1.04;
+    valorFinal = valorOriginal * 1.04;
   }
 }
-<<<<<<< HEAD
- 
-if (valorOriginal >= 600) {
-=======
 
-if (valorFinal >= 600) {
->>>>>>> parent of 1a7fbea (Update server.js)
+if (valorOriginal >= 600) {
   parcelasPermitidas = 7;
 
   if (parcelasSolicitadas > 1) {
-    valorFinal = valorFinal * 1.04;
+    valorFinal = valorOriginal * 1.04;
   }
 }
 
@@ -242,36 +213,32 @@ if (parcelasSolicitadas > parcelasPermitidas) {
   return res.status(400).json({
     erro: `Máximo permitido para esse valor: ${parcelasPermitidas}x`
   });
-}*/
-
+}
 
 const paymentData = {
   transaction_amount: Number(valorFinal.toFixed(2)),
   token,
   description: 'Orçamento de Serviços',
-  installments: Number(parcelasSolicitadas),
+  installments: parcelasSolicitadas,
   payment_method_id: paymentMethodId,
   payer: {
-    email: "tess@testuser.com",
+    email,
     identification: {
-      type: "CPF", //identificationType,
-      number: "12345678909"//identificationNumber
+      type: identificationType,
+      number: identificationNumber
     },
-    first_name:"Apro", // cardholderName ? (cardholderName.split(' ')[0] || cardholderName): 
-    last_name: "Test" //cardholderName
-      //? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado'
+    first_name: cardholderName
+      ? (cardholderName.split(' ')[0] || cardholderName)
+      : 'Cliente',
+    last_name: cardholderName
+      ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName)
+      : 'Não informado'
   }
 };
     const issuerId = issuer_id || issuer;
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
     }
-
-    console.log("BODY RECEBIDO:");
-console.log(JSON.stringify(req.body, null, 2));
-
-console.log("PAYMENT DATA ENVIADO:");
-console.log(JSON.stringify(paymentData, null, 2));
 
     const payment = await makePaymentRequest(paymentData);
     console.log('Payment criado com cartão:', payment.id);
@@ -305,9 +272,9 @@ app.post('/process_payment_pix', async (req, res) => {
 
     console.log('Recebido pagamento com Pix:', { email, amount: transactionAmount });
 
-   if (!payerFirstName || !email || !transactionAmount) {
-  return res.status(400).json({ erro: 'Dados incompletos Pix' });
-}
+    if (!email || !transactionAmount) {
+      return res.status(400).json({ erro: 'Dados incompletos para pagamento' });
+    }
 
     const paymentData = {
       transaction_amount: parseFloat(transactionAmount),
@@ -345,7 +312,6 @@ app.post('/process_payment_pix', async (req, res) => {
 });
 
 // ===== NOVA ROTA: Processar pagamento com Boleto =====
-
 app.post('/process_payment_boleto', async (req, res) => {
   try {
     const {
@@ -375,8 +341,8 @@ app.post('/process_payment_boleto', async (req, res) => {
   payment_method_id: 'bolbradesco',
   payer: {
     email,
-first_name: (payerFirstName || '').trim() || 'Cliente',
-last_name: (payerLastName || '').trim() || 'Sobrenome',
+    first_name: payerFirstName.trim(),
+    last_name: payerLastName.trim(),
     identification: {
       type: identificationType,
       number: identificationNumber
