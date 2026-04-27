@@ -94,7 +94,7 @@ app.post('/criar-pagamento', async (req, res) => {
         }
       ],
       payer: {
-        email: 'brennotreggi3@hotmail.com'
+        email: 'test_user_3795585682180619933@testuser.com'
       },
       payment_methods: {
         excluded_payment_methods: [],
@@ -118,13 +118,22 @@ app.post('/criar-pagamento', async (req, res) => {
     }
 
     return res.json({ link: checkoutLink });
-  } catch (erro) {
-    console.error('ERRO DETALHADO:', JSON.stringify(erro, null, 2));
-    if (erro && erro.cause) {
-      console.error('Causa do erro:', JSON.stringify(erro.cause, null, 2));
-    }
-    return res.status(500).json({ erro: 'Erro ao criar pagamento', detalhes: erro.message || JSON.stringify(erro) });
+  } 
+  catch (erro) {
+  console.error("========== ERRO MERCADO PAGO ==========");
+
+  if (erro.response) {
+    console.error("STATUS:", erro.response.status);
+    console.error("DATA:", JSON.stringify(erro.response.data, null, 2));
+  } else {
+    console.error("ERRO:", erro.message);
   }
+
+  console.error("PAYMENT DATA ENVIADO:");
+  console.error(JSON.stringify(paymentData, null, 2));
+
+  throw erro.response?.data || erro;
+}
 });
 
 app.get('/sucesso', (req, res) => {
@@ -154,8 +163,10 @@ app.post('/process_payment', async (req, res) => {
       paymentMethodId,
       transactionAmount
     } = req.body;
-
-    console.log('Recebido pagamento com cartão:', {
+    
+    console.log("BODY RECEBIDO:", JSON.stringify(req.body, null, 2));
+    
+     console.log('Recebido pagamento com cartão:', {
       email,
       installments,
       amount: transactionAmount,
