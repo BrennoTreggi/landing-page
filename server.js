@@ -186,6 +186,9 @@ let valorFinal = valorOriginal;
 let parcelasPermitidas = 1;
 let parcelasSolicitadas = parseInt(installments) || 1;
 
+const Debug_mode = true; 
+
+if (!Debug_mode) {
 // abaixo de 380 → somente 1x
 if (valorFinal < 380 && parcelasSolicitadas > 1) {
   return res.status(400).json({
@@ -213,6 +216,7 @@ if (parcelasSolicitadas > parcelasPermitidas) {
   return res.status(400).json({
     erro: `Máximo permitido para esse valor: ${parcelasPermitidas}x`
   });
+}
 }
 
 const paymentData = {
