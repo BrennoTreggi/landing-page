@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { v4: uuidv4 } = require('uuid');
-
+const axios = require('axios');
 
 const app = express();
 app.use(express.json());
@@ -19,6 +19,9 @@ const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY;
 
 const accessToken = environment === 'sandbox' ? sandboxAccessToken : productionAccessToken;
 const publicKey = environment === 'sandbox' ? sandboxPublicKey : productionPublicKey;
+
+console.log("ENV:", environment);
+console.log("TOKEN:", accessToken?.slice(0, 10));
 
 if (!accessToken) {
   throw new Error(
@@ -51,21 +54,22 @@ function getHeaders() {
 // Função para fazer POST à API do Mercado Pago (usando Payments API)
 async function makePaymentRequest(paymentData) {
   try {
-    const response = await fetch('https://api.mercadopago.com/v1/payments', {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(paymentData)
-    });
+    const response = await axios.post(
+      'https://api.mercadopago.com/v1/payments',
+      paymentData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+          'X-Idempotency-Key': uuidv4()
+        }
+      }
+    );
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw error;
-    }
-
-    return await response.json();
+    return response.data;
   } catch (erro) {
-    console.error('Erro ao criar payment:', JSON.stringify(erro, null, 2));
-    throw erro;
+    console.error('Erro MP:', erro.response?.data || erro.message);
+    throw erro.response?.data || erro;
   }
 }
 
@@ -262,9 +266,9 @@ app.post('/process_payment_pix', async (req, res) => {
 
     console.log('Recebido pagamento com Pix:', { email, amount: transactionAmount });
 
-    if (!email || !transactionAmount) {
-      return res.status(400).json({ erro: 'Dados incompletos para pagamento' });
-    }
+   if (!payerFirstName || !email || !transactionAmount) {
+  return res.status(400).json({ erro: 'Dados incompletos Pix' });
+}
 
     const paymentData = {
       transaction_amount: parseFloat(transactionAmount),
@@ -302,6 +306,7 @@ app.post('/process_payment_pix', async (req, res) => {
 });
 
 // ===== NOVA ROTA: Processar pagamento com Boleto =====
+
 app.post('/process_payment_boleto', async (req, res) => {
   try {
     const {
@@ -331,8 +336,8 @@ app.post('/process_payment_boleto', async (req, res) => {
   payment_method_id: 'bolbradesco',
   payer: {
     email,
-    first_name: payerFirstName.trim(),
-    last_name: payerLastName.trim(),
+first_name: (payerFirstName || '').trim() || 'Cliente',
+last_name: (payerLastName || '').trim() || 'Sobrenome',
     identification: {
       type: identificationType,
       number: identificationNumber
