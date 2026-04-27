@@ -232,20 +232,17 @@ const paymentData = {
   transaction_amount: Number(valorFinal.toFixed(2)),
   token,
   description: 'Orçamento de Serviços',
-  installments: parcelasSolicitadas,
+  installments: Number(parcelasSolicitadas),
   payment_method_id: paymentMethodId,
   payer: {
-    email,
+    email: "tess@testuser.com",
     identification: {
-      type: identificationType,
-      number: identificationNumber
+      type: "CPF", //identificationType,
+      number: "12345678909"//identificationNumber
     },
-    first_name: cardholderName
-      ? (cardholderName.split(' ')[0] || cardholderName)
-      : 'Cliente',
-    last_name: cardholderName
-      ? (cardholderName.split(' ').slice(1).join(' ') || cardholderName)
-      : 'Não informado'
+    first_name:"Apro", // cardholderName ? (cardholderName.split(' ')[0] || cardholderName): 
+    last_name: "Test" //cardholderName
+      //? (cardholderName.split(' ').slice(1).join(' ') || cardholderName) : 'Não informado'
   }
 };
     const issuerId = issuer_id || issuer;
