@@ -515,8 +515,10 @@ async function createCardToken(event) {
         if (!data.cardholderName) {
             throw new Error('Nome do titular do cartão não foi preenchido.');
         }
-
-       const response = await fetch(`${API_URL}/process_payment`, {
+       
+        console.log("DADOS ENVIADOS:", data);
+       
+        const response = await fetch(`${API_URL}/process_payment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
