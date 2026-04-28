@@ -70,8 +70,8 @@ function calcularTotal() {
                 precoUnitario = 100;
                 break;
 
-            case 'teste':
-                precoUnitario = 1.3;
+            case 'Imagem Renderizada':
+                precoUnitario = 130;
                 break;
         }
 
