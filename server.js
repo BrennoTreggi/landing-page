@@ -181,10 +181,10 @@ app.post('/process_payment', async (req, res) => {
     }
      
  
-     let valorOriginal = parseFloat(transactionAmount);
-let valorFinal = valorOriginal;
-let parcelasPermitidas = 1;
-let parcelasSolicitadas = parseInt(installments) || 1;
+     /*let valorOriginal = parseFloat(transactionAmount);
+      let valorFinal = valorOriginal;
+     let parcelasPermitidas = 1;
+     let parcelasSolicitadas = parseInt(installments) || 1;
 
 // abaixo de 380 → somente 1x
 if (valorFinal < 380 && parcelasSolicitadas > 1) {
@@ -213,13 +213,13 @@ if (parcelasSolicitadas > parcelasPermitidas) {
   return res.status(400).json({
     erro: `Máximo permitido para esse valor: ${parcelasPermitidas}x`
   });
-}
+}*/
 
 const paymentData = {
   transaction_amount: Number(valorFinal.toFixed(2)),
   token,
   description: 'Orçamento de Serviços',
-  installments: parcelasSolicitadas,
+  installments: parcelasSolicitadas = parseInt(installments) || 1,
   payment_method_id: paymentMethodId,
   payer: {
     email,
