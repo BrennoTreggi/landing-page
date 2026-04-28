@@ -24,11 +24,11 @@ app.use(express.static(path.join(__dirname)));
     MERCADOPAGO_PUBLIC_KEY=APP_USR-...
 */
 const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'production').toLowerCase();
-const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN || 'APP_USR-5024817526090385-041920-0a380918c8baa31cd423f3186e3961de-2338582345';
-const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY ||'APP_USR-59a1f21f-5773-4541-af86-e7d246228221';
+const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
+const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY;
 
-const accessToken = environment === 'production' ? productionAccessToken : productionAccessToken;
-const publicKey = environment === 'production' ? productionPublicKey : productionPublicKey;
+const accessToken = productionAccessToken;
+const publicKey = productionPublicKey;
 
 if (!accessToken) {
   throw new Error(
@@ -83,11 +83,17 @@ async function makePaymentRequest(paymentData) {
 
 app.post('/criar-pagamento', async (req, res) => {
   try {
-    const { valor } = req.body;
+    const { valor, email } = req.body;
     console.log('Recebido valor:', valor);
 
     if (!valor || Number(valor) <= 0) {
       return res.status(400).json({ erro: 'Valor inválido' });
+    }
+
+    if (!email) {
+  return res.status(400).json({
+    erro: 'Email do cliente é obrigatório'
+  });
     }
 
     const preferenceData = {
@@ -100,7 +106,7 @@ app.post('/criar-pagamento', async (req, res) => {
         }
       ],
       payer: {
-        email: 'brennotreggi3@hotmail.com'
+        email
       },
       payment_methods: {
         excluded_payment_methods: [],
@@ -116,7 +122,7 @@ app.post('/criar-pagamento', async (req, res) => {
 
     console.log('Preference data enviada:', JSON.stringify(preferenceData, null, 2));
     const response = await preferenceClient.create({ body: preferenceData });
-    const checkoutLink = response.sandbox_init_point || response.init_point;
+    const checkoutLink = response.init_point;
     console.log('Preference criada:', checkoutLink);
 
     if (!checkoutLink) {
