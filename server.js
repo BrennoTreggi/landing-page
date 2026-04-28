@@ -23,24 +23,22 @@ app.use(express.static(path.join(__dirname)));
     MERCADOPAGO_ACCESS_TOKEN=APP_USR-...
     MERCADOPAGO_PUBLIC_KEY=APP_USR-...
 */
-const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'sandbox').toLowerCase();
-const sandboxAccessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN || 'TEST-5024817526090385-041920-dee4861a531f0efb31218164e8c3fe54-2338582345';
-const sandboxPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY_TEST || 'TEST-b85d84a9-da53-4b04-8541-c3fdd53bd9c1';
-const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
-const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY;
+const environment = (process.env.MERCADOPAGO_ENVIRONMENT || 'production').toLowerCase();
+const productionAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN || 'APP_USR-5024817526090385-041920-0a380918c8baa31cd423f3186e3961de-2338582345';
+const productionPublicKey = process.env.MERCADOPAGO_PUBLIC_KEY ||'APP_USR-59a1f21f-5773-4541-af86-e7d246228221';
 
-const accessToken = environment === 'sandbox' ? sandboxAccessToken : productionAccessToken;
-const publicKey = environment === 'sandbox' ? sandboxPublicKey : productionPublicKey;
+const accessToken = environment === 'production' ? productionAccessToken : productionAccessToken;
+const publicKey = environment === 'production' ? productionPublicKey : productionPublicKey;
 
 if (!accessToken) {
   throw new Error(
-    `MERCADOPAGO_${environment === 'sandbox' ? 'ACCESS_TOKEN' : 'TEST_ACCESS_TOKEN'} não definido. ` +
+    `MERCADOPAGO_${environment === 'production' ? 'ACCESS_TOKEN' : 'PUBLIC_KEY'} não definido. ` +
     'Configure o token correto antes de iniciar o servidor.'
   );
 }
 
 console.log(`Ambiente Mercado Pago: ${environment}`);
-console.log(`Usando token de ${environment === 'sandbox' ? 'sandbox' : 'produção'}`);
+console.log(`Usando token de ${environment === 'production' ? 'produção' : 'sandbox'}`);
 if (publicKey) {
   console.log(`Chave pública disponível para uso no frontend.`);
 }
@@ -102,7 +100,7 @@ app.post('/criar-pagamento', async (req, res) => {
         }
       ],
       payer: {
-        email: 'test_user_3795585682180619933@testuser.com'
+        email: 'brennotreggi3@hotmail.com'
       },
       payment_methods: {
         excluded_payment_methods: [],
