@@ -235,7 +235,8 @@ const paymentData = {
       : 'Não informado'
   }
 };
-    const issuerId = issuer_id || issuer;
+  
+const issuerId = issuer_id || issuer;
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
     }
@@ -249,7 +250,8 @@ const paymentData = {
       status: payment.status,
       statusDetail: payment.status_detail
     });
-  } catch (erro) {
+   
+    catch (erro) {
     console.error('ERRO ao processar pagamento com cartão:', JSON.stringify(erro, null, 2));
     return res.status(400).json({
       erro: 'Erro ao processar pagamento',
