@@ -18,7 +18,7 @@ function calcularTotal() {
 
         switch (key) {
             case 'layout':
-                precoUnitario = qtd === 1 ? 2.50 : 600;
+                precoUnitario = qtd === 1 ? 700 : 600;
                 break;
 
             case 'animacao':
@@ -68,6 +68,10 @@ function calcularTotal() {
 
             case 'banner':
                 precoUnitario = 100;
+                break;
+
+            case 'teste':
+                precoUnitario = 1.3;
                 break;
         }
 
