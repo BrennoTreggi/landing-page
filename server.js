@@ -194,7 +194,7 @@ app.post('/process_payment', async (req, res) => {
 }
 
 if (valorOriginal >= 380 && valorOriginal < 600) {
-  parcelasPermitidas = 4;*/
+  parcelasPermitidas = 4;
 
   if (parcelasSolicitadas > 1) {
     valorFinal = valorOriginal * 1.04;
@@ -203,11 +203,11 @@ if (valorOriginal >= 380 && valorOriginal < 600) {
 
 if (valorOriginal >= 600) {
   parcelasPermitidas = 7;
+}*/
 
-  if (parcelasSolicitadas > 1) {
+if (parcelasSolicitadas > 1) {
     valorFinal = valorOriginal * 1.04;
   }
-}
 
 if (parcelasSolicitadas > parcelasPermitidas) {
   return res.status(400).json({
@@ -235,8 +235,7 @@ const paymentData = {
       : 'Não informado'
   }
 };
-  
-const issuerId = issuer_id || issuer;
+    const issuerId = issuer_id || issuer;
     if (issuerId) {
       paymentData.issuer_id = parseInt(issuerId);
     }
@@ -250,8 +249,7 @@ const issuerId = issuer_id || issuer;
       status: payment.status,
       statusDetail: payment.status_detail
     });
-   
-    catch (erro) {
+    }  catch (erro) {
     console.error('ERRO ao processar pagamento com cartão:', JSON.stringify(erro, null, 2));
     return res.status(400).json({
       erro: 'Erro ao processar pagamento',
